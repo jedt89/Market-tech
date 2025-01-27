@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Mother boards",
+    "id": 1,
+    "icon": "../src/assets/icons/motherboard-icon.png"
+  },
+  {
+    "name": "Procesadores",
+    "id": 2,
+    "icon": "../src/assets/icons/processor-icon.png"
+  },
+  { "name": "RAM", "id": 3, "icon": "../src/assets/icons/ram-icon.png" },
+  { "name": "Video", "id": 4, "icon": "../src/assets/icons/video-card-icon.png" },
+  {
+    "name": "Alimentación",
+    "id": 5,
+    "icon": "../src/assets/icons/power-supply-icon.png"
+  },
+  { "name": "Almacenamiento", "id": 6, "icon": "../src/assets/icons/hdd-icon.png" },
+  { "name": "Gabinetes", "id": 7, "icon": "../src/assets/icons/case-icon.png" },
+  {
+    "name": "Periféricos",
+    "id": 8,
+    "icon": "../src/assets/icons/keyboard-icon.png"
+  },
+  { "name": "Monitores", "id": 9, "icon": "../src/assets/icons/monitor-icon.png" },
+  { "name": "Refrigeración", "id": 10, "icon": "../src/assets/icons/fan-icon.png" }
+]

@@ -2,24 +2,35 @@ import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-function ProductCard() {
+function ProductCard({ image_url, price, title }) {
+  console.log(image_url);
   return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+    <Card
+      style={{
+        backgroundColor: '#201f32',
+        color: 'white',
+        padding: '5px',
+        maxWidth: '300px',
+        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+        height: '550px',
+        minHeight: '550px',
+      }}
+    >
+      <Card.Img variant='top' src={image_url} />
       <Card.Body>
-        <Card.Title>Tarjeta de video</Card.Title>
-        <Card.Text>
+        <Card.Title>{title}</Card.Title>
+        <Card.Text style={{ fontSize: '12px' }}>
           Esta es una tarjeta de video con la que usted podrá correr pacman
         </Card.Text>
+        <Card.Title>${price.toLocaleString('es-CL')}</Card.Title>
       </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item>Valor: muy caro</ListGroup.Item>
-        <ListGroup.Item>Uso: poquito</ListGroup.Item>
-        <ListGroup.Item>Tiene dinero: No</ListGroup.Item>
-      </ListGroup>
-      <Card.Body className='d-flex justify-content-between'>
-        <Button variant="success">Comprar</Button>
-        <Button variant="info">info</Button>
+      <Card.Body className='d-flex justify-content-between' style={{ maxHeight: '70px', height: '70px' }}>
+        <Button variant='outline-info' className='btn-xs'>
+          Detalle
+        </Button>
+        <Button variant='outline-warning' className='btn-xs'>
+          Comprar
+        </Button>
       </Card.Body>
     </Card>
   );

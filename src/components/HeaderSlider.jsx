@@ -1,32 +1,62 @@
-import Carousel from 'react-bootstrap/Carousel';
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-function HeaderSlider() {
+function HeaderSlider({ title }) {
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
   return (
-    <Carousel>
-      <Carousel.Item>
-        <img src="https://picsum.photos/id/236/600/400" alt="First slide" />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img src="https://picsum.photos/id/237/600/400" alt="Second slide" />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img src="https://picsum.photos/id/231/600/400" alt="Third slide" />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+    <div style={{ marginBottom: '2rem', padding: '1rem 0rem' }}>
+      <h2 className='text-white'>{title}</h2>
+      <div className='display-flex justify-center'>
+        <div className='slider-container' style={{ width: '80%' }}>
+          <Slider {...settings}>
+            <div>
+              <img src='../src/assets/img/header-01.png' />
+            </div>
+            <div>
+              <img src='../src/assets/img/header-02.png' />
+            </div>
+            <div>
+              <img src='../src/assets/img/header-03.png' />
+            </div>
+          </Slider>
+        </div>
+      </div>
+    </div>
   );
 }
 
