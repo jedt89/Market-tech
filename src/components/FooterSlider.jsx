@@ -11,8 +11,9 @@ import { shuffleProducts } from '../hooks/UseMain';
 function FooterSlider({ title }) {
   const products = shuffleProducts(allProducts);
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
+class: 'center',
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
@@ -24,7 +25,7 @@ function FooterSlider({ title }) {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
+          dots: false
         }
       },
       {
@@ -45,37 +46,24 @@ function FooterSlider({ title }) {
     ]
   };
   return (
-    <div style={{ marginBottom: '2rem', padding: '1rem 0rem' }}>
+    <div className='header-slider-container'>
       <h2 className='text-white'>{title}</h2>
       <div className='display-flex justify-center'>
-        <div className='slider-container' style={{ width: '80%' }}>
+        <div className='slider-container'>
           <Slider {...settings}>
             {products.map((product) => {
               return (
-                <Card
-                  style={{
-                    backgroundColor: '#201f32',
-                    color: 'white',
-                    padding: '5px',
-                    maxWidth: '300px',
-                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'
-                  }}
-                >
+                <Card className='card-custom-footer'>
                   <Card.Img variant='top' src={product.image_url} />
-                  <Card.Body style={{ height: '90px' }}>
-                    <Card.Title
-                      style={{ fontSize: '1rem', textAlign: 'center' }}
-                    >
+                  <Card.Body className='card-body-custom'>
+                    <Card.Title className='card-title-custom'>
                       {product.title}
                     </Card.Title>
                     <Card.Title>
                       ${product.price.toLocaleString('es-CL')}
                     </Card.Title>
                   </Card.Body>
-                  <Card.Body
-                    className='d-flex justify-content-between'
-                    style={{ maxHeight: '70px', height: '70px' }}
-                  >
+                  <Card.Body className='card-body-footer'>
                     <Button variant='outline-info' className='btn-xs'>
                       Detalle
                     </Button>

@@ -1,31 +1,17 @@
 import Form from 'react-bootstrap/Form';
-
 import { FaSearch } from 'react-icons/fa';
 
 function HeaderSearchBar() {
   return (
-    <div className='display-flex justify-center'>
-      <div style={{ position: 'relative', width: '100%' }}>
+    <div className='display-flex justify-center max-width-500 width-100-percent'>
+      <div className='header-searchbar-container'>
         <Form.Control
           type='text'
           placeholder='¿Qué estás buscando?'
           variant='warning'
-          style={{
-            width: '100%',
-            borderRadius: '50px',
-            textAlign: 'center',
-            paddingRight: '40px'
-          }}
+          className='header-searchbar-input'
         />
-        <FaSearch
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: '#ccc'
-          }}
-        />
+        <FaSearch className='header-searchbar-icon' />
       </div>
     </div>
   );

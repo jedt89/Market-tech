@@ -7,20 +7,16 @@ const OurProducts = () => {
   const { productsToShow } = useContext(MainContext);
 
   return (
-    <div style={{ paddingTop: '2rem', marginBottom: '2rem' }}>
+    <div className='our-products-container'>
       <h1 className='text-white'>Nuestros productos</h1>
       <HeaderCategories />
       <div className='d-flex justify-center align-items-center'>
-        <div
-          className='d-flex flex-wrap justify-center col-10 align-items-center'
-          style={{ gap: '4rem', marginBottom: '2rem' }}
-        >
+        <div className='d-flex flex-wrap justify-center col-10 align-items-center' style={{ gap: '4rem', marginBottom: '2rem' }}>
           {productsToShow &&
             productsToShow.length > 0 &&
             productsToShow.map((product) => {
-              
               return (
-                <div>
+                <div key={product.id}>
                   <ProductCard {...product} />
                 </div>
               );

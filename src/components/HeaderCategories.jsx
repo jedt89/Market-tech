@@ -14,31 +14,16 @@ const HeaderCategories = () => {
   };
 
   return (
-    <div
-      className='display-flex justify-center align-items-center'
-      style={{ marginBottom: '2rem', flexWrap: 'wrap' }}
-    >
+    <div className='header-categories-container display-flex justify-center align-items-center'>
       {categories.map((category) => {
         return (
-          <div
-            className='flex-column align-items-center justify-content-center'
-            style={{
-              margin: '1rem'
-            }}
-          >
+          <div className='header-categories-item flex-column align-items-center justify-content-center'>
             <img
               className='category-img'
               src={category.icon}
               onClick={() => showProductsByCategory(category.id)}
             />
-            <small
-              style={{
-                fontSize: '12px',
-                width: 'fit-content',
-                color: 'white',
-                marginTop: '5px'
-              }}
-            >
+            <small className='header-categories-img'>
               {category.name}
             </small>
           </div>

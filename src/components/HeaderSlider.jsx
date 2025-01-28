@@ -5,7 +5,8 @@ import 'slick-carousel/slick/slick-theme.css';
 
 function HeaderSlider({ title }) {
   const settings = {
-    dots: true,
+    class: 'center',
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
@@ -39,10 +40,10 @@ function HeaderSlider({ title }) {
     ]
   };
   return (
-    <div style={{ marginBottom: '2rem', padding: '1rem 0rem' }}>
+    <div className='header-slider-container'>
       <h2 className='text-white'>{title}</h2>
       <div className='display-flex justify-center'>
-        <div className='slider-container' style={{ width: '80%' }}>
+        <div className='slider-container'>
           <Slider {...settings}>
             <div>
               <img src='../src/assets/img/header-01.png' />
