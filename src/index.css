@@ -168,10 +168,6 @@ input:focus {
   color: white !important;
 }
 
-/* .slick-slide {
-  padding-right: 1rem;
-} */
-
 
 .modal-content {
   background-color: #2b2a3c !important;
@@ -190,7 +186,11 @@ input:focus {
 }
 
 .modal-body {
-  padding: 20px;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .form-group {

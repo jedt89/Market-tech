@@ -1,17 +1,10 @@
 import React, { useState, useContext } from 'react';
-import allProducts from '../models/allProducts.json';
 import categories from '../models/categories.json';
 import { MainContext } from '../context/MainContext';
 
 const HeaderCategories = () => {
-  const { setProductsToShow } = useContext(MainContext);
-
-  const showProductsByCategory = (id) => {
-    const products = allProducts.filter(
-      (product) => product.category_id === id
-    );
-    setProductsToShow(products);
-  };
+  const { showProductsByCategory, allProducts, handleShowAllProducts } =
+    useContext(MainContext);
 
   return (
     <div className='header-categories-container display-flex justify-center align-items-center'>
@@ -21,11 +14,15 @@ const HeaderCategories = () => {
             <img
               className='category-img'
               src={category.icon}
-              onClick={() => showProductsByCategory(category.id)}
+              onClick={() => {
+                if (category.id == 11) {
+                  handleShowAllProducts();
+                  return;
+                }
+                showProductsByCategory(allProducts, category.id);
+              }}
             />
-            <small className='header-categories-img'>
-              {category.name}
-            </small>
+            <small className='header-categories-img'>{category.name}</small>
           </div>
         );
       })}

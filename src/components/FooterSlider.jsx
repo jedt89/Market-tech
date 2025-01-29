@@ -2,7 +2,6 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ProductCard from './ProductCard.jsx';
 import allProducts from '../models/allProducts.json';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -13,11 +12,12 @@ function FooterSlider({ title }) {
   const settings = {
     dots: false,
     infinite: false,
-class: 'center',
+    class: 'center',
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
+    autoplay: true,
     responsive: [
       {
         breakpoint: 1024,

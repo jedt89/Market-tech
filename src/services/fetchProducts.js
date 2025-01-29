@@ -1,5 +1,6 @@
 import axios from 'axios';
 import api from '../api/config';
+import allProducts from "../models/allProducts.json";
 
 // Gestión de Productos (Vender)
 
@@ -32,14 +33,16 @@ export const updateProduct = async (productId, productData, token) => {
 };
 
 // Obtener todos los productos
-export const getProducts = async (token) => {
+export const getAllProducts = async (token) => {
   try {
-    const response = await api.get('/products', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
+    // const response = await api.get('/products', {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    // return response.data; 
+    return allProducts; // POR MIENTRAS ESTÁ EL BACK EN CONSTRUCCION
+
   } catch (error) {
     throw error.response.data;
   }

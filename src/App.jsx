@@ -12,22 +12,31 @@ import LoginModal from './pages/LoginModal.jsx';
 import RegisterModal from './pages/RegisterModal.jsx';
 import CartModal from './pages/CartModal.jsx';
 import NotFound from './pages/NotFound.jsx';
+import AllProducts from './pages/AllProductsModal.jsx';
+import ProductDetailModal from './pages/ProductDetailModal.jsx';
 
 function App() {
   const {
-    productsToShow,
+    productsByCategory,
     showLogin,
     handleCloseLogin,
     showRegister,
     handleCloseRegister,
     showCart,
-    handleCloseCart
+    handleCloseCart,
+    showAllProducts,
+    handleCloseAllProducts,
+    showDetail,
+    handleCloseDetail,
+    currentProduct
   } = useContext(MainContext);
+  const path = currentProduct.path
 
   const loginProps = { showLogin, handleCloseLogin };
   const registerProps = { showRegister, handleCloseRegister };
   const cartProps = { showCart, handleCloseCart };
-
+  const allProductsProps = { showAllProducts, handleCloseAllProducts };
+  const showDetailProps = { showDetail, handleCloseDetail, path };
   const title = { title: 'También podría interesarte' };
 
   return (
@@ -35,17 +44,13 @@ function App() {
       <NavigationBar />
       <HeaderSlider id='header-slider' />
       <div className='divider'></div>
-      <OurProducts {...productsToShow} />
+      <OurProducts {...productsByCategory} />
       <div className='divider'></div>
       <FooterSlider {...title} />
       <Routes>
-        <Route
-          path='/'
-          element={
-            <>
-            </>
-          }
-        />
+        <Route path='/' element={<></>} />
+        <Route path='/all' element={<AllProducts {...allProductsProps} />} />
+        <Route path={currentProduct && `/products/${currentProduct.id}`} element={<ProductDetailModal {...showDetailProps} />} />
         <Route path='/login' element={<LoginModal {...loginProps} />} />
         <Route
           path='/register'

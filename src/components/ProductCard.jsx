@@ -1,7 +1,11 @@
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import { MainContext } from '../context/MainContext';
+import { useContext } from 'react';
 
-function ProductCard({ image_url, price, title, description }) {
+function ProductCard({ image_url, price, title, description, id }) {
+  const { handleShowDetail } = useContext(MainContext);
+
   return (
     <Card className='card-custom'>
       <Card.Img variant='top' src={image_url} />
@@ -13,7 +17,7 @@ function ProductCard({ image_url, price, title, description }) {
         <Card.Title className='text-success'>${price.toLocaleString('es-CL')}</Card.Title>
       </Card.Body>
       <Card.Body className='card-body-footer'>
-        <Button variant='outline-info' className='btn-xs'>
+        <Button variant='outline-info' className='btn-xs' onClick={()=>handleShowDetail(id, window.location.href)}>
           Detalle
         </Button>
         <Button variant='outline-warning' className='btn-xs'>

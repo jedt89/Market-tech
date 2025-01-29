@@ -5,7 +5,7 @@ import { IoIosClose } from "react-icons/io";
 
 const RegisterModal = ({ showRegister, handleCloseRegister }) => {
   return (
-    <Modal show={showRegister} onHide={handleCloseRegister} centered>
+    <Modal show={showRegister} onHide={handleCloseRegister} centered backdrop="static">
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>
         <Modal.Title className="modal-title">Registrarse</Modal.Title>
         <IoIosClose className='text-white' onClick={handleCloseRegister} style={{cursor: 'pointer', fontSize: '26px'}}/>

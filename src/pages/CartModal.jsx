@@ -4,7 +4,7 @@ import { IoIosClose } from "react-icons/io";
 
 const CartModal = ({ showCart, handleCloseCart, cartItems, total }) => {
   return (
-    <Modal show={showCart} onHide={handleCloseCart} centered>
+    <Modal show={showCart} onHide={handleCloseCart} centered backdrop="static">
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>
         <Modal.Title className="modal-title">Carrito de Compras</Modal.Title>
         <IoIosClose className='text-white' onClick={handleCloseCart} style={{cursor: 'pointer', fontSize: '26px'}} />

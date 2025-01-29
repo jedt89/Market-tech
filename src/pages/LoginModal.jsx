@@ -4,7 +4,7 @@ import { IoIosClose } from "react-icons/io";
 
 const LoginModal = ({ showLogin, handleCloseLogin }) => {
   return (
-    <Modal show={showLogin} onHide={handleCloseLogin} centered>
+    <Modal show={showLogin} onHide={handleCloseLogin} centered backdrop="static">
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>
         <Modal.Title className="modal-title">Iniciar sesión</Modal.Title>
         <IoIosClose className='text-white' onClick={handleCloseLogin} style={{cursor: 'pointer', fontSize: '26px'}} />
