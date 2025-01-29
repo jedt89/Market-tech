@@ -1,8 +1,6 @@
 import axios from 'axios';
 import api from '../api/config';
 
-const BASE_URL = 'https://api.markettech.com';
-
 // Gestión de Productos (Vender)
 
 // Subir un nuevo producto
