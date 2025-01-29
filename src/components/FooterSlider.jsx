@@ -59,7 +59,7 @@ class: 'center',
                     <Card.Title className='card-title-custom'>
                       {product.title}
                     </Card.Title>
-                    <Card.Title>
+                    <Card.Title className='text-success'>
                       ${product.price.toLocaleString('es-CL')}
                     </Card.Title>
                   </Card.Body>
