@@ -17,7 +17,7 @@ function ProductCard({ image_url, price, title, description }) {
           Detalle
         </Button>
         <Button variant='outline-warning' className='btn-xs'>
-          Comprar
+          Agregar al carrito
         </Button>
       </Card.Body>
     </Card>

@@ -1,15 +1,7 @@
 import axios from 'axios';
+import api from '../api/config';
 
 const BASE_URL = 'https://api.markettech.com';
-
-// Configuración de axios
-const api = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
 
 // Gestión de Productos (Vender)
 
