@@ -1,6 +1,6 @@
 import { default as axios } from 'axios';
 
-const URL_BASE = 'http://localhost:5000/api/auth/me';
+const URL_BASE = 'http://localhost:3000/api/auth/user';
 
 export const getUserProfile = async (tokenValue) => {
   const config = {
@@ -12,7 +12,6 @@ export const getUserProfile = async (tokenValue) => {
 
   try {
     const response = await axios.get(URL_BASE, config);
-    console.log(response)
     const data = response.data;
     return data;
   } catch (error) {

@@ -1,8 +1,8 @@
 import { default as axios } from 'axios';
 
-const URL_BASE = 'http://localhost:5000/api/auth/register';
+const URL_BASE = 'http://localhost:3000/api/auth/register';
 
-export const register = async (email, password) => {
+export const registerUser = async (email, password, name) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -10,17 +10,17 @@ export const register = async (email, password) => {
   };
 
   const data = {
+    name: name,
     email: email,
     password: password
   };
 
   try {
     const response = await axios.post(URL_BASE, data, config);
-    console.log(response)
     const token = response.data.token;
     
     return token;
   } catch (error) {
-    throw new Error('Error al iniciar sesión')
+    throw new Error('Error al registrar usuario')
   }
 };

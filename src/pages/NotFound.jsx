@@ -6,18 +6,18 @@ import notFound from '../assets/img/notFound.png';
 
 const NotFound = () => {
   return (
-    <div className='flex-column align-items-center' style={{ marginBottom: '20px' }}>
+    <div
+      className='flex-column align-items-center'
+      style={{ marginBottom: '20px' }}
+    >
       <img src={notFound} alt='Not Found' />
       <div style={{ color: '#FFF', textAlign: 'center', margin: '10px' }}>
         Ups! Tenemos un problema cargando tu solicitud. Por favor recarga la
-        página o haz clic en el siguiente botón para volver a la pantalla de inicio.
+        página o haz clic en el siguiente botón para volver a la pantalla de
+        inicio.
       </div>
-      <Button
-        startContent={<TbHome />}
-        className='head-button'
-        variant='ghost'
-        color='warning'
-      >
+      <Button className='head-button' variant='ghost' color='warning'>
+        <TbHome />
         <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
           <span>Ir al Inicio</span>
         </Link>

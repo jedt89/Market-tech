@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import categories from '../models/categories.json';
 import { MainContext } from '../context/MainContext';
 

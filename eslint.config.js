@@ -6,6 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import importPlugin from 'eslint-plugin-import'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import unusedImports from 'eslint-plugin-unused-imports'
 
 export default [
   { ignores: ['dist'] },
@@ -28,6 +29,7 @@ export default [
       import: importPlugin,
       'simple-import-sort': simpleImportSort,
       'jsx-a11y': jsxA11y,
+      'unused-imports': unusedImports,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -49,6 +51,11 @@ export default [
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'jsx-a11y/anchor-is-valid': 'warn',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        { vars: 'all', args: 'none' },
+      ],
     },
   },
 ]

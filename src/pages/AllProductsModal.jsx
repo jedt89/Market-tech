@@ -5,7 +5,6 @@ import { MainContext } from '../context/MainContext';
 import { Modal } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import HeaderSearchBar from '../components/HeaderSearchBar.jsx';
-import ProductDetailModal from './ProductDetailModal.jsx';
 
 const AllProductsModal = ({ showAllProducts, handleCloseAllProducts }) => {
   const { allProducts, setAllProducts, token } = useContext(MainContext);
@@ -28,7 +27,12 @@ const AllProductsModal = ({ showAllProducts, handleCloseAllProducts }) => {
   }, [token]);
 
   return (
-    <Modal show={showAllProducts} onHide={handleCloseAllProducts} fullscreen backdrop="static">
+    <Modal
+      show={showAllProducts}
+      onHide={handleCloseAllProducts}
+      size='xl'
+      backdrop='static'
+    >
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>
         <Modal.Title className='modal-title'>Todos los productos</Modal.Title>
         <HeaderSearchBar />

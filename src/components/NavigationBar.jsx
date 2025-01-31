@@ -13,13 +13,19 @@ import { Button } from 'react-bootstrap';
 import { MainContext } from '../context/MainContext.jsx';
 
 const NavigationBar = () => {
-  const { handleShowLogin, handleShowRegister, handleShowCart } = useContext(MainContext);
+  const {
+    handleShowLogin,
+    handleShowRegister,
+    handleShowCart,
+    handleShowProfile,
+    user
+  } = useContext(MainContext);
 
   return (
     <Navbar expand='lg' className='navbar-container'>
       <Container className='navbar-container-padding'>
         <Navbar.Brand>
-          <Link to="/">
+          <Link to='/'>
             <img
               src='../src/assets/img/brand.png'
               className='navbar-brand-img category-img'
@@ -28,6 +34,15 @@ const NavigationBar = () => {
         </Navbar.Brand>
         <HeaderSearchBar />
         <Nav>
+          {user && user.id && (
+            <div className='display-flex align-items-center gap-1rem'>
+              <label className='text-warning'>{user.userName}</label>
+              <img
+                src='../src/assets/icons/profile-icon.png'
+                style={{ width: '38px', marginRight: '1rem' }}
+              />
+            </div>
+          )}
           <Button
             className='navbar-button navbar-button-margin'
             variant='outline-warning'
@@ -36,11 +51,17 @@ const NavigationBar = () => {
             <PiShoppingCart className='menu-icon' />
           </Button>
           <Dropdown>
-            <Dropdown.Toggle className='navbar-button' variant='outline-warning'>
+            <Dropdown.Toggle
+              className='navbar-button'
+              variant='outline-warning'
+            >
               <small className='text-warning'>Menu</small>
             </Dropdown.Toggle>
             <Dropdown.Menu title='Menu'>
-              <Dropdown.Item onClick={handleShowLogin}>
+              <Dropdown.Item
+                onClick={handleShowLogin}
+                disabled={user && user.id}
+              >
                 <AiOutlineLogin className='menu-icon menu-icon-margin' />
                 <small className='text-black'>Ingresar</small>
               </Dropdown.Item>
@@ -48,12 +69,17 @@ const NavigationBar = () => {
                 <RiUserAddLine className='menu-icon menu-icon-margin' />
                 <small className='text-black'>Registrarse</small>
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  handleShowProfile(user.id);
+                }}
+                disabled={!(user && user.id)}
+              >
                 <PiUserBold className='menu-icon menu-icon-margin' />
                 <small className='text-black'>Cuenta</small>
               </Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item>
+              <Dropdown.Item disabled={!(user && user.id)}>
                 <RiLogoutCircleLine className='menu-icon menu-icon-margin' />
                 <small className='text-black'>Logout</small>
               </Dropdown.Item>

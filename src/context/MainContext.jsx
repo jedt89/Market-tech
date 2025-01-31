@@ -12,59 +12,53 @@ const MainContextProvider = ({ children }) => {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [token, setToken] = useState(false);
+  const [user, setUser] = useState({});
+  const [showProfile, setShowProfile] = useState(false);
   const [productsByCategory, setProductsByCategory] = useState([]);
   const [currentProduct, setCurrentProduct] = useState({});
 
+  // Modals
   const handleShowLogin = () => {
-    console.log('handleShowLogin');
     setShowLogin(true);
     navigate('/login');
   };
 
   const handleCloseLogin = () => {
-    console.log('handleCloseLogin');
     setShowLogin(false);
     navigate('/');
   };
 
   const handleShowRegister = () => {
-    console.log('handleShowRegister');
     setShowRegister(true);
     navigate('/register');
   };
 
   const handleCloseRegister = () => {
-    console.log('handleCloseRegister');
     setShowRegister(false);
     navigate('/');
   };
 
   const handleShowCart = () => {
-    console.log('handleShowCart');
     setShowCart(true);
     navigate('/cart');
   };
 
   const handleCloseCart = () => {
-    console.log('handleCloseCart');
     setShowCart(false);
     navigate('/');
   };
 
   const handleShowAllProducts = () => {
-    console.log('handleShowAllProducts');
     setShowAllProducts(true);
     navigate('/all');
   };
 
   const handleCloseAllProducts = () => {
-    console.log('handleCloseAllProducts');
     setShowAllProducts(false);
     navigate('/');
   };
 
   const handleShowDetail = (id, path) => {
-    console.log('handleShowDetail');
     const product = allProducts.find((item) => item.id == id);
     product.path = path.includes('/all') ? '/all' : '/';
     setCurrentProduct(product);
@@ -73,13 +67,21 @@ const MainContextProvider = ({ children }) => {
   };
 
   const handleCloseDetail = (path) => {
-    console.log('handleCloseDetail');
     setShowDetail(false);
     navigate(path);
   };
 
+  const handleShowProfile = (id) => {
+    setShowProfile(true);
+    navigate(`/users/${id}`);
+  };
+
+  const handleCloseProfile = () => {
+    setShowProfile(false);
+    navigate('/');
+  };
+
   const handleReturnToHome = () => {
-    console.log('handleReturnToHome');
     navigate('/');
   };
 
@@ -116,9 +118,14 @@ const MainContextProvider = ({ children }) => {
         setShowDetail,
         handleShowDetail,
         handleCloseDetail,
+        showProfile,
+        handleShowProfile,
+        handleCloseProfile,
         currentProduct,
         setCurrentProduct,
-        handleReturnToHome
+        handleReturnToHome,
+        user,
+        setUser
       }}
     >
       {children}

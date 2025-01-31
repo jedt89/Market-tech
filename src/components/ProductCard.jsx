@@ -11,13 +11,17 @@ function ProductCard({ image_url, price, title, description, id }) {
       <Card.Img variant='top' src={image_url} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Text className='card-text-custom'>
-          {description}
-        </Card.Text>
-        <Card.Title className='text-success'>${price.toLocaleString('es-CL')}</Card.Title>
+        <Card.Text className='card-text-custom'>{description}</Card.Text>
+        <Card.Title className='text-success'>
+          ${price.toLocaleString('es-CL')}
+        </Card.Title>
       </Card.Body>
       <Card.Body className='card-body-footer'>
-        <Button variant='outline-info' className='btn-xs' onClick={()=>handleShowDetail(id, window.location.href)}>
+        <Button
+          variant='outline-info'
+          className='btn-xs'
+          onClick={() => handleShowDetail(id, window.location.href)}
+        >
           Detalle
         </Button>
         <Button variant='outline-warning' className='btn-xs'>

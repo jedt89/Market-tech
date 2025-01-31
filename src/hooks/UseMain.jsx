@@ -1,6 +1,7 @@
 const shuffleProducts = (products) => {
   if (!products || (products && products.length == 0)) return;
   const categoryMap = new Map();
+  
   products.forEach((product) => {
     if (!categoryMap.has(product.category_id)) {
       categoryMap.set(product.category_id, []);

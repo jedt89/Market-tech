@@ -14,6 +14,7 @@ import CartModal from './pages/CartModal.jsx';
 import NotFound from './pages/NotFound.jsx';
 import AllProducts from './pages/AllProductsModal.jsx';
 import ProductDetailModal from './pages/ProductDetailModal.jsx';
+import ProfileModal from './pages/ProfileModal.jsx';
 
 function App() {
   const {
@@ -28,7 +29,10 @@ function App() {
     handleCloseAllProducts,
     showDetail,
     handleCloseDetail,
-    currentProduct
+    currentProduct,
+    user,
+    showProfile,
+    handleCloseProfile
   } = useContext(MainContext);
   const path = currentProduct.path
 
@@ -36,7 +40,8 @@ function App() {
   const registerProps = { showRegister, handleCloseRegister };
   const cartProps = { showCart, handleCloseCart };
   const allProductsProps = { showAllProducts, handleCloseAllProducts };
-  const showDetailProps = { showDetail, handleCloseDetail, path };
+  const detailProps = { showDetail, handleCloseDetail, path };
+  const profileProps = { showProfile, handleCloseProfile };
   const title = { title: 'También podría interesarte' };
 
   return (
@@ -50,13 +55,14 @@ function App() {
       <Routes>
         <Route path='/' element={<></>} />
         <Route path='/all' element={<AllProducts {...allProductsProps} />} />
-        <Route path={currentProduct && `/products/${currentProduct.id}`} element={<ProductDetailModal {...showDetailProps} />} />
         <Route path='/login' element={<LoginModal {...loginProps} />} />
         <Route
           path='/register'
           element={<RegisterModal {...registerProps} />}
         />
         <Route path='/cart' element={<CartModal {...cartProps} />} />
+        <Route path={currentProduct && `/products/${currentProduct.id}`} element={<ProductDetailModal {...detailProps} />} />
+        <Route path={user && `/users/${user.id}`} element={<ProfileModal {...profileProps} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
