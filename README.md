@@ -3,12 +3,13 @@
 ➡️ Applicación web para la compra y venta de artículos tecnológicos
 
 
+➡️Integrantes del grupo:
 
-# Deploy 🛜
+Marcos Gonzalvez
 
+Johnny Lobos
 
-➡️ npm run dev
-
+Jonathan Díaz
 
 
 # Tecnologías utilizadas 
