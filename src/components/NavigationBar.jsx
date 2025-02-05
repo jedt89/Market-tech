@@ -37,10 +37,7 @@ const NavigationBar = () => {
           {user && user.id && (
             <div className='display-flex align-items-center gap-1rem'>
               <label className='text-warning'>{user.userName}</label>
-              <img
-                src='../src/assets/icons/profile-icon.png'
-                style={{ width: '38px', marginRight: '1rem' }}
-              />
+              <PiUserBold className='menu-icon menu-icon-margin' />
             </div>
           )}
           <Button
