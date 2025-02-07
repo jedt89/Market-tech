@@ -3,10 +3,12 @@ import HeaderCategories from '../components/HeaderCategories.jsx';
 import { MainContext } from '../context/MainContext';
 import ProductCard from './ProductCard.jsx';
 import { getAllProducts } from '../services/fetchProducts.js';
+import { ModalContext } from '../context/ModalContext.jsx';
 
 const OurProducts = () => {
-  const { productsByCategory, showProductsByCategory, setAllProducts } =
+  const { productsByCategory, showProductsByCategory } =
     useContext(MainContext);
+  const { setAllProducts } = useContext(ModalContext);
 
   const fetchAllProducts = async (token) => {
     try {

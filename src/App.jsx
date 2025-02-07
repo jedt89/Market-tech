@@ -17,32 +17,7 @@ import ProductDetailModal from './pages/ProductDetailModal.jsx';
 import ProfileModal from './pages/ProfileModal.jsx';
 
 function App() {
-  const {
-    productsByCategory,
-    showLogin,
-    handleCloseLogin,
-    showRegister,
-    handleCloseRegister,
-    showCart,
-    handleCloseCart,
-    showAllProducts,
-    handleCloseAllProducts,
-    showDetail,
-    handleCloseDetail,
-    currentProduct,
-    user,
-    showProfile,
-    handleCloseProfile
-  } = useContext(MainContext);
-  const path = currentProduct.path
-
-  const loginProps = { showLogin, handleCloseLogin };
-  const registerProps = { showRegister, handleCloseRegister };
-  const cartProps = { showCart, handleCloseCart };
-  const allProductsProps = { showAllProducts, handleCloseAllProducts };
-  const detailProps = { showDetail, handleCloseDetail, path };
-  const profileProps = { showProfile, handleCloseProfile };
-  const title = { title: 'También podría interesarte' };
+  const { productsByCategory, currentProduct, user } = useContext(MainContext);
 
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
@@ -51,18 +26,18 @@ function App() {
       <div className='divider'></div>
       <OurProducts {...productsByCategory} />
       <div className='divider'></div>
-      <FooterSlider {...title} />
+      <FooterSlider title={'También podría interesarte'} />
       <Routes>
         <Route path='/' element={<></>} />
-        <Route path='/all' element={<AllProducts {...allProductsProps} />} />
-        <Route path='/login' element={<LoginModal {...loginProps} />} />
+        <Route path='/all' element={<AllProducts />} />
+        <Route path='/login' element={<LoginModal />} />
+        <Route path='/register' element={<RegisterModal />} />
+        <Route path='/cart' element={<CartModal />} />
         <Route
-          path='/register'
-          element={<RegisterModal {...registerProps} />}
+          path={currentProduct && `/products/${currentProduct.id}`}
+          element={<ProductDetailModal />}
         />
-        <Route path='/cart' element={<CartModal {...cartProps} />} />
-        <Route path={currentProduct && `/products/${currentProduct.id}`} element={<ProductDetailModal {...detailProps} />} />
-        <Route path={user && `/users/${user.id}`} element={<ProfileModal {...profileProps} />} />
+        <Route path={user && `/users/${user.id}`} element={<ProfileModal />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />

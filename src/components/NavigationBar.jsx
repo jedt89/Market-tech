@@ -11,15 +11,15 @@ import { RiLogoutCircleLine, RiUserAddLine } from 'react-icons/ri';
 import { PiShoppingCart } from 'react-icons/pi';
 import { Button } from 'react-bootstrap';
 import { MainContext } from '../context/MainContext.jsx';
+import { CartContext } from '../context/CartContext.jsx';
+import { ModalContext } from '../context/ModalContext.jsx';
 
 const NavigationBar = () => {
-  const {
-    handleShowLogin,
-    handleShowRegister,
-    handleShowCart,
-    handleShowProfile,
-    user
-  } = useContext(MainContext);
+  const { user } = useContext(MainContext);
+  const { handleShowLogin, handleShowRegister, handleShowProfile } =
+    useContext(ModalContext);
+
+  const { currentCart, handleShowCart } = useContext(CartContext);
 
   return (
     <Navbar expand='lg' className='navbar-container'>
@@ -41,11 +41,13 @@ const NavigationBar = () => {
             </div>
           )}
           <Button
-            className='navbar-button navbar-button-margin'
+            className='navbar-button navbar-button-margin d-flex align-items-center'
+            style={{ gap: '10px' }}
             variant='outline-warning'
             onClick={handleShowCart}
           >
             <PiShoppingCart className='menu-icon' />
+            <span>$ {currentCart.totalCart.toLocaleString('es-CL')}</span>
           </Button>
           <Dropdown>
             <Dropdown.Toggle

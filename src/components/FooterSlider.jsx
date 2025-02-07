@@ -6,10 +6,14 @@ import allProducts from '../models/allProducts.json';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { shuffleProducts } from '../hooks/UseMain';
-import { MainContext } from '../context/MainContext';
+import { ModalContext } from '../context/ModalContext';
+import useService from '../hooks/useService';
+import { CartContext } from '../context/CartContext';
 
 function FooterSlider({ title }) {
-  const { handleShowDetail } = useContext(MainContext);
+  const { handleShowDetail } = useContext(ModalContext);
+  const {handleAddToCart} = useService()
+  const { currentCart, addProductToCart } = useContext(CartContext);
   const products = shuffleProducts(allProducts);
   const settings = {
     dots: false,
@@ -47,13 +51,14 @@ function FooterSlider({ title }) {
       }
     ]
   };
+
   return (
     <div className='header-slider-container'>
       <h2 className='text-white'>{title}</h2>
       <div className='display-flex justify-center'>
         <div className='slider-container'>
           <Slider {...settings}>
-            {products.map(({ image_url, title, price, id }) => {
+            {products.map(({ image_url, title, price, id, description }) => {
               return (
                 <Card className='card-custom-footer'>
                   <Card.Img variant='top' src={image_url} />
@@ -73,7 +78,20 @@ function FooterSlider({ title }) {
                     >
                       Detalle
                     </Button>
-                    <Button variant='outline-warning' className='btn-xs'>
+                    <Button
+                      variant='outline-warning'
+                      className='btn-xs'
+                      onClick={() => {
+                        addProductToCart({
+                          image_url,
+                          price,
+                          title,
+                          description,
+                          id
+                        });
+                        handleAddToCart(currentCart, token);
+                      }}
+                    >
                       Agregar al carrito
                     </Button>
                   </Card.Body>

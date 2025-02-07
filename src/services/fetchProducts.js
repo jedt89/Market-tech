@@ -40,7 +40,7 @@ export const updateProduct = async (productId, productData, token) => {
 // Obtener todos los productos
 export const getAllProducts = async (token) => {
   try {
-    // const response = await api.get('/products', {
+    // const response = await api.get('/products', {    // Mientras el backend está en construcción
     //   headers: {
     //     Authorization: `Bearer ${token}`,
     //   },
@@ -48,7 +48,11 @@ export const getAllProducts = async (token) => {
     // if (response.status === 200) {
     //   return response.data;
     // }
-    return allProducts; // Mientras el backend está en construcción
+    return allProducts.map((product) => {
+      product.subTotal = 0;
+      product.quantity = 0;
+      return product;
+    }); 
   } catch (error) {
     handleApiError(error);
   }
@@ -76,7 +80,7 @@ export const deleteProduct = async (productId, token) => {
 // Agregar un producto al carrito
 export const addToCart = async (cartData, token) => {
   try {
-    const response = await api.post('/cart', cartData, {
+    const response = await api.post('/user/cart', cartData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -108,11 +112,11 @@ export const getCartItems = async (token) => {
 };
 
 // Actualizar la cantidad de un producto en el carrito
-export const updateCartItem = async (cartItemId, amount, token) => {
+export const updateCartItem = async (id, action, token) => {
   try {
     const response = await api.put(
-      `/cart/${cartItemId}`,
-      { amount },
+      `/user/cart/${id}`,
+      { action },
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -150,7 +154,7 @@ export const deleteCartItem = async (cartItemId, token) => {
 // Realizar una compra
 export const createTransaction = async (transactionData, token) => {
   try {
-    const response = await api.post('/transactions', transactionData, {
+    const response = await api.post('/user/cart/checkout', transactionData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -167,7 +171,7 @@ export const createTransaction = async (transactionData, token) => {
 // Obtener todas las transacciones
 export const getTransactions = async (token, params = {}) => {
   try {
-    const response = await api.get('/transactions', {
+    const response = await api.get('/user/cart/checkout', {
       headers: {
         Authorization: `Bearer ${token}`
       },

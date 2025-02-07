@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import categories from '../models/categories.json';
 import { MainContext } from '../context/MainContext';
+import { ModalContext } from '../context/ModalContext';
 
 const HeaderCategories = () => {
-  const { showProductsByCategory, allProducts, handleShowAllProducts } =
-    useContext(MainContext);
+  const { showProductsByCategory } = useContext(MainContext);
+  const { allProducts, handleShowAllProducts } = useContext(ModalContext);
 
   return (
     <div className='header-categories-container display-flex justify-center align-items-center'>

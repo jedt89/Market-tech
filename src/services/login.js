@@ -1,6 +1,6 @@
 import { default as axios } from 'axios';
 
-const URL_BASE = 'http://localhost:3000/api/auth/login';
+const URL_BASE = 'http://localhost:3000/login';
 
 export const loginSession = async (email, password) => {
   const config = {

@@ -5,13 +5,13 @@ import 'slick-carousel/slick/slick-theme.css';
 
 function HeaderSlider({ title }) {
   const settings = {
-    class: 'center',
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 0,
+    autoplay: true,
     responsive: [
       {
         breakpoint: 1024,

@@ -1,10 +1,16 @@
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-import { MainContext } from '../context/MainContext';
 import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
+import { ModalContext } from '../context/ModalContext';
+import { MainContext } from '../context/MainContext';
+import useService from '../hooks/useService';
 
 function ProductCard({ image_url, price, title, description, id }) {
-  const { handleShowDetail } = useContext(MainContext);
+  const { handleAddToCart } = useService();
+  const { handleShowDetail, handleshowlogin } = useContext(ModalContext);
+  const { token } = useContext(MainContext);
+  const { currentCart, addProductToCart } = useContext(CartContext);
 
   return (
     <Card className='card-custom'>
@@ -24,7 +30,18 @@ function ProductCard({ image_url, price, title, description, id }) {
         >
           Detalle
         </Button>
-        <Button variant='outline-warning' className='btn-xs'>
+        <Button
+          variant='outline-warning'
+          className='btn-xs'
+          onClick={() => {
+            if (!token) {
+              handleshowlogin();
+              return;
+            }
+            addProductToCart({ image_url, price, title, description, id });
+            handleAddToCart(currentCart, token);
+          }}
+        >
           Agregar al carrito
         </Button>
       </Card.Body>

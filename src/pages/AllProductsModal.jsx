@@ -1,13 +1,21 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getAllProducts } from '../services/fetchProducts';
 import ProductCard from '../components/ProductCard.jsx';
 import { MainContext } from '../context/MainContext';
 import { Modal } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import HeaderSearchBar from '../components/HeaderSearchBar.jsx';
+import { ModalContext } from '../context/ModalContext.jsx';
 
-const AllProductsModal = ({ showAllProducts, handleCloseAllProducts }) => {
-  const { allProducts, setAllProducts, token } = useContext(MainContext);
+const AllProductsModal = () => {
+  const [productsFiltered, setProductsFiltered] = useState([]);
+  const { token, textSearched } = useContext(MainContext);
+  const {
+    showAllProducts,
+    handleCloseAllProducts,
+    allProducts,
+    setAllProducts
+  } = useContext(ModalContext);
 
   const fetchAllProducts = async (token) => {
     try {
@@ -26,6 +34,15 @@ const AllProductsModal = ({ showAllProducts, handleCloseAllProducts }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (allProducts && allProducts.length > 0) {
+      const productsFiltered = allProducts.filter((product) =>
+        product.title.includes(textSearched)
+      );
+      setProductsFiltered(productsFiltered);
+    }
+  }, [textSearched]);
+
   return (
     <Modal
       show={showAllProducts}
@@ -39,13 +56,13 @@ const AllProductsModal = ({ showAllProducts, handleCloseAllProducts }) => {
         <IoIosClose
           className='text-white'
           onClick={handleCloseAllProducts}
-          style={{ cursor: 'pointer', fontSize: '26px' }}
+          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
-        {allProducts &&
-          allProducts.length > 0 &&
-          allProducts.map((product) => {
+        {productsFiltered &&
+          productsFiltered.length > 0 &&
+          productsFiltered.map((product) => {
             return <ProductCard {...product} />;
           })}
       </Modal.Body>

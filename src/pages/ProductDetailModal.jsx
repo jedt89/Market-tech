@@ -3,15 +3,20 @@ import { MainContext } from '../context/MainContext.jsx';
 import { Modal } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { Button } from 'react-bootstrap';
+import { ModalContext } from '../context/ModalContext.jsx';
+import { CartContext } from '../context/CartContext.jsx';
+import useService from '../hooks/useService.jsx';
 
-function ProductDetailModal({ path }) {
-  const { showDetail, handleCloseDetail, currentProduct } =
-    useContext(MainContext);
+function ProductDetailModal() {
+  const { currentProduct, token } = useContext(MainContext);
+  const { showDetail, handleCloseDetail } = useContext(ModalContext);
+  const { addProductToCart } = useContext(CartContext);
+  const { image_url, price, title, description, id } = currentProduct;
 
   return (
     <Modal
       show={showDetail}
-      onHide={() => handleCloseDetail(path)}
+      onHide={() => handleCloseDetail(currentProduct.path)}
       centered
       backdrop='static'
     >
@@ -21,8 +26,8 @@ function ProductDetailModal({ path }) {
         </Modal.Title>
         <IoIosClose
           className='text-white'
-          onClick={() => handleCloseDetail(path)}
-          style={{ cursor: 'pointer', fontSize: '26px' }}
+          onClick={() => handleCloseDetail(currentProduct.path)}
+          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body text-white text-center'>
@@ -36,12 +41,19 @@ function ProductDetailModal({ path }) {
       <Modal.Footer>
         <Button
           variant='outline-light'
-          onClick={() => handleCloseDetail(path)}
+          onClick={() => handleCloseDetail(currentProduct.path)}
           className='modal-btn-cancel'
         >
           Volver
         </Button>
-        <Button variant='outline-warning' className='modal-btn-submit'>
+        <Button
+          variant='outline-warning'
+          className='modal-btn-submit'
+          onClick={() => {
+            addProductToCart({ image_url, price, title, description, id });
+            handleAddToCart(currentCart, token);
+          }}
+        >
           Agregar al carrito
         </Button>
       </Modal.Footer>

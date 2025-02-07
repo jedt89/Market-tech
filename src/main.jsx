@@ -1,16 +1,21 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 import { MainContextProvider } from './context/MainContext.jsx';
+import { CartContextProvider } from './context/CartContext.jsx';
 import { BrowserRouter } from 'react-router-dom';
+import { ModalContextProvider } from './context/ModalContext.jsx';
+import { Toaster } from 'react-hot-toast';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <MainContextProvider>
-        <App />
-      </MainContextProvider>
-    </BrowserRouter>
-  </StrictMode>
+  <BrowserRouter>
+    <MainContextProvider>
+      <ModalContextProvider>
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
+      </ModalContextProvider>
+    </MainContextProvider>
+    <Toaster />
+  </BrowserRouter>
 );

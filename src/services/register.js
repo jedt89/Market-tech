@@ -1,8 +1,8 @@
 import { default as axios } from 'axios';
 
-const URL_BASE = 'http://localhost:3000/api/auth/register';
+const URL_BASE = 'http://localhost:3000/signup';
 
-export const registerUser = async (email, password, name) => {
+export const registerUser = async (email, username, phone, password) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -10,9 +10,10 @@ export const registerUser = async (email, password, name) => {
   };
 
   const data = {
-    name: name,
+    username: username,
     email: email,
-    password: password
+    phone_number: phone,
+    password_hash: password
   };
 
   try {

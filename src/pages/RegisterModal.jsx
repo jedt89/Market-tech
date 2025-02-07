@@ -1,13 +1,47 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import useInput from '../hooks/useInput.jsx';
-import { handleRegister } from '../hooks/useService.jsx';
+import { ModalContext } from '../context/ModalContext.jsx';
+import useService from '../hooks/useService.jsx';
 
-const RegisterModal = ({ showRegister, handleCloseRegister }) => {
+const RegisterModal = () => {
+  const { handleRegister } = useService();
+  const { showRegister, handleCloseRegister } = useContext(ModalContext);
   const email = useInput('');
   const password = useInput('');
+  const confirmPassword = useInput('');
   const name = useInput('');
+  const phone = useInput('');
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!name.value) newErrors.name = 'El nombre es requerido';
+    if (!email.value) newErrors.email = 'El correo electrónico es requerido';
+    else if (!/\S+@\S+\.\S+/.test(email.value))
+      newErrors.email = 'El correo electrónico no es válido';
+    if (!password.value) newErrors.password = 'La contraseña es requerida';
+    else if (password.value.length < 6)
+      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+    if (!confirmPassword.value)
+      newErrors.confirmPassword = 'Repetir la contraseña es requerido';
+    else if (password.value !== confirmPassword.value)
+      newErrors.confirmPassword = 'Las contraseñas no coinciden';
+    if (!phone.value) newErrors.phone = 'El número telefónico es requerido';
+    return newErrors;
+  };
+
+  const handleSubmit = () => {
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length === 0) {
+      email, name, phone, password;
+      handleRegister(email.value, name.value, phone.value, password.value);
+      handleCloseRegister()
+    } else {
+      setErrors(formErrors);
+    }
+  };
 
   return (
     <Modal
@@ -21,7 +55,7 @@ const RegisterModal = ({ showRegister, handleCloseRegister }) => {
         <IoIosClose
           className='text-white'
           onClick={handleCloseRegister}
-          style={{ cursor: 'pointer', fontSize: '26px' }}
+          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
@@ -38,8 +72,10 @@ const RegisterModal = ({ showRegister, handleCloseRegister }) => {
               placeholder='Introduce tu nombre'
               onChange={(event) => {
                 name.onChange(event);
+                setErrors({ ...errors, name: '' });
               }}
             />
+            {errors.name && <div className='text-danger'>{errors.name}</div>}
           </div>
           <div className='form-group'>
             <label htmlFor='email' className='form-label'>
@@ -53,8 +89,27 @@ const RegisterModal = ({ showRegister, handleCloseRegister }) => {
               placeholder='Introduce tu correo'
               onChange={(event) => {
                 email.onChange(event);
+                setErrors({ ...errors, email: '' });
               }}
             />
+            {errors.email && <div className='text-danger'>{errors.email}</div>}
+          </div>
+          <div className='form-group'>
+            <label htmlFor='phone' className='form-label'>
+              Número telefónico
+            </label>
+            <input
+              type='phone'
+              className='form-control'
+              id='phone'
+              value={phone.value}
+              placeholder='Introduce tu número de teléfono'
+              onChange={(event) => {
+                phone.onChange(event);
+                setErrors({ ...errors, phone: '' });
+              }}
+            />
+            {errors.phone && <div className='text-danger'>{errors.phone}</div>}
           </div>
           <div className='form-group'>
             <label htmlFor='password' className='form-label'>
@@ -68,8 +123,31 @@ const RegisterModal = ({ showRegister, handleCloseRegister }) => {
               placeholder='Introduce tu contraseña'
               onChange={(event) => {
                 password.onChange(event);
+                setErrors({ ...errors, password: '' });
               }}
             />
+            {errors.password && (
+              <div className='text-danger'>{errors.password}</div>
+            )}
+          </div>
+          <div className='form-group'>
+            <label htmlFor='confirmPassword' className='form-label'>
+              Repetir Contraseña
+            </label>
+            <input
+              type='password'
+              className='form-control'
+              id='confirmPassword'
+              value={confirmPassword.value}
+              placeholder='Repite tu contraseña'
+              onChange={(event) => {
+                confirmPassword.onChange(event);
+                setErrors({ ...errors, confirmPassword: '' });
+              }}
+            />
+            {errors.confirmPassword && (
+              <div className='text-danger'>{errors.confirmPassword}</div>
+            )}
           </div>
         </form>
       </Modal.Body>
@@ -83,9 +161,7 @@ const RegisterModal = ({ showRegister, handleCloseRegister }) => {
         </Button>
         <Button
           variant='outline-warning'
-          onClick={() => {
-            handleRegister(email.value, password.value, name.value);
-          }}
+          onClick={handleSubmit}
           className='modal-btn-submit'
         >
           Registrarse

@@ -25,5 +25,5 @@
   },
   { "name": "Monitores", "id": 9, "icon": "../src/assets/icons/monitor-icon.png" },
   { "name": "Refrigeración", "id": 10, "icon": "../src/assets/icons/fan-icon.png" },
-  { "name": "Todo", "id": 11, "icon": "../src/assets/icons/expand-icon.png" }
+  { "name": "Ver todo", "id": 11, "icon": "../src/assets/icons/expand-icon.png" }
 ]

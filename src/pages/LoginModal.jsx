@@ -1,14 +1,55 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
-import { handleLogin } from '../hooks/useService';
 import useInput from '../hooks/useInput';
 import { MainContext } from '../context/MainContext';
+import { ModalContext } from '../context/ModalContext';
+import toast from 'react-hot-toast';
+import useService from '../hooks/useService';
 
-const LoginModal = ({ showLogin, handleCloseLogin }) => {
+const LoginModal = () => {
+  const { handleLogin } = useService();
   const { setUser, setToken } = useContext(MainContext);
+  const { showLogin, handleCloseLogin, handleShowRegister } =
+    useContext(ModalContext);
   const email = useInput('');
   const password = useInput('');
+  const [error, setError] = useState('');
+
+  const validateForm = () => {
+    if (!email.value) {
+      setError('El correo electrónico es obligatorio.');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email.value)) {
+      setError('El correo electrónico no es válido.');
+      return false;
+    }
+    if (!password.value) {
+      setError('La contraseña es obligatoria.');
+      return false;
+    }
+    if (password.value.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres.');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (validateForm()) {
+      try {
+        const user = await handleLogin(email.value, password.value);
+        setUser(user);
+        setToken(user.token);
+        handleCloseLogin();
+      } catch (err) {
+        toast.error('Error al iniciar sesión', { position: 'top-right' });
+        setError('Error al iniciar sesión. Por favor, verifica los datos.');
+      }
+    }
+  };
 
   return (
     <Modal
@@ -22,7 +63,7 @@ const LoginModal = ({ showLogin, handleCloseLogin }) => {
         <IoIosClose
           className='text-white'
           onClick={handleCloseLogin}
-          style={{ cursor: 'pointer', fontSize: '26px' }}
+          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
@@ -57,7 +98,21 @@ const LoginModal = ({ showLogin, handleCloseLogin }) => {
               }}
             />
           </div>
+          {error && <div className='text-danger'>{error}</div>}
         </form>
+        <p className='text-white'>
+          ¿No tienes cuenta?{' '}
+          <span
+            className='text-warning'
+            onClick={() => {
+              handleCloseLogin();
+              handleShowRegister();
+            }}
+            style={{ marginLeft: '5px', cursor: 'pointer' }}
+          >
+            Regístrate
+          </span>
+        </p>
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -69,12 +124,7 @@ const LoginModal = ({ showLogin, handleCloseLogin }) => {
         </Button>
         <Button
           variant='outline-warning'
-          onClick={async () => {
-            const user = await handleLogin(email.value, password.value);
-            setUser(user);
-            setToken(user.token);
-            handleCloseLogin();
-          }}
+          onClick={handleSubmit}
           className='modal-btn-submit'
         >
           Iniciar sesión
