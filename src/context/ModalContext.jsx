@@ -46,7 +46,6 @@ const ModalContextProvider = ({ children }) => {
   };
 
   const handleShowDetail = (id, path) => {
-    console.log(id, path);
     const product = allProducts.find((item) => item.id == id);
     product.path = path.includes('/all') ? '/all' : '/';
     setCurrentProduct(product);

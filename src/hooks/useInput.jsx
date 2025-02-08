@@ -9,7 +9,8 @@ const useInput = (initialValue) => {
 
   return {
     value,
-    onChange: handleChange
+    onChange: handleChange,
+    setValue
   };
 };
 

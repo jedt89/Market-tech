@@ -15,13 +15,14 @@ import AllProducts from './pages/AllProductsModal.jsx';
 import ProductDetailModal from './pages/ProductDetailModal.jsx';
 import ProfileModal from './pages/ProfileModal.jsx';
 import './index.css';
+import useService from './hooks/useService.jsx';
 
 function App() {
-  const { productsByCategory, currentProduct, user, getUserSession } =
+  const { productsByCategory, currentProduct, token, user, setUserSession } =
     useContext(MainContext);
 
   useEffect(() => {
-    getUserSession();
+    setUserSession();
   }, []);
 
   return (

@@ -1,13 +1,14 @@
 import api from '../api/config';
 import { handleApiError } from '../helpers/handleApiErrors';
 import allProducts from '../models/allProducts.json';
+import categories from '../models/categories.json';
 
 // Gestión de Productos (Vender)
 
 // Subir un nuevo producto
 export const addProduct = async (productData, token) => {
   try {
-    const response = await api.post('/products', productData, {
+    const response = await api.post('/user/product', productData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -41,21 +42,25 @@ export const updateProduct = async (productId, productData, token) => {
 // Obtener todos los productos
 export const getAllProducts = async (token) => {
   try {
-    // const response = await api.get('/products', {    // Mientras el backend está en construcción
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-    // if (response.status === 200) {
-    //   return response.data;
-    // }
-    console.log('getAllProducts')
-    return allProducts.map((product) => {
-      product.subTotal = 0;
-      product.quantity = 0;
-      return product;
+    const response = await api.get('/products', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
-    // throw error;
+    if (response.status === 200) {
+      return response.data.map((product) => {
+        const category = categories.find(
+          (category) => category.id === product.category_id || 1
+        );
+        product.category = category.name;
+        product.category_id = product.category_id || 1;
+        product.subTotal = 0;
+        product.quantity = 0;
+        product.price = Math.trunc(product.price);
+        return product;
+      });
+    }
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -98,15 +103,17 @@ export const addToCart = async (cartData, token) => {
 };
 
 // Obtener los productos del carrito
-export const getCartItems = async (token) => {
+export const getCartItems = async (token, userId) => {
   try {
-    const response = await api.get('/cart', {
+    const response = await api.get(`/user/cart/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
     if (response.status === 200) {
-      return response.data;
+      return response.data.map((data) => {
+        return data;
+      });
     }
     throw error;
   } catch (error) {
@@ -172,13 +179,12 @@ export const createTransaction = async (transactionData, token) => {
 };
 
 // Obtener todas las transacciones
-export const getTransactions = async (token, params = {}) => {
+export const getTransactions = async (token) => {
   try {
     const response = await api.get('/user/cart/checkout', {
       headers: {
         Authorization: `Bearer ${token}`
-      },
-      params
+      }
     });
     if (response.status === 200) {
       return response.data;

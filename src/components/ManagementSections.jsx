@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
+import { CiCircleInfo } from 'react-icons/ci';
 import useInput from '../hooks/useInput';
 import { MainContext } from '../context/MainContext';
-import useService from '../hooks/useService';
+import useService from '../hooks/useService'; // Ensure this path is correct
 import categories from '../models/categories.json';
 import '../index.css';
 
 const ManagementSections = ({ products, transactions }) => {
-  const { handleAddProduct } = useService();
-  const { token } = useContext(MainContext);
+  const { handleAddProduct, handleGetProducts } = useService();
+  const { token, user } = useContext(MainContext);
   const [showTab, setShowTab] = useState(0);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
+  const [productList, setProductList] = useState(products);
   const productName = useInput('');
   const productId = useInput('');
   const imageUrl = useInput('');
@@ -21,10 +23,26 @@ const ManagementSections = ({ products, transactions }) => {
   const stock = useInput('');
 
   const filterTransactions = (buy) => {
-    const transactionsToShow = transactions.filter((transaction) =>
-      buy ? transaction.id < 5 : transaction.id > 5
-    );
+    // const transactionsToShow = transactions.filter((transaction) =>
+    //   buy ? transaction.id < 5 : transaction.id > 5
+    // );
+    const transactionsToShow = transactions;
     setTransactionsToShow(transactionsToShow);
+  };
+
+  const clearForm = () => {
+    productName.setValue('');
+    productId.setValue('');
+    imageUrl.setValue('');
+    productDescription.setValue('');
+    categoryId.setValue('');
+    price.setValue('');
+    stock.setValue('');
+  };
+
+  const refreshProducts = async () => {
+    const products = await handleGetProducts(user.id);
+    setProductList(products);
   };
 
   useEffect(() => {
@@ -152,9 +170,12 @@ const ManagementSections = ({ products, transactions }) => {
                     imageUrl: imageUrl.value,
                     productDescription: productDescription.value,
                     categoryId: categoryId.value,
-                    price: price.value
+                    price: price.value,
+                    stock: stock.value
                   };
                   handleAddProduct(product, token);
+                  clearForm();
+                  refreshProducts();
                 }}
               >
                 <TfiSave className='save-icon' />
@@ -167,7 +188,7 @@ const ManagementSections = ({ products, transactions }) => {
 
       {showTab == 1 && (
         <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center'>
-          <div className='width-100-percent table-products border-radius-8 all-white table-header'>
+          <div className='width-100-percent table-products border-radius-8 all-text-white table-header'>
             <div>Id</div>
             <div>Nombre</div>
             <div>Descripción</div>
@@ -176,11 +197,19 @@ const ManagementSections = ({ products, transactions }) => {
             <div>Precio</div>
             <div>Stock</div>
           </div>
-          <div className='border-radius-8 all-white table-body'>
-            {products &&
-              products.length > 0 &&
-              products.map(
-                ({ id, title, description, category_id, image_url, price }) => (
+          <div className='border-radius-8 all-text-white table-body'>
+            {productList &&
+              productList.length > 0 &&
+              productList.map(
+                ({
+                  id,
+                  title,
+                  description,
+                  category,
+                  image_url,
+                  price,
+                  stock
+                }) => (
                   <div
                     className='width-100-percent table-products table-row'
                     key={id}
@@ -188,10 +217,10 @@ const ManagementSections = ({ products, transactions }) => {
                     <div>{id}</div>
                     <div>{title}</div>
                     <div>{description}</div>
-                    <div>{category_id}</div>
+                    <div>{category}</div>
                     <div>{image_url}</div>
                     <div>{price}</div>
-                    <div>{500}</div>
+                    <div>{stock}</div>
                   </div>
                 )
               )}
@@ -217,13 +246,21 @@ const ManagementSections = ({ products, transactions }) => {
               Ventas
             </Button>
           </div>
-          <div className='border-radius-8 all-white'>
+          <div className='border-radius-8 all-text-white width-100-percent'>
             {transactionsToShow &&
               transactionsToShow.length > 0 &&
               transactionsToShow.map(
-                ({ id, title, description, category_id, image_url, price }) => (
+                ({
+                  id,
+                  title,
+                  description,
+                  category,
+                  image_url,
+                  price,
+                  stock
+                }) => (
                   <div
-                    className='display-flex gap-1rem align-items-center border-radius-8 transaction-item'
+                    className='display-flex gap-1rem align-items-center border-radius-8 transaction-item border-yellow'
                     key={id}
                   >
                     <img
@@ -235,10 +272,14 @@ const ManagementSections = ({ products, transactions }) => {
                       <p>ID: {id}</p>
                       <p>Nombre: {title}</p>
                       <p>Descripción: {description}</p>
-                      <p>Categoría: {category_id}</p>
+                      <p>Categoría: {category}</p>
                       <p>Precio: ${price}</p>
-                      <p>Cantidad: {2}</p>
+                      <p>Cantidad: {stock}</p>
                     </div>
+                    <Button variant='outline-info' className='d-flex gap-1rem'>
+                      <CiCircleInfo className='text-info' />
+                      <span>Ver detalle</span>
+                    </Button>
                   </div>
                 )
               )}

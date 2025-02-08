@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MainContext = React.createContext();
@@ -10,6 +10,7 @@ const MainContextProvider = ({ children }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  let currentSession = null
 
   const handleReturnToHome = () => {
     navigate('/');
@@ -29,20 +30,23 @@ const MainContextProvider = ({ children }) => {
     navigate('/');
   };
 
-  const getUserSession = () => {
+  const setUserSession = () => {
     let userSession = localStorage.getItem('marketTechSession');
-    console.log('userSession!!!', userSession, typeof userSession);
     if (userSession != 'null') {
       userSession = JSON.parse(userSession);
-      console.debug('Session active: ', userSession);
       setUser(userSession.data);
       setToken(userSession.token);
+      currentSession = userSession.data
+      currentSession.token = userSession.token
+      console.debug('Session active: ', currentSession);
     }
   };
 
-  React.useEffect(() => {
-    getUserSession();
-  }, []);
+  useEffect(() => {
+    if(!user) {
+      setUserSession();
+    }
+  });
 
 
   return (
@@ -61,7 +65,8 @@ const MainContextProvider = ({ children }) => {
         textSearched,
         setTextSearched,
         handleLogout,
-        getUserSession
+        setUserSession,
+        currentSession
       }}
     >
       {children}

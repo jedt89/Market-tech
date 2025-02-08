@@ -516,9 +516,22 @@ input:focus {
   border: none;
 }
 
-.all-white {
+.all-text-white {
   * {
     color: white !important;
+  }
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  img {
+    width: 80px;
   }
 }
 
@@ -639,11 +652,14 @@ input:focus {
 .table-body {
   background-color: #38364b;
   padding-top: 0.5rem;
+  width: 100%;
 }
 
 .table-row {
   display: grid;
   grid-template-columns: 50px 1fr 1fr 100px 1fr 100px 100px;
+  padding: 1rem 0rem;
+  background-color: #38364b;
 }
 
 .cart-list {

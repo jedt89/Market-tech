@@ -11,8 +11,6 @@ export const registerUser = async (email, username, phone, password) => {
 
   try {
     const response = await api.post(`/signup`, data);
-    console.log('response', response);
-
     if (response.status === 200) {
       return response.data;
     }

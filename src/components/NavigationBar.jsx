@@ -84,6 +84,7 @@ const NavigationBar = () => {
                 onClick={() => {
                   handleLogout();
                   clearCart();
+                  toast.success('Sessión cerrada con éxito')
                 }}
               >
                 <RiLogoutCircleLine className='menu-icon menu-icon-margin' />

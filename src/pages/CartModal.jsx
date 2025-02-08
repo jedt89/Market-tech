@@ -112,7 +112,9 @@ const CartModal = () => {
             {currentCart.products.length > 0 && (
               <Button
                 variant='outline-danger btn-xs gap-1rem'
-                onClick={() => handleCleanCart(token)}
+                onClick={() => {
+                  clearCart()
+                  handleCleanCart(token)}}
               >
                 <PiTrashThin />
                 Limpiar carrito

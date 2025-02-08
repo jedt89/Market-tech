@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import useService from '../hooks/useService';
+import { MainContext } from './MainContext';
 
 const CartContext = React.createContext();
 
@@ -96,7 +98,7 @@ const CartContextProvider = ({ children }) => {
           updatedCart.products = updatedCart.products.filter(
             (item) => item.id !== productId
           );
-          clearCart()
+          clearCart();
         }
       }
 

@@ -5,11 +5,13 @@ import ProductCard from './ProductCard.jsx';
 import { getAllProducts } from '../services/fetchProducts.js';
 import { ModalContext } from '../context/ModalContext.jsx';
 import '../index.css';
+import useService from '../hooks/useService.jsx';
 
 const OurProducts = () => {
-  const { productsByCategory, showProductsByCategory } =
+  const { productsByCategory, showProductsByCategory, token, user } =
     useContext(MainContext);
   const { setAllProducts } = useContext(ModalContext);
+  const { handleGetCartItems } = useService();
 
   const fetchAllProducts = async (token) => {
     try {
@@ -17,7 +19,6 @@ const OurProducts = () => {
       if (products && products.length > 0) {
         setAllProducts(products);
         showProductsByCategory(products, 1);
-
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -26,9 +27,8 @@ const OurProducts = () => {
 
   useEffect(() => {
     fetchAllProducts();
-    console.log('productsbycategory', productsByCategory)
-
-  }, []);
+    if(user) handleGetCartItems(token, user.id);
+  }, [user]);
 
   return (
     <div className='our-products-container'>

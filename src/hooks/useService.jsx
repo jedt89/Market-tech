@@ -37,7 +37,6 @@ const useService = () => {
       const response = await loginSession(email, password);
       if (response) {
         response.data.token = response.token
-        console.log('response!!!', response)
         localStorage.setItem('marketTechSession', JSON.stringify(response));
         toast.success('Sesión iniciada con éxito', { position: 'top-right' });
       }
@@ -67,11 +66,7 @@ const useService = () => {
   const handleGetProducts = async (token) => {
     try {
       const products = await getAllProducts(token);
-      if (products)
-        toast.success('Productos obtenidos con éxito', {
-          position: 'top-right'
-        });
-      return products;
+      if (products) return products;
     } catch (error) {
       toast.error('Error al obtener productos', { position: 'top-right' });
       throw error;
@@ -130,7 +125,6 @@ const useService = () => {
   };
 
   const handleAddToCart = async (product, token, userId) => {
-    console.log(product, token, userId)
     try {
       product = {
         product_id: product.id,
@@ -153,14 +147,10 @@ const useService = () => {
     }
   };
 
-  const handleGetCartItems = async (token) => {
+  const handleGetCartItems = async (token, id) => {
     try {
-      const cartItems = await getCartItems(token);
-      if (cartItems)
-        toast.success('Productos del carrito obtenidos con éxito', {
-          position: 'top-right'
-        });
-      return cartItems;
+      const cartItems = await getCartItems(token, id);
+      if (cartItems) return cartItems;
     } catch (error) {
       toast.error('Error al obtener productos del carrito', {
         position: 'top-right'

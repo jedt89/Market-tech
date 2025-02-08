@@ -20,22 +20,20 @@ const ProfileModal = () => {
   const fetchProducts = async (user) => {
     try {
       let products = await handleGetProducts(user.id);
-      products.length = 10;
       setProducts(products);
-      setTransactions(products); //POR MIENTRAS HACES PRUEBAS
+      setTransactions(products); // Mientras el backend está en construcción
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
   const fetchTransactions = async (user) => {
-    // try {
-    //   let transactions = await getTransactions(user.token); // MIENTRAS EL BACK ESTÁ EN CONSTRUCCIÓN
-    //   transactions.length = 10;
-    //   setTransactions(transactions);
-    // } catch (error) {
-    //   console.error('Error fetching transactions:', error);
-    // }
+    try {
+      const transactions = await getTransactions(user.token);
+      setTransactions(transactions);
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
   };
 
   useEffect(() => {
