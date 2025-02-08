@@ -1,20 +1,14 @@
-import { default as axios } from 'axios';
+import api from '../api/config';
+import { handleApiError } from '../helpers/handleApiErrors';
 
-const URL_BASE = 'http://localhost:3000/api/auth/user';
-
-export const getUserProfile = async (tokenValue) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${tokenValue}`,
-    }
-  };
-
+export const getUserProfile = async (token) => {
   try {
-    const response = await axios.get(URL_BASE, config);
-    const data = response.data;
-    return data;
+    const response = await api.post(`/user`, token);
+    if (response.status === 200) {
+      return response.data;
+    }
+    throw error;
   } catch (error) {
-    throw new Error('Error')
+    handleApiError(error);
   }
 };

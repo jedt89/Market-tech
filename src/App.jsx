@@ -1,5 +1,4 @@
-import './App.css';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HeaderSlider from './components/HeaderSlider.jsx';
 import NavigationBar from './components/NavigationBar.jsx';
@@ -15,12 +14,18 @@ import NotFound from './pages/NotFound.jsx';
 import AllProducts from './pages/AllProductsModal.jsx';
 import ProductDetailModal from './pages/ProductDetailModal.jsx';
 import ProfileModal from './pages/ProfileModal.jsx';
+import './index.css';
 
 function App() {
-  const { productsByCategory, currentProduct, user } = useContext(MainContext);
+  const { productsByCategory, currentProduct, user, getUserSession } =
+    useContext(MainContext);
+
+  useEffect(() => {
+    getUserSession();
+  }, []);
 
   return (
-    <div style={{ width: '100%', textAlign: 'center' }}>
+    <div className='app-container'>
       <NavigationBar />
       <HeaderSlider id='header-slider' />
       <div className='divider'></div>

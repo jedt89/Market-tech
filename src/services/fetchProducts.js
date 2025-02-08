@@ -1,4 +1,5 @@
 import api from '../api/config';
+import { handleApiError } from '../helpers/handleApiErrors';
 import allProducts from '../models/allProducts.json';
 
 // Gestión de Productos (Vender)
@@ -14,7 +15,7 @@ export const addProduct = async (productData, token) => {
     if (response.status === 201) {
       return response.data;
     }
-    throw new Error('Error al agregar producto');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -31,7 +32,7 @@ export const updateProduct = async (productId, productData, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Error al actualizar producto');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -48,11 +49,13 @@ export const getAllProducts = async (token) => {
     // if (response.status === 200) {
     //   return response.data;
     // }
+    console.log('getAllProducts')
     return allProducts.map((product) => {
       product.subTotal = 0;
       product.quantity = 0;
       return product;
-    }); 
+    });
+    // throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -69,7 +72,7 @@ export const deleteProduct = async (productId, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Error al eliminar producto');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -88,7 +91,7 @@ export const addToCart = async (cartData, token) => {
     if (response.status === 201) {
       return response.data;
     }
-    throw new Error('Error al agregar producto al carrito');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -105,7 +108,7 @@ export const getCartItems = async (token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Error al obtener productos del carrito');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -114,7 +117,7 @@ export const getCartItems = async (token) => {
 // Actualizar la cantidad de un producto en el carrito
 export const updateCartItem = async (id, action, token) => {
   try {
-    const response = await api.put(
+    const response = await api.post(
       `/user/cart/${id}`,
       { action },
       {
@@ -126,7 +129,7 @@ export const updateCartItem = async (id, action, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Error al actualizar cantidad en el carrito');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -143,7 +146,7 @@ export const deleteCartItem = async (cartItemId, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Error al eliminar producto del carrito');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -162,7 +165,7 @@ export const createTransaction = async (transactionData, token) => {
     if (response.status === 201) {
       return response.data;
     }
-    throw new Error('Error al realizar la transacción');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -180,27 +183,25 @@ export const getTransactions = async (token, params = {}) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Error al obtener transacciones');
+    throw error;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-// Manejo de errores de la API
-const handleApiError = (error) => {
-  // Verifica si la respuesta tiene datos de error
-  if (error.response && error.response.data) {
-    if (error.response.status === 400) {
-      console.error('Bad Request: ', error.response.data);
-    } else if (error.response.status === 401) {
-      console.error('Unauthorized: ', error.response.data);
-    } else if (error.response.status === 500) {
-      console.error('Server Error: ', error.response.data);
-    } else {
-      console.error('Error desconocido: ', error.response.data);
+// Obtener todas las transacciones
+export const cleanCart = async (token) => {
+  try {
+    const response = await api.delete('/user/cart', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (response.status === 200) {
+      return response.data;
     }
-  } else {
-    console.error('Error de conexión o problema con el servidor');
+    throw error;
+  } catch (error) {
+    handleApiError(error);
   }
-  throw error;
 };

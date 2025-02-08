@@ -3,22 +3,24 @@ import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { TbHome } from 'react-icons/tb';
 import notFound from '../assets/img/notFound.png';
+import '../index.css';
 
 const NotFound = () => {
   return (
-    <div
-      className='flex-column align-items-center'
-      style={{ marginBottom: '20px' }}
-    >
+    <div className='flex-column align-items-center not-found-container'>
       <img src={notFound} alt='Not Found' />
-      <div style={{ color: '#FFF', textAlign: 'center', margin: '10px' }}>
+      <div className='not-found-text'>
         Ups! Tenemos un problema cargando tu solicitud. Por favor recarga la
         página o haz clic en el siguiente botón para volver a la pantalla de
         inicio.
       </div>
-      <Button className='head-button' variant='ghost' color='warning'>
+      <Button
+        className='head-button not-found-button'
+        variant='ghost'
+        color='warning'
+      >
         <TbHome />
-        <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link to='/' className='not-found-link'>
           <span>Ir al Inicio</span>
         </Link>
       </Button>

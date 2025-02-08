@@ -4,6 +4,7 @@ import { IoIosClose } from 'react-icons/io';
 import useInput from '../hooks/useInput.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
 import useService from '../hooks/useService.jsx';
+import '../index.css';
 
 const RegisterModal = () => {
   const { handleRegister } = useService();
@@ -35,9 +36,8 @@ const RegisterModal = () => {
   const handleSubmit = () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
-      email, name, phone, password;
       handleRegister(email.value, name.value, phone.value, password.value);
-      handleCloseRegister()
+      handleCloseRegister();
     } else {
       setErrors(formErrors);
     }
@@ -53,9 +53,8 @@ const RegisterModal = () => {
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>
         <Modal.Title className='modal-title'>Registrarse</Modal.Title>
         <IoIosClose
-          className='text-white'
+          className='text-white close-icon'
           onClick={handleCloseRegister}
-          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
@@ -99,7 +98,7 @@ const RegisterModal = () => {
               Número telefónico
             </label>
             <input
-              type='phone'
+              type='text'
               className='form-control'
               id='phone'
               value={phone.value}

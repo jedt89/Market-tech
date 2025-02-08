@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext.jsx';
-import { Modal } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
-import { Button } from 'react-bootstrap';
 import { ModalContext } from '../context/ModalContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import useService from '../hooks/useService.jsx';
+import '../index.css';
 
 function ProductDetailModal() {
   const { currentProduct, token } = useContext(MainContext);
   const { showDetail, handleCloseDetail } = useContext(ModalContext);
   const { addProductToCart } = useContext(CartContext);
-  const { image_url, price, title, description, id } = currentProduct;
+  const { handleAddToCart } = useService();
+  const { image_url, price, title, description, id , quantity, subTotal} = currentProduct;
 
   return (
     <Modal
@@ -25,15 +26,18 @@ function ProductDetailModal() {
           {currentProduct.title}
         </Modal.Title>
         <IoIosClose
-          className='text-white'
+          className='text-white close-icon'
           onClick={() => handleCloseDetail(currentProduct.path)}
-          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body text-white text-center'>
-        <img src={currentProduct.image_url} className='width-100-percent' />
+        <img
+          src={currentProduct.image_url}
+          className='width-100-percent'
+          alt={currentProduct.title}
+        />
         <p>{currentProduct.description}</p>
-        <p className='text-success' style={{ fontSize: '2rem' }}>
+        <p className='text-success product-price'>
           $
           {currentProduct.price && currentProduct.price.toLocaleString('es-CL')}
         </p>
@@ -50,8 +54,8 @@ function ProductDetailModal() {
           variant='outline-warning'
           className='modal-btn-submit'
           onClick={() => {
-            addProductToCart({ image_url, price, title, description, id });
-            handleAddToCart(currentCart, token);
+            addProductToCart({ image_url, price, title, description, id, quantity, subTotal });
+            handleAddToCart({ image_url, price, title, description, id, quantity, subTotal }, token, user.id);
           }}
         >
           Agregar al carrito

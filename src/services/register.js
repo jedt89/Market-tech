@@ -1,14 +1,7 @@
-import { default as axios } from 'axios';
-
-const URL_BASE = 'http://localhost:3000/signup';
+import api from '../api/config';
+import { handleApiError } from '../helpers/handleApiErrors';
 
 export const registerUser = async (email, username, phone, password) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  };
-
   const data = {
     username: username,
     email: email,
@@ -17,11 +10,14 @@ export const registerUser = async (email, username, phone, password) => {
   };
 
   try {
-    const response = await axios.post(URL_BASE, data, config);
-    const token = response.data.token;
-    
-    return token;
+    const response = await api.post(`/signup`, data);
+    console.log('response', response);
+
+    if (response.status === 200) {
+      return response.data;
+    }
+    throw error;
   } catch (error) {
-    throw new Error('Error al registrar usuario')
+    handleApiError(error);
   }
 };

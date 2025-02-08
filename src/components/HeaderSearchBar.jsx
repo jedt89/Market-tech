@@ -1,8 +1,9 @@
+import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import { FaSearch } from 'react-icons/fa';
 import { MainContext } from '../context/MainContext';
 import { ModalContext } from '../context/ModalContext';
-import { useContext } from 'react';
+import '../index.css';
 
 function HeaderSearchBar() {
   const { allProducts, handleShowAllProducts } = useContext(ModalContext);

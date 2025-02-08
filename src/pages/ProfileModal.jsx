@@ -8,6 +8,7 @@ import ManagementSections from '../components/ManagementSections';
 import { getTransactions } from '../services/fetchProducts';
 import { ModalContext } from '../context/ModalContext';
 import useService from '../hooks/useService';
+import '../index.css';
 
 const ProfileModal = () => {
   const { handleGetProducts } = useService();
@@ -56,35 +57,24 @@ const ProfileModal = () => {
         <Modal.Title className='modal-title'>Mi perfil</Modal.Title>
         <div className='display-flex justify-end gap-1rem align-items-center'>
           <IoIosClose
-            className='text-white'
+            className='text-white close-icon'
             onClick={() => {
               handleCloseProfile(user.id);
             }}
-            style={{ cursor: 'pointer', fontSize: '30px' }}
           />
         </div>
       </Modal.Header>
       <Modal.Body className='text-white width-100-percent'>
-        <div
-          className='flex-column border-radius-8 text-center gap-1rem width-100-percent'
-          style={{ padding: '1rem' }}
-        >
+        <div className='flex-column border-radius-8 text-center gap-1rem width-100-percent profile-info'>
           <div className='display-flex align-items-center gap-2rem text-center justify-center'>
             <img
-              style={{
-                borderRadius: '50%',
-                width: '150px',
-                height: '150px',
-                border: '1px solid white'
-              }}
+              className='profile-image'
               src='../src/assets/img/profile-2.png'
-              alt=''
+              alt='Profile'
             />
             <div>
-              <p className='text-warning' style={{ fontSize: '30px' }}>
-                Julio Jaramillo
-              </p>
-              <div style={{ fontStyle: 'italic' }}>
+              <p className='text-warning profile-name'>Julio Jaramillo</p>
+              <div className='profile-description'>
                 Vendedor especializado en hardware y refrigeración líquida.
               </div>
               <div className='display-flex justify-center align-items-center text-center gap-1rem'>

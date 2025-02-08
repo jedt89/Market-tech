@@ -59,7 +59,6 @@ const CartContextProvider = ({ children }) => {
       };
       return cart;
     });
-    toast.success('Producto añadido al carrito', { position: 'top-right' });
   };
 
   const removeProductFromCart = (productId) => {
@@ -75,7 +74,6 @@ const CartContextProvider = ({ children }) => {
       };
       return cart;
     });
-    toast.error('Producto eliminado del carrito', { position: 'top-right' });
   };
 
   const decreaseProductQuantity = (productId) => {
@@ -98,9 +96,7 @@ const CartContextProvider = ({ children }) => {
           updatedCart.products = updatedCart.products.filter(
             (item) => item.id !== productId
           );
-          toast.error('Producto eliminado del carrito', {
-            position: 'top-right'
-          });
+          clearCart()
         }
       }
 
@@ -120,6 +116,7 @@ const CartContextProvider = ({ children }) => {
 
   const clearCart = () => {
     setCurrentCart({ products: [], totalCart: 0 });
+    toast.success('Carrito limpiado exitosamente');
   };
 
   const handleCloseCart = () => {

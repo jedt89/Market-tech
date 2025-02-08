@@ -1,16 +1,31 @@
-import { Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
+import { Button, Card } from 'react-bootstrap';
 import { CartContext } from '../context/CartContext';
 import { ModalContext } from '../context/ModalContext';
 import { MainContext } from '../context/MainContext';
 import useService from '../hooks/useService';
+import '../index.css';
 
-function ProductCard({ image_url, price, title, description, id }) {
+function ProductCard({
+  image_url,
+  price,
+  title,
+  description,
+  id,
+  quantity,
+  subTotal
+}) {
   const { handleAddToCart } = useService();
-  const { handleShowDetail, handleshowlogin } = useContext(ModalContext);
-  const { token } = useContext(MainContext);
+  const { handleShowDetail, handleShowLogin } = useContext(ModalContext);
+  const { token, user } = useContext(MainContext);
   const { currentCart, addProductToCart } = useContext(CartContext);
+
+  const getCartItem = (id) => {
+    const item = currentCart.products.find((product) => product.id === id);
+    if (item) {
+      return item;
+    }
+  };
 
   return (
     <Card className='card-custom'>
@@ -35,11 +50,19 @@ function ProductCard({ image_url, price, title, description, id }) {
           className='btn-xs'
           onClick={() => {
             if (!token) {
-              handleshowlogin();
+              handleShowLogin();
               return;
             }
-            addProductToCart({ image_url, price, title, description, id });
-            handleAddToCart(currentCart, token);
+            addProductToCart({
+              image_url,
+              price,
+              title,
+              description,
+              id,
+              quantity,
+              subTotal
+            });
+            handleAddToCart(getCartItem(id), token, user.id);
           }}
         >
           Agregar al carrito

@@ -6,6 +6,7 @@ import { Modal } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import HeaderSearchBar from '../components/HeaderSearchBar.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
+import '../index.css';
 
 const AllProductsModal = () => {
   const [productsFiltered, setProductsFiltered] = useState([]);
@@ -54,17 +55,16 @@ const AllProductsModal = () => {
         <Modal.Title className='modal-title'>Todos los productos</Modal.Title>
         <HeaderSearchBar />
         <IoIosClose
-          className='text-white'
+          className='text-white close-icon'
           onClick={handleCloseAllProducts}
-          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
         {productsFiltered &&
           productsFiltered.length > 0 &&
-          productsFiltered.map((product) => {
-            return <ProductCard {...product} />;
-          })}
+          productsFiltered.map((product) => (
+            <ProductCard key={product.id} {...product} />
+          ))}
       </Modal.Body>
     </Modal>
   );

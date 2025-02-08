@@ -6,9 +6,15 @@ import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
 import { PiTrashThin } from 'react-icons/pi';
 import { MainContext } from '../context/MainContext';
 import useService from '../hooks/useService';
+import '../index.css';
 
 const CartModal = () => {
-  const { handleAddToCart, handleCreateTransaction, handleDeleteCartItem, handleUpdateCartItem } = useService();
+  const {
+    handleCleanCart,
+    handleCreateTransaction,
+    handleDeleteCartItem,
+    handleUpdateCartItem
+  } = useService();
 
   const {
     currentCart,
@@ -32,9 +38,8 @@ const CartModal = () => {
       <Modal.Header className='text-white d-flex justify-content-between align-items-center'>
         <Modal.Title className='modal-title'>Carrito de Compras</Modal.Title>
         <IoIosClose
-          className='text-white'
+          className='text-white close-icon'
           onClick={handleCloseCart}
-          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
@@ -43,77 +48,52 @@ const CartModal = () => {
             No tienes productos en tu carrito.
           </p>
         ) : (
-          <ListGroup
-            style={{
-              maxHeight: '500px',
-              height: '500px',
-              overflowX: 'hidden',
-              overflowY: 'scroll',
-              padding: '1rem'
-            }}
-          >
+          <ListGroup className='cart-list width-100-percent'>
             {currentCart.products.map((item, index) => (
               <ListGroup.Item
                 key={index}
-                className='d-flex justify-content-between align-items-center p-3 text-white border-yellow border-radius-8'
-                style={{ backgroundColor: 'transparent', marginBottom: '1rem' }}
+                className='d-flex justify-content-between align-items-center p-3 text-white border-yellow border-radius-8 cart-item background-transparent width-100-percent'
               >
                 <div className='d-flex align-items-center gap-1rem'>
                   <Image
                     src={item.image_url}
-                    alt={item.name}
+                    alt={item.title}
                     thumbnail
                     width='60'
                     className='mr-3'
                   />
                   <div>
-                    <strong>{item.name}</strong>
-                    <p className='text-white'>{item.description}</p>
+                    <div>{item.title}</div>
                   </div>
                 </div>
                 <div className='d-flex align-items-center gap-1rem'>
                   <div className='flex-column align-items-center justify-center'>
-                    <div className='d-flex align-items-center gap-1rem' style={{marginRight: '1rem'}}>
+                    <div className='d-flex align-items-center gap-1rem cart-quantity'>
                       <CiSquareMinus
-                        className='text-warning'
-                        style={{
-                          fontSize: '30px',
-                          color: 'red',
-                          cursor: 'pointer'
-                        }}
+                        className='text-warning cart-icon'
                         onClick={() => {
-                          decreaseProductQuantity(item.id)
-                          handleUpdateCartItem(item.id, 'decrement', token)
+                          decreaseProductQuantity(item.id);
+                          handleUpdateCartItem(item.id, 'decrement', token);
                         }}
                       />
                       <span>{item.quantity}</span>
                       <CiSquarePlus
-                        className='text-warning'
-                        style={{
-                          fontSize: '30px',
-                          color: 'red',
-                          cursor: 'pointer'
-                        }}
+                        className='text-warning cart-icon'
                         onClick={() => {
                           addProductToCart(item, true);
-                          handleUpdateCartItem(item.id, 'increment', token)
+                          handleUpdateCartItem(item.id, 'increment', token);
                         }}
                       />
                     </div>
-                    <div className='text-center' style={{ paddingTop: '5px' }}>
+                    <div className='text-center cart-subtotal'>
                       <small>${item.subTotal.toLocaleString('es-CL')}</small>
                     </div>
                   </div>
                   <PiTrashThin
-                    style={{
-                      fontSize: '28px',
-                      color: 'red',
-                      cursor: 'pointer',
-                      marginLeft: '2rem'
-                    }}
+                    className='cart-trash-icon'
                     onClick={() => {
-                      removeProductFromCart(item.id)
-                      handleDeleteCartItem(item.id)
+                      removeProductFromCart(item.id);
+                      handleDeleteCartItem(item.id);
                     }}
                   />
                 </div>
@@ -122,9 +102,26 @@ const CartModal = () => {
           </ListGroup>
         )}
         <div className='width-100-percent d-flex justify-end text-warning'>
-          <span className='h5'>
-            ${currentCart.totalCart.toLocaleString('es-CL')}
-          </span>
+          <div
+            className={`display-flex justify-${
+              currentCart.products.length > 0 
+                ? 'between' 
+                : 'end'
+            } align-items-center width-100-percent`}
+          >
+            {currentCart.products.length > 0 && (
+              <Button
+                variant='outline-danger btn-xs gap-1rem'
+                onClick={() => handleCleanCart(token)}
+              >
+                <PiTrashThin />
+                Limpiar carrito
+              </Button>
+            )}
+            <span className='h5 display'>
+              ${currentCart.totalCart.toLocaleString('es-CL')}
+            </span>
+          </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -140,7 +137,7 @@ const CartModal = () => {
           onClick={() => {
             handleCreateTransaction(currentCart, token);
             handleCloseCart();
-            clearCart()
+            handleCleanCart();
           }}
           className='modal-btn-submit'
           disabled={currentCart.products.length == 0}

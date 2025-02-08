@@ -6,6 +6,7 @@ import { MainContext } from '../context/MainContext';
 import { ModalContext } from '../context/ModalContext';
 import toast from 'react-hot-toast';
 import useService from '../hooks/useService';
+import '../index.css';
 
 const LoginModal = () => {
   const { handleLogin } = useService();
@@ -45,7 +46,6 @@ const LoginModal = () => {
         setToken(user.token);
         handleCloseLogin();
       } catch (err) {
-        toast.error('Error al iniciar sesión', { position: 'top-right' });
         setError('Error al iniciar sesión. Por favor, verifica los datos.');
       }
     }
@@ -61,9 +61,8 @@ const LoginModal = () => {
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>
         <Modal.Title className='modal-title'>Iniciar sesión</Modal.Title>
         <IoIosClose
-          className='text-white'
+          className='text-white close-icon'
           onClick={handleCloseLogin}
-          style={{ cursor: 'pointer', fontSize: '30px' }}
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
@@ -103,12 +102,11 @@ const LoginModal = () => {
         <p className='text-white'>
           ¿No tienes cuenta?{' '}
           <span
-            className='text-warning'
+            className='text-warning register-link'
             onClick={() => {
               handleCloseLogin();
               handleShowRegister();
             }}
-            style={{ marginLeft: '5px', cursor: 'pointer' }}
           >
             Regístrate
           </span>

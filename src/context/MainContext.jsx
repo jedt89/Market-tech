@@ -7,9 +7,9 @@ const MainContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [productsByCategory, setProductsByCategory] = useState([]);
   const [textSearched, setTextSearched] = useState('');
-  const [currentProduct, setCurrentProduct] = useState({});
-  const [user, setUser] = useState({});
-  const [token, setToken] = useState({});
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   const handleReturnToHome = () => {
     navigate('/');
@@ -21,6 +21,29 @@ const MainContextProvider = ({ children }) => {
     );
     setProductsByCategory(productsByCategory);
   };
+
+  const handleLogout = () => {
+    setToken(null)
+    setUser(null)
+    localStorage.setItem('marketTechSession', null);
+    navigate('/');
+  };
+
+  const getUserSession = () => {
+    let userSession = localStorage.getItem('marketTechSession');
+    console.log('userSession!!!', userSession, typeof userSession);
+    if (userSession != 'null') {
+      userSession = JSON.parse(userSession);
+      console.debug('Session active: ', userSession);
+      setUser(userSession.data);
+      setToken(userSession.token);
+    }
+  };
+
+  React.useEffect(() => {
+    getUserSession();
+  }, []);
+
 
   return (
     <MainContext.Provider
@@ -36,7 +59,9 @@ const MainContextProvider = ({ children }) => {
         token,
         setToken,
         textSearched,
-        setTextSearched
+        setTextSearched,
+        handleLogout,
+        getUserSession
       }}
     >
       {children}

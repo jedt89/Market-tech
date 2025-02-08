@@ -1,24 +1,19 @@
-import { default as axios } from 'axios';
-
-const URL_BASE = 'http://localhost:3000/login';
+import api from '../api/config';
+import { handleApiError } from '../helpers/handleApiErrors';
 
 export const loginSession = async (email, password) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  };
-
   const data = {
     email: email,
-    password: password
+    password_hash: password
   };
 
   try {
-    const response = await axios.post(URL_BASE, data, config);
-    const token = response.data.token;
-    return token;
+    const response = await api.post(`/login`, data);
+    if (response.status === 200) {
+      return response.data;
+    }
+    throw error;
   } catch (error) {
-    throw new Error('Error al iniciar sesión')
+    handleApiError(error);
   }
 };

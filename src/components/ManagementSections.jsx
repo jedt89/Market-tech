@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { AiOutlineProduct } from 'react-icons/ai';
-import { FiPlus } from 'react-icons/fi';
-import Accordion from 'react-bootstrap/Accordion';
+import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
-import { Nav } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { MainContext } from '../context/MainContext';
 import useService from '../hooks/useService';
 import categories from '../models/categories.json';
+import '../index.css';
 
 const ManagementSections = ({ products, transactions }) => {
   const { handleAddProduct } = useService();
@@ -40,8 +37,7 @@ const ManagementSections = ({ products, transactions }) => {
         variant='pills'
         activeKey={showTab}
         onSelect={(eventKey) => setShowTab(eventKey)}
-        className='width-100-percent display-flex justify-center'
-        style={{ paddingBottom: '2rem' }}
+        className='width-100-percent display-flex justify-center nav-padding-bottom'
       >
         <Nav.Item>
           <Nav.Link eventKey='0'>Agregar un producto</Nav.Link>
@@ -56,15 +52,7 @@ const ManagementSections = ({ products, transactions }) => {
 
       {showTab == 0 && (
         <div className='width-100-percent flex-column align-items-center'>
-          <div
-            className='border-radius-8 '
-            style={{
-              maxWidth: '500px',
-              width: '500px',
-              backgroundColor: '#38364b',
-              padding: '1rem'
-            }}
-          >
+          <div className='border-radius-8 form-container'>
             <div className='form-group'>
               <label htmlFor='productName' className='form-label'>
                 Nombre de producto
@@ -117,7 +105,7 @@ const ManagementSections = ({ products, transactions }) => {
                 Url de imagen
               </label>
               <input
-                type='imageUrl'
+                type='text'
                 className='form-control'
                 value={imageUrl.value}
                 placeholder='Introduce la url de la imagen'
@@ -131,10 +119,10 @@ const ManagementSections = ({ products, transactions }) => {
                 Precio
               </label>
               <input
-                type='price'
+                type='text'
                 className='form-control'
                 value={price.value}
-                placeholder='Introduce la url de la imagen'
+                placeholder='Introduce el precio'
                 onChange={(event) => {
                   price.onChange(event);
                 }}
@@ -142,10 +130,10 @@ const ManagementSections = ({ products, transactions }) => {
             </div>
             <div className='form-group'>
               <label htmlFor='stock' className='form-label'>
-                Precio
+                Stock
               </label>
               <input
-                type='stock'
+                type='text'
                 className='form-control'
                 value={stock.value}
                 placeholder='Introduce el stock'
@@ -154,17 +142,9 @@ const ManagementSections = ({ products, transactions }) => {
                 }}
               />
             </div>
-            <div
-              className='display-flex justify-end'
-              style={{ padding: '1rem' }}
-            >
+            <div className='display-flex justify-end form-button-container'>
               <Button
-                style={{
-                  width: 'fit-content',
-                  display: 'flex',
-                  alignItems: 'center',
-                  height: '40px'
-                }}
+                className='save-button'
                 variant='success'
                 onClick={() => {
                   const product = {
@@ -177,7 +157,7 @@ const ManagementSections = ({ products, transactions }) => {
                   handleAddProduct(product, token);
                 }}
               >
-                <TfiSave style={{ fontSize: '16px', marginRight: '1rem' }} />
+                <TfiSave className='save-icon' />
                 Guardar producto
               </Button>
             </div>
@@ -187,15 +167,7 @@ const ManagementSections = ({ products, transactions }) => {
 
       {showTab == 1 && (
         <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center'>
-          <div
-            className='width-100-percent table-products border-radius-8 all-white'
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '50px 1fr 1fr 100px 1fr 100px 100px',
-              padding: '1rem 0rem',
-              backgroundColor: '#38364b'
-            }}
-          >
+          <div className='width-100-percent table-products border-radius-8 all-white table-header'>
             <div>Id</div>
             <div>Nombre</div>
             <div>Descripción</div>
@@ -204,33 +176,24 @@ const ManagementSections = ({ products, transactions }) => {
             <div>Precio</div>
             <div>Stock</div>
           </div>
-          <div
-            className='border-radius-8 all-white'
-            style={{ backgroundColor: '#38364b', paddingTop: '.5rem' }}
-          >
+          <div className='border-radius-8 all-white table-body'>
             {products &&
               products.length > 0 &&
               products.map(
-                ({ id, title, description, category_id, image_url, price }) => {
-                  return (
-                    <div
-                      className='width-100-percent table-products'
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns:
-                          '50px 1fr 1fr 100px 1fr 100px 100px'
-                      }}
-                    >
-                      <div>{id}</div>
-                      <div>{title}</div>
-                      <div>{description}</div>
-                      <div>{category_id}</div>
-                      <div>{image_url}</div>
-                      <div>{price}</div>
-                      <div>{500}</div>
-                    </div>
-                  );
-                }
+                ({ id, title, description, category_id, image_url, price }) => (
+                  <div
+                    className='width-100-percent table-products table-row'
+                    key={id}
+                  >
+                    <div>{id}</div>
+                    <div>{title}</div>
+                    <div>{description}</div>
+                    <div>{category_id}</div>
+                    <div>{image_url}</div>
+                    <div>{price}</div>
+                    <div>{500}</div>
+                  </div>
+                )
               )}
           </div>
         </div>
@@ -242,7 +205,6 @@ const ManagementSections = ({ products, transactions }) => {
             <Button
               variant='outline-warning'
               className='btn-xs'
-              style={{ width: '90px' }}
               onClick={() => filterTransactions(true)}
             >
               Compras
@@ -250,7 +212,6 @@ const ManagementSections = ({ products, transactions }) => {
             <Button
               variant='outline-warning'
               className='btn-xs'
-              style={{ width: '90px' }}
               onClick={() => filterTransactions(false)}
             >
               Ventas
@@ -260,31 +221,26 @@ const ManagementSections = ({ products, transactions }) => {
             {transactionsToShow &&
               transactionsToShow.length > 0 &&
               transactionsToShow.map(
-                ({ id, title, description, category_id, image_url, price }) => {
-                  return (
-                    <div
-                      className='display-flex gap-1rem align-items-center border-radius-8'
-                      style={{
-                        backgroundColor: '#38364b',
-                        padding: '1rem',
-                        marginBottom: '1rem'
-                      }}
-                    >
-                      <img
-                        src={image_url}
-                        style={{ width: '100px', height: '100px' }}
-                      />
-                      <div>
-                        <p>ID: {id}</p>
-                        <p>Nombre: {title}</p>
-                        <p>Descripción: {description}</p>
-                        <p>Categoría: {category_id}</p>
-                        <p>Precio: ${price}</p>
-                        <p>Cantidad: {2}</p>
-                      </div>
+                ({ id, title, description, category_id, image_url, price }) => (
+                  <div
+                    className='display-flex gap-1rem align-items-center border-radius-8 transaction-item'
+                    key={id}
+                  >
+                    <img
+                      src={image_url}
+                      className='transaction-image'
+                      alt={title}
+                    />
+                    <div>
+                      <p>ID: {id}</p>
+                      <p>Nombre: {title}</p>
+                      <p>Descripción: {description}</p>
+                      <p>Categoría: {category_id}</p>
+                      <p>Precio: ${price}</p>
+                      <p>Cantidad: {2}</p>
                     </div>
-                  );
-                }
+                  </div>
+                )
               )}
           </div>
         </div>
