@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useService from '../hooks/useService';
-import { MainContext } from './MainContext';
 
 const CartContext = React.createContext();
 
@@ -98,7 +95,6 @@ const CartContextProvider = ({ children }) => {
           updatedCart.products = updatedCart.products.filter(
             (item) => item.id !== productId
           );
-          clearCart();
         }
       }
 
@@ -118,7 +114,6 @@ const CartContextProvider = ({ children }) => {
 
   const clearCart = () => {
     setCurrentCart({ products: [], totalCart: 0 });
-    toast.success('Carrito limpiado exitosamente');
   };
 
   const handleCloseCart = () => {
@@ -139,6 +134,7 @@ const CartContextProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         currentCart,
+        setCurrentCart,
         addProductToCart,
         removeProductFromCart,
         decreaseProductQuantity,

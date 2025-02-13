@@ -10,7 +10,11 @@ const MainContextProvider = ({ children }) => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  let currentSession = null
+  const [loading, setLoading] = useState(false);
+  const [allProducts, setAllProducts] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+
+  let currentSession = null;
 
   const handleReturnToHome = () => {
     navigate('/');
@@ -24,34 +28,35 @@ const MainContextProvider = ({ children }) => {
   };
 
   const handleLogout = () => {
-    setToken(null)
-    setUser(null)
+    setToken(null);
+    setUser(null);
     localStorage.setItem('marketTechSession', null);
     navigate('/');
   };
 
-  const setUserSession = () => {
+  const setUserSession = async () => {
     let userSession = localStorage.getItem('marketTechSession');
-    if (userSession != 'null') {
+    if (userSession && userSession !== 'null') {
       userSession = JSON.parse(userSession);
-      setUser(userSession.data);
-      setToken(userSession.token);
-      currentSession = userSession.data
-      currentSession.token = userSession.token
-      console.debug('Session active: ', currentSession);
+      const { data, token } = userSession;
+      await setUser(data);
+      await setToken(token);
+      console.debug('Session active: ', data, token);
     }
+    console.debug('No Session active');
   };
 
   useEffect(() => {
-    if(!user) {
+    if (!user) {
       setUserSession();
     }
-  });
-
+  }, [user]);
 
   return (
     <MainContext.Provider
       value={{
+        allProducts,
+        setAllProducts,
         productsByCategory,
         setProductsByCategory,
         showProductsByCategory,
@@ -66,7 +71,11 @@ const MainContextProvider = ({ children }) => {
         setTextSearched,
         handleLogout,
         setUserSession,
-        currentSession
+        currentSession,
+        loading,
+        setLoading,
+        transactions,
+        setTransactions
       }}
     >
       {children}

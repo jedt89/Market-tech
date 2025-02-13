@@ -1,41 +1,46 @@
 import React, { useContext, useEffect } from 'react';
-import HeaderCategories from '../components/HeaderCategories.jsx';
 import { MainContext } from '../context/MainContext';
+import HeaderCategories from '../components/HeaderCategories.jsx';
 import ProductCard from './ProductCard.jsx';
-import { getAllProducts } from '../services/fetchProducts.js';
-import { ModalContext } from '../context/ModalContext.jsx';
 import '../index.css';
-import useService from '../hooks/useService.jsx';
 
 const OurProducts = () => {
-  const { productsByCategory, showProductsByCategory, token, user } =
+  const { productsByCategory, showProductsByCategory, user, allProducts } =
     useContext(MainContext);
-  const { setAllProducts } = useContext(ModalContext);
-  const { handleGetCartItems } = useService();
 
-  const fetchAllProducts = async (token) => {
-    try {
-      const products = await getAllProducts(token);
-      if (products && products.length > 0) {
-        setAllProducts(products);
-        showProductsByCategory(products, 1);
+  const init = () => {
+    if (allProducts && allProducts.length > 0) {
+      let products = allProducts;
+      if (user && user.id) {
+        products = allProducts.filter((product) => product.user_id !== user.id);
       }
-    } catch (error) {
-      console.error('Error fetching products:', error);
+      showProductsByCategory(products, 1);
     }
   };
 
   useEffect(() => {
-    fetchAllProducts();
-    if(user) handleGetCartItems(token, user.id);
-  }, [user]);
+    init();
+  }, [allProducts]);
 
   return (
     <div className='our-products-container'>
       <h1 className='text-white'>Nuestros productos</h1>
-      <HeaderCategories />
+      {allProducts && allProducts.length > 0 && (
+        <HeaderCategories
+          products={allProducts.filter((product) => {
+            if (user && user.id) {
+              return product.user_id != user.id;
+            }
+            return product;
+          })}
+        />
+      )}
       <div className='d-flex justify-center align-items-center'>
         <div className='d-flex flex-wrap justify-center col-10 align-items-center product-list-container gap-2rem'>
+          {!productsByCategory ||
+            (productsByCategory && productsByCategory.length == 0 && (
+              <h3 className='text-info'>No hay productos para mostrar</h3>
+            ))}
           {productsByCategory &&
             productsByCategory.length > 0 &&
             productsByCategory.map((product) => (

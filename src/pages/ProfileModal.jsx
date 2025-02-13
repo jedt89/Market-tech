@@ -4,43 +4,34 @@ import { IoIosClose } from 'react-icons/io';
 import { MainContext } from '../context/MainContext';
 import { VscCircleLargeFilled } from 'react-icons/vsc';
 import { MdAccessTime } from 'react-icons/md';
-import ManagementSections from '../components/ManagementSections';
-import { getTransactions } from '../services/fetchProducts';
 import { ModalContext } from '../context/ModalContext';
+import ManagementSections from '../components/ManagementSections';
 import useService from '../hooks/useService';
 import '../index.css';
 
 const ProfileModal = () => {
-  const { handleGetProducts } = useService();
-  const { token, user } = useContext(MainContext);
+  const { handleGetTransactions } = useService();
+  const { token, user, allProducts, transactions, setTransactions } =
+    useContext(MainContext);
   const { showProfile, handleCloseProfile } = useContext(ModalContext);
-  const [products, setProducts] = useState([]);
-  const [transactions, setTransactions] = useState([]);
 
-  const fetchProducts = async (user) => {
+  const fetchTransactions = async () => {
     try {
-      let products = await handleGetProducts(user.id);
-      setProducts(products);
-      setTransactions(products); // Mientras el backend está en construcción
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  const fetchTransactions = async (user) => {
-    try {
-      const transactions = await getTransactions(user.token);
+      const transactions = await handleGetTransactions(token);
       setTransactions(transactions);
     } catch (error) {
       console.error('Error fetching transactions:', error);
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      fetchProducts(user);
-      // fetchTransactions(user);
+  const getFilteredProducts = () => {
+    if (user && user.id) {
+      return allProducts.filter((product) => product.user_id === user.id);
     }
+  };
+
+  useEffect(() => {
+    if (token) fetchTransactions(token);
   }, [token]);
 
   return (
@@ -71,7 +62,7 @@ const ProfileModal = () => {
               alt='Profile'
             />
             <div>
-              <p className='text-warning profile-name'>Julio Jaramillo</p>
+              <p className='text-warning profile-name'>{user.username}</p>
               <div className='profile-description'>
                 Vendedor especializado en hardware y refrigeración líquida.
               </div>
@@ -86,7 +77,10 @@ const ProfileModal = () => {
             </div>
           </div>
         </div>
-        <ManagementSections products={products} transactions={transactions} />
+        <ManagementSections
+          products={getFilteredProducts}
+          transactions={transactions}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button

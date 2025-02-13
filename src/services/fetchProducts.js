@@ -16,7 +16,6 @@ export const addProduct = async (productData, token) => {
     if (response.status === 201) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -33,20 +32,15 @@ export const updateProduct = async (productId, productData, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
 };
 
 // Obtener todos los productos
-export const getAllProducts = async (token) => {
+export const getAllProducts = async () => {
   try {
-    const response = await api.get('/products', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const response = await api.get('/products', {});
     if (response.status === 200) {
       return response.data.map((product) => {
         const category = categories.find(
@@ -57,10 +51,12 @@ export const getAllProducts = async (token) => {
         product.subTotal = 0;
         product.quantity = 0;
         product.price = Math.trunc(product.price);
+        product.product_id = product.product_id
+          ? product.product_id
+          : product.id;
         return product;
       });
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -69,7 +65,7 @@ export const getAllProducts = async (token) => {
 // Eliminar un producto
 export const deleteProduct = async (productId, token) => {
   try {
-    const response = await api.delete(`/products/${productId}`, {
+    const response = await api.delete(`/user/product/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -77,7 +73,6 @@ export const deleteProduct = async (productId, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -93,29 +88,40 @@ export const addToCart = async (cartData, token) => {
         Authorization: `Bearer ${token}`
       }
     });
-    if (response.status === 201) {
+    if (response.status === 201 || response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
 };
 
 // Obtener los productos del carrito
-export const getCartItems = async (token, userId) => {
+export const getCartItems = async (token, user_id) => {
   try {
-    const response = await api.get(`/user/cart/${userId}`, {
+    const response = await api.get(`/cart/${user_id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
     if (response.status === 200) {
-      return response.data.map((data) => {
-        return data;
+      response.data = response.data.map((product) => {
+        const category = categories.find(
+          (category) => category.id === product.category_id || 1
+        );
+        product.category = category.name;
+        product.category_id = product.category_id || 1;
+        product.quantity = product.quantity;
+        product.price = Math.trunc(product.price);
+        product.subTotal = Math.trunc(product.price) * product.quantity;
+        product.product_id = product.product_id
+          ? product.product_id
+          : product.id;
+        return product;
       });
+
+      return response.data.sort((a, b) => a.title.localeCompare(b.title));
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -136,7 +142,6 @@ export const updateCartItem = async (id, action, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -145,7 +150,7 @@ export const updateCartItem = async (id, action, token) => {
 // Eliminar un producto del carrito
 export const deleteCartItem = async (cartItemId, token) => {
   try {
-    const response = await api.delete(`/cart/${cartItemId}`, {
+    const response = await api.delete(`/user/cart/${cartItemId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -153,7 +158,6 @@ export const deleteCartItem = async (cartItemId, token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -162,17 +166,20 @@ export const deleteCartItem = async (cartItemId, token) => {
 // Transacciones (Comprar productos)
 
 // Realizar una compra
-export const createTransaction = async (transactionData, token) => {
+export const createTransaction = async (token) => {
   try {
-    const response = await api.post('/user/cart/checkout', transactionData, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = await api.post(
+      '/user/cart/checkout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    });
+    );
     if (response.status === 201) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
@@ -181,7 +188,7 @@ export const createTransaction = async (transactionData, token) => {
 // Obtener todas las transacciones
 export const getTransactions = async (token) => {
   try {
-    const response = await api.get('/user/cart/checkout', {
+    const response = await api.get('/user/cart/transactions', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -189,13 +196,11 @@ export const getTransactions = async (token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }
 };
 
-// Obtener todas las transacciones
 export const cleanCart = async (token) => {
   try {
     const response = await api.delete('/user/cart', {
@@ -206,7 +211,6 @@ export const cleanCart = async (token) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw error;
   } catch (error) {
     handleApiError(error);
   }

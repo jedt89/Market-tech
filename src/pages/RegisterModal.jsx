@@ -1,14 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
-import useInput from '../hooks/useInput.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
+import useInput from '../hooks/useInput.jsx';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
 
 const RegisterModal = () => {
-  const { handleRegister } = useService();
+  const { handleRegister, handleLogin, handleLogout } = useService();
   const { showRegister, handleCloseRegister } = useContext(ModalContext);
+  const { setToken, token, setUser } = useContext(ModalContext);
   const email = useInput('');
   const password = useInput('');
   const confirmPassword = useInput('');
@@ -33,11 +34,17 @@ const RegisterModal = () => {
     return newErrors;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
       handleRegister(email.value, name.value, phone.value, password.value);
       handleCloseRegister();
+      if (token) {
+        handleLogout();
+        const user = await handleLogin(email.value, password.value);
+        setUser(user);
+        setToken(user.token);
+      }
     } else {
       setErrors(formErrors);
     }

@@ -1,11 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { MainContext } from './context/MainContext.jsx';
 import HeaderSlider from './components/HeaderSlider.jsx';
 import NavigationBar from './components/NavigationBar.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/Footer.jsx';
 import OurProducts from './components/OurProducts.jsx';
-import { MainContext } from './context/MainContext.jsx';
 import FooterSlider from './components/FooterSlider.jsx';
 import LoginModal from './pages/LoginModal.jsx';
 import RegisterModal from './pages/RegisterModal.jsx';
@@ -14,15 +13,34 @@ import NotFound from './pages/NotFound.jsx';
 import AllProducts from './pages/AllProductsModal.jsx';
 import ProductDetailModal from './pages/ProductDetailModal.jsx';
 import ProfileModal from './pages/ProfileModal.jsx';
-import './index.css';
 import useService from './hooks/useService.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 function App() {
-  const { productsByCategory, currentProduct, token, user, setUserSession } =
-    useContext(MainContext);
+  const {
+    productsByCategory,
+    currentProduct,
+    user,
+    setUserSession,
+    setAllProducts
+  } = useContext(MainContext);
+  const { handleGetProducts } = useService();
+
+  const fetchAllProducts = async () => {
+    try {
+      const products = await handleGetProducts(user);
+      if (products && products.length > 0) {
+        setAllProducts(products);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
   useEffect(() => {
     setUserSession();
+    fetchAllProducts();
   }, []);
 
   return (
@@ -47,6 +65,11 @@ function App() {
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
+      {/* {loading && (
+        <div className='loader'>
+          <CircleLoader  color='#ffc107' loading={loading} size={100} speedMultiplier={1}/>
+        </div>
+      )} */}
     </div>
   );
 }

@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const ModalContext = React.createContext();
 
 const ModalContextProvider = ({ children }) => {
-  const { setCurrentProduct, setTextSearched } = useContext(MainContext);
-  const [allProducts, setAllProducts] = useState(false);
+  const { setCurrentProduct, setTextSearched, allProducts } = useContext(MainContext);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -71,8 +70,6 @@ const ModalContextProvider = ({ children }) => {
   return (
     <ModalContext.Provider
       value={{
-        allProducts,
-        setAllProducts,
         showLogin,
         handleShowLogin,
         handleCloseLogin,

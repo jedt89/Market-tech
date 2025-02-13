@@ -12,18 +12,49 @@ function ProductCard({
   title,
   description,
   id,
+  product_id,
   quantity,
   subTotal
 }) {
-  const { handleAddToCart } = useService();
+  const { handleAddToCart, handleGetCartItems } = useService();
   const { handleShowDetail, handleShowLogin } = useContext(ModalContext);
-  const { token, user } = useContext(MainContext);
-  const { currentCart, addProductToCart } = useContext(CartContext);
+  const { token, user, loading, setLoading } = useContext(MainContext);
+  const { setCurrentCart, getTotalPrice } = useContext(CartContext);
 
-  const getCartItem = (id) => {
-    const item = currentCart.products.find((product) => product.id === id);
-    if (item) {
-      return item;
+  const addProductToCurrentCart = async () => {
+    setLoading(true);
+    if (!token) {
+      handleShowLogin();
+      setLoading(false);
+      return;
+    }
+    const product = {
+      image_url,
+      price,
+      title,
+      description,
+      id,
+      product_id,
+      quantity,
+      subTotal
+    };
+    await handleAddToCart(product, token, user.id);
+    await fetchCart();
+    setLoading(false);
+  };
+
+  const fetchCart = async () => {
+    try {
+      if (user) {
+        const cartItems = await handleGetCartItems(token, user.id);
+        const cart = {
+          products: cartItems,
+          totalCart: getTotalPrice(cartItems)
+        };
+        setCurrentCart(cart);
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
     }
   };
 
@@ -48,21 +79,9 @@ function ProductCard({
         <Button
           variant='outline-warning'
           className='btn-xs'
+          disabled={loading}
           onClick={() => {
-            if (!token) {
-              handleShowLogin();
-              return;
-            }
-            addProductToCart({
-              image_url,
-              price,
-              title,
-              description,
-              id,
-              quantity,
-              subTotal
-            });
-            handleAddToCart(getCartItem(id), token, user.id);
+            addProductToCurrentCart();
           }}
         >
           Agregar al carrito

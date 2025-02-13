@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
-import useInput from '../hooks/useInput';
 import { MainContext } from '../context/MainContext';
 import { ModalContext } from '../context/ModalContext';
-import toast from 'react-hot-toast';
 import useService from '../hooks/useService';
+import useInput from '../hooks/useInput';
 import '../index.css';
 
 const LoginModal = () => {

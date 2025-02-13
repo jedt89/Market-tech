@@ -2,14 +2,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
 import { CiCircleInfo } from 'react-icons/ci';
-import useInput from '../hooks/useInput';
 import { MainContext } from '../context/MainContext';
-import useService from '../hooks/useService'; // Ensure this path is correct
+import { CiSettings } from 'react-icons/ci';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import useInput from '../hooks/useInput';
+import useService from '../hooks/useService';
 import categories from '../models/categories.json';
 import '../index.css';
 
 const ManagementSections = ({ products, transactions }) => {
-  const { handleAddProduct, handleGetProducts } = useService();
+  const { handleAddProduct, handleGetProducts, handleDeleteProduct } =
+    useService();
   const { token, user } = useContext(MainContext);
   const [showTab, setShowTab] = useState(0);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
@@ -40,8 +43,25 @@ const ManagementSections = ({ products, transactions }) => {
     stock.setValue('');
   };
 
+  const addproductManaged = async (product, token) => {
+    await handleAddProduct(product, token);
+    await clearForm();
+    refreshProducts();
+  };
+
+  const deleteProductManaged = async (product_id, token) => {
+    await handleDeleteProduct(product_id, token);
+    refreshProducts();
+  };
+
   const refreshProducts = async () => {
-    const products = await handleGetProducts(user.id);
+    let products = await handleGetProducts(user);
+    if (user && user.id) {
+      products = products.filter((product) => {
+        return product.user_id === user.id;
+      });
+    }
+
     setProductList(products);
   };
 
@@ -173,9 +193,7 @@ const ManagementSections = ({ products, transactions }) => {
                     price: price.value,
                     stock: stock.value
                   };
-                  handleAddProduct(product, token);
-                  clearForm();
-                  refreshProducts();
+                  addproductManaged(product, token);
                 }}
               >
                 <TfiSave className='save-icon' />
@@ -193,9 +211,11 @@ const ManagementSections = ({ products, transactions }) => {
             <div>Nombre</div>
             <div>Descripción</div>
             <div>Id de categoría</div>
-            <div>Url de imagen</div>
             <div>Precio</div>
             <div>Stock</div>
+            <div>
+              <CiSettings style={{ color: 'limegreen', fontSize: '24px' }} />
+            </div>
           </div>
           <div className='border-radius-8 all-text-white table-body'>
             {productList &&
@@ -206,9 +226,9 @@ const ManagementSections = ({ products, transactions }) => {
                   title,
                   description,
                   category,
-                  image_url,
                   price,
-                  stock
+                  stock,
+                  product_id
                 }) => (
                   <div
                     className='width-100-percent table-products table-row'
@@ -218,9 +238,15 @@ const ManagementSections = ({ products, transactions }) => {
                     <div>{title}</div>
                     <div>{description}</div>
                     <div>{category}</div>
-                    <div>{image_url}</div>
                     <div>{price}</div>
                     <div>{stock}</div>
+                    <div className='display-flex justify-center align-items-center gap-1rem'>
+                      <FaRegTrashAlt
+                        className='cursor-pointer'
+                        style={{ color: 'red' }}
+                        onClick={() => deleteProductManaged(product_id, token)}
+                      />
+                    </div>
                   </div>
                 )
               )}

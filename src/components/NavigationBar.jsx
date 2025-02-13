@@ -1,10 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Dropdown from 'react-bootstrap/Dropdown';
-import HeaderSearchBar from './HeaderSearchBar.jsx';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { PiUserBold } from 'react-icons/pi';
 import { RiLogoutCircleLine, RiUserAddLine } from 'react-icons/ri';
@@ -13,15 +8,47 @@ import { Button } from 'react-bootstrap';
 import { MainContext } from '../context/MainContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
-import '../index.css';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Dropdown from 'react-bootstrap/Dropdown';
+import HeaderSearchBar from './HeaderSearchBar.jsx';
 import toast from 'react-hot-toast';
+import useService from '../hooks/useService.jsx';
+import '../index.css';
 
 const NavigationBar = () => {
   const { user, token, handleLogout } = useContext(MainContext);
   const { handleShowLogin, handleShowRegister, handleShowProfile } =
     useContext(ModalContext);
 
-  const { currentCart, handleShowCart, clearCart } = useContext(CartContext);
+  const {
+    currentCart,
+    handleShowCart,
+    clearCart,
+    setCurrentCart,
+    getTotalPrice
+  } = useContext(CartContext);
+  const { handleGetCartItems } = useService();
+
+  const fetchCart = async () => {
+    try {
+      if (user) {
+        const cartItems = await handleGetCartItems(token, user.id);
+        let cart = {
+          products: cartItems,
+          totalCart: getTotalPrice(cartItems)
+        };
+        setCurrentCart(cart);
+      }
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCart();
+  }, [token]);
 
   return (
     <Navbar expand='lg' className='navbar-container'>
@@ -83,8 +110,9 @@ const NavigationBar = () => {
                 disabled={!token}
                 onClick={() => {
                   handleLogout();
-                  clearCart();
-                  toast.success('Sessión cerrada con éxito')
+                  toast.success('Sessión cerrada con éxito', {
+                    position: 'top-right'
+                  });
                 }}
               >
                 <RiLogoutCircleLine className='menu-icon menu-icon-margin' />

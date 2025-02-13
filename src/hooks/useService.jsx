@@ -1,5 +1,6 @@
-import { useContext } from 'react';
 import { toast } from 'react-hot-toast';
+import { registerUser } from '../services/register.js';
+import { loginSession } from '../services/login.js';
 import {
   addProduct,
   updateProduct,
@@ -13,13 +14,8 @@ import {
   getTransactions,
   cleanCart
 } from '../services/fetchProducts';
-import allProducts from '../models/allProducts.json';
-import { MainContext } from '../context/MainContext.jsx';
-import { registerUser } from '../services/register.js';
-import { loginSession } from '../services/login.js';
 
 const useService = () => {
-  // Auth actions
   const handleRegister = async (email, username, phone, password) => {
     try {
       const response = await registerUser(email, username, phone, password);
@@ -36,7 +32,7 @@ const useService = () => {
     try {
       const response = await loginSession(email, password);
       if (response) {
-        response.data.token = response.token
+        response.data.token = response.token;
         localStorage.setItem('marketTechSession', JSON.stringify(response));
         toast.success('Sesión iniciada con éxito', { position: 'top-right' });
       }
@@ -63,9 +59,9 @@ const useService = () => {
     }
   };
 
-  const handleGetProducts = async (token) => {
+  const handleGetProducts = async () => {
     try {
-      const products = await getAllProducts(token);
+      const products = await getAllProducts();
       if (products) return products;
     } catch (error) {
       toast.error('Error al obtener productos', { position: 'top-right' });
@@ -88,7 +84,7 @@ const useService = () => {
       };
       const response = await addProduct(newProduct, token);
       if (response)
-        toast.success('Producto cargado con éxito', { position: 'top-right' });
+        toast.success('Producto guardado con éxito', { position: 'top-right' });
       return response;
     } catch (error) {
       toast.error('Error al cargar producto', { position: 'top-right' });
@@ -124,10 +120,10 @@ const useService = () => {
     }
   };
 
-  const handleAddToCart = async (product, token, userId) => {
+  const handleAddToCart = async (product, token) => {
     try {
       product = {
-        product_id: product.id,
+        product_id: product.id || product.product_id,
         title: product.title,
         image_url: product.image_url,
         price: product.price
@@ -207,9 +203,9 @@ const useService = () => {
     }
   };
 
-  const handleCreateTransaction = async (transactionData, token) => {
+  const handleCreateTransaction = async (token) => {
     try {
-      const response = await createTransaction(transactionData, token);
+      const response = await createTransaction(token);
       if (response)
         toast.success('Transacción registrada con éxito', {
           position: 'top-right'

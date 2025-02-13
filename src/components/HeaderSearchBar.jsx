@@ -6,7 +6,7 @@ import { ModalContext } from '../context/ModalContext';
 import '../index.css';
 
 function HeaderSearchBar() {
-  const { allProducts, handleShowAllProducts } = useContext(ModalContext);
+  const { handleShowAllProducts } = useContext(ModalContext);
   const { textSearched, setTextSearched } = useContext(MainContext);
 
   const handleKeyDown = (event) => {

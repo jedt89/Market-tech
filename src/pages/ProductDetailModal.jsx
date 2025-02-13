@@ -4,15 +4,45 @@ import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
+import { FaDoorClosed } from 'react-icons/fa';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
 
 function ProductDetailModal() {
-  const { currentProduct, token } = useContext(MainContext);
+  const { currentProduct, token, loading, setLoading, user } =
+    useContext(MainContext);
   const { showDetail, handleCloseDetail } = useContext(ModalContext);
   const { addProductToCart } = useContext(CartContext);
   const { handleAddToCart } = useService();
-  const { image_url, price, title, description, id , quantity, subTotal} = currentProduct;
+  const { image_url, price, title, description, id, quantity, subTotal } =
+    currentProduct;
+
+  const addProductToCurrentCart = async () => {
+    setLoading(true);
+    await addProductToCart({
+      image_url,
+      price,
+      title,
+      description,
+      id,
+      quantity,
+      subTotal
+    });
+    await handleAddToCart(
+      {
+        image_url,
+        price,
+        title,
+        description,
+        id,
+        quantity,
+        subTotal
+      },
+      token,
+      user.id
+    );
+    setLoading(false);
+  };
 
   return (
     <Modal
@@ -53,10 +83,8 @@ function ProductDetailModal() {
         <Button
           variant='outline-warning'
           className='modal-btn-submit'
-          onClick={() => {
-            addProductToCart({ image_url, price, title, description, id, quantity, subTotal });
-            handleAddToCart({ image_url, price, title, description, id, quantity, subTotal }, token, user.id);
-          }}
+          disabled={loading}
+          onClick={addProductToCurrentCart}
         >
           Agregar al carrito
         </Button>

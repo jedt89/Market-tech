@@ -1,46 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getAllProducts } from '../services/fetchProducts';
-import ProductCard from '../components/ProductCard.jsx';
 import { MainContext } from '../context/MainContext';
 import { Modal } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
-import HeaderSearchBar from '../components/HeaderSearchBar.jsx';
+import { LuSearchX } from 'react-icons/lu';
 import { ModalContext } from '../context/ModalContext.jsx';
+import ProductCard from '../components/ProductCard.jsx';
+import HeaderSearchBar from '../components/HeaderSearchBar.jsx';
 import '../index.css';
 
 const AllProductsModal = () => {
   const [productsFiltered, setProductsFiltered] = useState([]);
-  const { token, textSearched } = useContext(MainContext);
-  const {
-    showAllProducts,
-    handleCloseAllProducts,
-    allProducts,
-    setAllProducts
-  } = useContext(ModalContext);
-
-  const fetchAllProducts = async (token) => {
-    try {
-      const products = await getAllProducts(token);
-      if (products && products.length > 0) {
-        setAllProducts(products);
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      fetchAllProducts(token);
-    }
-  }, [token]);
+  const { textSearched, user, allProducts } = useContext(MainContext);
+  const { showAllProducts, handleCloseAllProducts } = useContext(ModalContext);
 
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
-      const productsFiltered = allProducts.filter((product) =>
-        product.title.includes(textSearched)
-      );
-      setProductsFiltered(productsFiltered);
+      const filteredProducts = allProducts.filter((product) => {
+        if (user && user.id) {
+          return (
+            product.title.toLowerCase().includes(textSearched.toLowerCase()) &&
+            product.user_id !== user.id
+          );
+        }
+        return product.title.toLowerCase().includes(textSearched.toLowerCase());
+      });
+      setProductsFiltered(filteredProducts);
     }
   }, [textSearched]);
 
@@ -60,6 +44,18 @@ const AllProductsModal = () => {
         />
       </Modal.Header>
       <Modal.Body className='modal-body'>
+        {!productsFiltered ||
+          (productsFiltered && productsFiltered.length == 0 && (
+            <div className='display-flex align-items-center gap-1rem'>
+              <LuSearchX
+                className='text-warning'
+                style={{ fontSize: '30px' }}
+              />
+              <h3 className='text-info padding0'>
+                No se han encontrado resultados
+              </h3>
+            </div>
+          ))}
         {productsFiltered &&
           productsFiltered.length > 0 &&
           productsFiltered.map((product) => (
