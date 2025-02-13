@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { MainContext } from '../context/MainContext';
 import { ModalContext } from '../context/ModalContext';
+import { categoryIcons } from '../assets';
 import categories from '../models/categories.json';
 import '../index.css';
 
@@ -17,7 +18,8 @@ const HeaderCategories = ({ products }) => {
         >
           <img
             className='category-img'
-            src={category.icon}
+            src={categoryIcons[category.id]}
+            alt={category.name}
             onClick={() => {
               if (category.id === 11) {
                 handleShowAllProducts();
@@ -25,7 +27,6 @@ const HeaderCategories = ({ products }) => {
               }
               showProductsByCategory(products, category.id);
             }}
-            alt={category.name}
           />
           <small className='header-categories-img'>{category.name}</small>
         </div>
