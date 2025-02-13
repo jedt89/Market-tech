@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 import { MainContext } from '../context/MainContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
+import { brandImg } from '../assets/index.js';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -56,7 +57,7 @@ const NavigationBar = () => {
         <Navbar.Brand>
           <Link to='/'>
             <img
-              src='../src/assets/img/brand.png'
+              src={brandImg}
               className='navbar-brand-img category-img'
               alt='Brand'
             />

@@ -5,6 +5,7 @@ import { MainContext } from '../context/MainContext';
 import { VscCircleLargeFilled } from 'react-icons/vsc';
 import { MdAccessTime } from 'react-icons/md';
 import { ModalContext } from '../context/ModalContext';
+import { profileImg } from "../assets/index.js";
 import ManagementSections from '../components/ManagementSections';
 import useService from '../hooks/useService';
 import '../index.css';
@@ -58,7 +59,7 @@ const ProfileModal = () => {
           <div className='display-flex align-items-center gap-2rem text-center justify-center'>
             <img
               className='profile-image'
-              src='../src/assets/img/profile-2.png'
+              src={profileImg}
               alt='Profile'
             />
             <div>
