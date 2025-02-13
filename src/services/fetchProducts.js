@@ -1,6 +1,6 @@
 import api from '../api/config';
+import { defaultProductImg } from '../assets';
 import { handleApiError } from '../helpers/handleApiErrors';
-import allProducts from '../models/allProducts.json';
 import categories from '../models/categories.json';
 
 // Gestión de Productos (Vender)
@@ -46,6 +46,7 @@ export const getAllProducts = async () => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
+        product.image_url = defaultProductImg // La imagen será por default hasta tener la solucion de host de imagen
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.subTotal = 0;
@@ -109,6 +110,7 @@ export const getCartItems = async (token, user_id) => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
+        product.image_url = defaultProductImg // La imagen será por default hasta tener la solucion de host de imagen
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.quantity = product.quantity;
