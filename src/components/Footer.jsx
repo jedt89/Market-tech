@@ -17,34 +17,30 @@ const Footer = () => {
       </div>
       <div>
         <p>Búscanos en nuestras redes sociales</p>
-        <div className='display-flex gap-1rem p-4 flex-wrap justify-center'>
+        <div className='display-flex gap-2rem p-4 flex-wrap justify-center'>
           <div>
             <img
               src={whatsappIcon}
               className='navbar-brand-img category-img social border-radius-8'
             />
-            <p>Whatsapp</p>
           </div>
           <div>
             <img
               src={facebookIcon}
               className='navbar-brand-img category-img social border-radius-8'
             />
-            <p>Facebook</p>
           </div>
           <div>
             <img
               src={instagramIcon}
               className='navbar-brand-img category-img social border-radius-8'
             />
-            <p>Instagram</p>
           </div>
           <div>
             <img
               src={tiktokIcon}
               className='navbar-brand-img category-img social border-radius-8'
             />
-            <p>Tik-Tok</p>
           </div>
         </div>
       </div>

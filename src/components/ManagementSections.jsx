@@ -60,7 +60,6 @@ const ManagementSections = ({ products, transactions }) => {
     const form = document.getElementById('uploadForm');
     const formData = new FormData(form);
     const response = await handleUploadFile(token, formData);
-    console.log(response.url);
     imageUrl.setValue('../src/assets/img/nvidia-4060.png');
   };
 

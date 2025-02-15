@@ -58,9 +58,16 @@ const AllProductsModal = () => {
           ))}
         {productsFiltered &&
           productsFiltered.length > 0 &&
-          productsFiltered.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
+          productsFiltered.map((product) => {
+            if (!user || (user && product.user_id !== user.id)) {
+              return (
+                <div key={product.id}>
+                  <ProductCard {...product} />
+                </div>
+              );
+            }
+            return null;
+          })}
       </Modal.Body>
     </Modal>
   );

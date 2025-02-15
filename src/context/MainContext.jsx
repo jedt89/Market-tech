@@ -6,6 +6,7 @@ const MainContext = React.createContext();
 const MainContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [productsByCategory, setProductsByCategory] = useState([]);
+  const [categorySelected, setCategorySelected] = useState(1);
   const [textSearched, setTextSearched] = useState('');
   const [currentProduct, setCurrentProduct] = useState(null);
   const [user, setUser] = useState(null);
@@ -24,7 +25,8 @@ const MainContextProvider = ({ children }) => {
     const productsByCategory = products.filter(
       (product) => product.category_id === id
     );
-    setProductsByCategory(productsByCategory);
+    // setProductsByCategory(productsByCategory);
+    return productsByCategory;
   };
 
   const handleLogout = () => {
@@ -78,7 +80,9 @@ const MainContextProvider = ({ children }) => {
         loading,
         setLoading,
         transactions,
-        setTransactions
+        setTransactions,
+        categorySelected,
+        setCategorySelected
       }}
     >
       {children}

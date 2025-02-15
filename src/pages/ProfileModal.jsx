@@ -65,22 +65,9 @@ const ProfileModal = () => {
       </Modal.Header>
       <Modal.Body className='text-white width-100-percent'>
         <div className='flex-column border-radius-8 text-center gap-1rem width-100-percent profile-info'>
-          <div className='display-flex align-items-center gap-2rem text-center justify-center'>
+          <div className='flex-column align-items-center gap-2rem text-center justify-center'>
             <img className='profile-image' src={profileImg} alt='Profile' />
-            <div>
-              <p className='text-warning profile-name'>{user.username}</p>
-              <div className='profile-description'>
-                Vendedor especializado en hardware y refrigeración líquida.
-              </div>
-              <div className='display-flex justify-center align-items-center text-center gap-1rem'>
-                <MdAccessTime color='blue' />
-                Tiempo de actividad: 16 hrs, 32 minutos
-              </div>
-              <div className='display-flex justify-center align-items-center text-center gap-1rem'>
-                <VscCircleLargeFilled color='yellowgreen' />
-                Activo
-              </div>
-            </div>
+            <p className='text-warning profile-name'>{user.username}</p>
           </div>
         </div>
         <ManagementSections

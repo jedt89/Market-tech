@@ -6,7 +6,7 @@ import categories from '../models/categories.json';
 import '../index.css';
 
 const HeaderCategories = ({ products }) => {
-  const { showProductsByCategory } = useContext(MainContext);
+  const { showProductsByCategory, setCategorySelected } = useContext(MainContext);
   const { handleShowAllProducts } = useContext(ModalContext);
 
   return (
@@ -25,7 +25,7 @@ const HeaderCategories = ({ products }) => {
                 handleShowAllProducts();
                 return;
               }
-              showProductsByCategory(products, category.id);
+              setCategorySelected(category.id);
             }}
           />
           <small className='header-categories-img'>{category.name}</small>

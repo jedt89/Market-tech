@@ -40,7 +40,6 @@ const CartModal = () => {
     try {
       if (user) {
         const cartItems = await handleGetCartItems(token, user.id);
-        console.log('cartItems', cartItems);
         const cart = {
           products: cartItems,
           totalCart: getTotalPrice(cartItems)
@@ -54,8 +53,7 @@ const CartModal = () => {
   };
 
   const actionForCartItem = async (action, item) => {
-    console.log(item)
-    const id = item.id || item.product_id;
+    const id = item.product_id ? item.product_id : item.id;
     setLoading(true);
 
     if (['increment', 'decrement'].includes(action)) {
@@ -66,11 +64,15 @@ const CartModal = () => {
       await handleDeleteCartItem(id);
     }
 
-    if (action == 'clear') {
-      await handleCleanCart(token);
-    }
+    const cart = await fetchCart();
+    setCurrentCart(cart);
+    setLoading(false);
+  };
 
-    await fetchCart();
+  const clearCart = async () => {
+    await handleCleanCart(token);
+    const cart = await fetchCart();
+    setCurrentCart(cart);
     setLoading(false);
   };
 
@@ -102,62 +104,65 @@ const CartModal = () => {
           </div>
         ) : (
           <ListGroup className='cart-list width-100-percent'>
-            {currentCart.products.map((item, index) => (
-              <ListGroup.Item
-                key={index}
-                className='text-white border-yellow border-radius-8 cart-item background-transparent width-100-percent padding0'
-              >
-                <div
-                  className='display-flex align-items-start justify-end text-danger top-cart-item-card'
-                  style={{ padding: '2px 2px 0px' }}
+            {currentCart.products &&
+              currentCart.products.map((item, index) => (
+                <ListGroup.Item
+                  key={index}
+                  className='text-white border-yellow border-radius-8 cart-item background-transparent width-100-percent padding0'
                 >
-                  <IoIosClose
-                    className='cursor-pointer'
-                    onClick={() => actionForCartItem('delete', item)}
-                    style={{ fontSize: '30px' }}
-                  />
-                </div>
-                <div
-                  className='d-flex justify-content-between align-items-center card-body-cart'
-                  style={{ padding: '0 3rem 1rem 1rem' }}
-                >
-                  <div className='d-flex align-items-center gap-1rem'>
-                    <Image
-                      src={item.image_url}
-                      alt={item.title}
-                      thumbnail
-                      width='60'
-                      className='mr-3'
+                  <div
+                    className='display-flex align-items-start justify-end text-danger top-cart-item-card'
+                    style={{ padding: '2px 2px 0px' }}
+                  >
+                    <IoIosClose
+                      className='cursor-pointer'
+                      onClick={() => actionForCartItem('delete', item)}
+                      style={{ fontSize: '30px' }}
                     />
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
                   </div>
-                  <div className='d-flex align-items-center gap-1rem'>
-                    <div className='flex-column align-items-center justify-center'>
-                      <div className='d-flex align-items-center gap-1rem cart-quantity'>
-                        <CiSquareMinus
-                          className='text-warning cart-icon'
-                          onClick={() => {
-                            actionForCartItem('decrement', item);
-                          }}
-                        />
-                        <span>{item.quantity}</span>
-                        <CiSquarePlus
-                          className='text-warning cart-icon'
-                          onClick={() => {
-                            actionForCartItem('increment', item);
-                          }}
-                        />
-                      </div>
-                      <div className='text-center cart-subtotal'>
-                        <small>${item.subTotal.toLocaleString('es-CL')}</small>
+                  <div
+                    className='d-flex justify-content-between align-items-center card-body-cart'
+                    style={{ padding: '0 3rem 1rem 1rem' }}
+                  >
+                    <div className='d-flex align-items-center gap-1rem'>
+                      <Image
+                        src={item.image_url}
+                        alt={item.title}
+                        thumbnail
+                        width='60'
+                        className='mr-3'
+                      />
+                      <div>
+                        <div>{item.title}</div>
                       </div>
                     </div>
+                    <div className='d-flex align-items-center gap-1rem'>
+                      <div className='flex-column align-items-center justify-center'>
+                        <div className='d-flex align-items-center gap-1rem cart-quantity'>
+                          <CiSquareMinus
+                            className='text-warning cart-icon'
+                            onClick={() => {
+                              actionForCartItem('decrement', item);
+                            }}
+                          />
+                          <span>{item.quantity}</span>
+                          <CiSquarePlus
+                            className='text-warning cart-icon'
+                            onClick={() => {
+                              actionForCartItem('increment', item);
+                            }}
+                          />
+                        </div>
+                        <div className='text-center cart-subtotal'>
+                          <small>
+                            ${item.subTotal.toLocaleString('es-CL')}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </ListGroup.Item>
-            ))}
+                </ListGroup.Item>
+              ))}
           </ListGroup>
         )}
         <div className='width-100-percent d-flex justify-end text-warning'>
@@ -171,7 +176,7 @@ const CartModal = () => {
                 variant='danger'
                 className='d-flex btn btn-xs gap-05rem'
                 onClick={() => {
-                  actionForCartItem('clear');
+                  clearCart();
                 }}
               >
                 <FaRegTrashAlt />
