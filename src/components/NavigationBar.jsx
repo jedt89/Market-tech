@@ -19,7 +19,7 @@ import useService from '../hooks/useService.jsx';
 import '../index.css';
 
 const NavigationBar = () => {
-  const { user, token, handleLogout } = useContext(MainContext);
+  const { user, token, handleLogout, setLoading } = useContext(MainContext);
   const { handleShowLogin, handleShowRegister, handleShowProfile } =
     useContext(ModalContext);
 
@@ -33,6 +33,7 @@ const NavigationBar = () => {
   const { handleGetCartItems } = useService();
 
   const fetchCart = async () => {
+    setLoading(true);
     try {
       if (user) {
         const cartItems = await handleGetCartItems(token, user.id);
@@ -42,8 +43,10 @@ const NavigationBar = () => {
         };
         setCurrentCart(cart);
       }
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching cart:', error);
+      setLoading(false);
     }
   };
 
@@ -53,7 +56,7 @@ const NavigationBar = () => {
 
   return (
     <Navbar expand='lg' className='navbar-container'>
-      <Container className='navbar-container-padding'>
+      <Container className='navbar-container-padding gap-1rem'>
         <Navbar.Brand>
           <Link to='/'>
             <img
@@ -66,61 +69,63 @@ const NavigationBar = () => {
         <HeaderSearchBar />
         <Nav>
           {token && (
-            <div className='display-flex align-items-center gap-1rem'>
+            <div className='display-flex align-items-center justify-center gap-1rem'>
               <div className='text-warning'>{user.username}</div>
-              <PiUserBold className='menu-icon menu-icon-margin' />
+              <PiUserBold className='menu-icon' />
             </div>
           )}
-          {token && (
-            <Button
-              className='navbar-button navbar-button-margin d-flex align-items-center gap-1rem'
-              variant='outline-warning'
-              onClick={handleShowCart}
-            >
-              <PiShoppingCart className='menu-icon' />
-              <span>$ {currentCart.totalCart.toLocaleString('es-CL')}</span>
-            </Button>
-          )}
-          <Dropdown>
-            <Dropdown.Toggle
-              className='navbar-button'
-              variant='outline-warning'
-            >
-              <small className='text-warning'>Menu</small>
-            </Dropdown.Toggle>
-            <Dropdown.Menu title='Menu'>
-              <Dropdown.Item onClick={handleShowLogin} disabled={token}>
-                <AiOutlineLogin className='menu-icon menu-icon-margin' />
-                <small className='text-black'>Ingresar</small>
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handleShowRegister}>
-                <RiUserAddLine className='menu-icon menu-icon-margin' />
-                <small className='text-black'>Registrarse</small>
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  handleShowProfile(user.id);
-                }}
-                disabled={!token}
+          <div className='display-flex align-items-center'>
+            {token && (
+              <Button
+                className='navbar-button navbar-button-margin d-flex align-items-center gap-1rem'
+                variant='outline-warning'
+                onClick={handleShowCart}
               >
-                <PiUserBold className='menu-icon menu-icon-margin' />
-                <small className='text-black'>Cuenta</small>
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item
-                disabled={!token}
-                onClick={() => {
-                  handleLogout();
-                  toast.success('Sessión cerrada con éxito', {
-                    position: 'top-right'
-                  });
-                }}
+                <PiShoppingCart className='menu-icon' />
+                <span>$ {currentCart.totalCart.toLocaleString('es-CL')}</span>
+              </Button>
+            )}
+            <Dropdown>
+              <Dropdown.Toggle
+                className='navbar-button'
+                variant='outline-warning'
               >
-                <RiLogoutCircleLine className='menu-icon menu-icon-margin' />
-                <small className='text-black'>Logout</small>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+                <small className='text-warning'>Menu</small>
+              </Dropdown.Toggle>
+              <Dropdown.Menu title='Menu'>
+                <Dropdown.Item onClick={handleShowLogin} disabled={token}>
+                  <AiOutlineLogin className='menu-icon menu-icon-margin' />
+                  <small className='text-black'>Ingresar</small>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleShowRegister}>
+                  <RiUserAddLine className='menu-icon menu-icon-margin' />
+                  <small className='text-black'>Registrarse</small>
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    handleShowProfile(user.id);
+                  }}
+                  disabled={!token}
+                >
+                  <PiUserBold className='menu-icon menu-icon-margin' />
+                  <small className='text-black'>Cuenta</small>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  disabled={!token}
+                  onClick={() => {
+                    handleLogout();
+                    toast.success('Sessión cerrada con éxito', {
+                      position: 'top-right'
+                    });
+                  }}
+                >
+                  <RiLogoutCircleLine className='menu-icon menu-icon-margin' />
+                  <small className='text-black'>Logout</small>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </Nav>
       </Container>
     </Navbar>

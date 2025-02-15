@@ -8,7 +8,7 @@ const Footer = () => {
         <div>
           <img
             src={brandImg}
-            className='navbar-brand-img category-img'
+            className='width-100-percent'
           />
         </div>
         <p className='footer-style'>
@@ -17,7 +17,7 @@ const Footer = () => {
       </div>
       <div>
         <p>Búscanos en nuestras redes sociales</p>
-        <div className='display-flex gap-1rem p-4'>
+        <div className='display-flex gap-1rem p-4 flex-wrap justify-center'>
           <div>
             <img
               src={whatsappIcon}

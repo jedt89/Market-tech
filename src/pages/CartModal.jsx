@@ -4,10 +4,10 @@ import { IoIosClose } from 'react-icons/io';
 import { CartContext } from '../context/CartContext';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
 import { MainContext } from '../context/MainContext';
-import useService from '../hooks/useService';
-import '../index.css';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { TfiShoppingCart } from 'react-icons/tfi';
+import useService from '../hooks/useService';
+import '../index.css';
 
 const CartModal = () => {
   const {
@@ -27,30 +27,43 @@ const CartModal = () => {
   } = useContext(CartContext);
   const { token, user, setLoading } = useContext(MainContext);
 
+  const buyCart = async (token) => {
+    await handleCreateTransaction(token);
+    const cart = await fetchCart();
+    setCurrentCart(cart);
+    setLoading(false);
+    handleCloseCart();
+  };
+
   const fetchCart = async () => {
+    setLoading(true);
     try {
       if (user) {
         const cartItems = await handleGetCartItems(token, user.id);
+        console.log('cartItems', cartItems);
         const cart = {
           products: cartItems,
           totalCart: getTotalPrice(cartItems)
         };
-        setCurrentCart(cart);
+        return cart;
       }
     } catch (error) {
+      setLoading(false);
       console.error('Error fetching cart:', error);
     }
   };
 
   const actionForCartItem = async (action, item) => {
+    console.log(item)
+    const id = item.id || item.product_id;
     setLoading(true);
 
     if (['increment', 'decrement'].includes(action)) {
-      await handleUpdateCartItem(item.product_id, action, token);
+      await handleUpdateCartItem(id, action, token);
     }
 
     if (action == 'delete') {
-      await handleDeleteCartItem(item.product_id);
+      await handleDeleteCartItem(id);
     }
 
     if (action == 'clear') {
@@ -95,7 +108,7 @@ const CartModal = () => {
                 className='text-white border-yellow border-radius-8 cart-item background-transparent width-100-percent padding0'
               >
                 <div
-                  className='display-flex align-items-start justify-end text-danger'
+                  className='display-flex align-items-start justify-end text-danger top-cart-item-card'
                   style={{ padding: '2px 2px 0px' }}
                 >
                   <IoIosClose
@@ -105,7 +118,7 @@ const CartModal = () => {
                   />
                 </div>
                 <div
-                  className='d-flex justify-content-between align-items-center'
+                  className='d-flex justify-content-between align-items-center card-body-cart'
                   style={{ padding: '0 3rem 1rem 1rem' }}
                 >
                   <div className='d-flex align-items-center gap-1rem'>
@@ -155,7 +168,8 @@ const CartModal = () => {
           >
             {currentCart.products.length > 0 && (
               <Button
-                variant='danger' className='d-flex btn btn-xs gap-05rem'
+                variant='danger'
+                className='d-flex btn btn-xs gap-05rem'
                 onClick={() => {
                   actionForCartItem('clear');
                 }}
@@ -180,15 +194,7 @@ const CartModal = () => {
         </Button>
         <Button
           variant='outline-warning'
-          onClick={() => {
-            handleCreateTransaction(token);
-            handleGetCartItems(token, user.id);
-            handleCloseCart();
-            toast.success(
-              'Transacción generada con éxito. Gracias por preferirnos!',
-              {position: 'top-right'}
-            );
-          }}
+          onClick={() => buyCart(token)}
           className='modal-btn-submit'
           disabled={currentCart.products.length == 0}
         >

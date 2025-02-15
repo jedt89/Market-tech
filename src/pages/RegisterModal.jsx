@@ -5,11 +5,12 @@ import { ModalContext } from '../context/ModalContext.jsx';
 import useInput from '../hooks/useInput.jsx';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
+import { MainContext } from '../context/MainContext.jsx';
 
 const RegisterModal = () => {
-  const { handleRegister, handleLogin, handleLogout } = useService();
+  const { handleRegister, handleLogin } = useService();
   const { showRegister, handleCloseRegister } = useContext(ModalContext);
-  const { setToken, token, setUser } = useContext(ModalContext);
+  const { setToken, token, setUser, setLoading, handleLogout } = useContext(MainContext);
   const email = useInput('');
   const password = useInput('');
   const confirmPassword = useInput('');
@@ -37,7 +38,13 @@ const RegisterModal = () => {
   const handleSubmit = async () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
-      handleRegister(email.value, name.value, phone.value, password.value);
+      setLoading(true);
+      await handleRegister(
+        email.value,
+        name.value,
+        phone.value,
+        password.value
+      );
       handleCloseRegister();
       if (token) {
         handleLogout();
@@ -45,7 +52,9 @@ const RegisterModal = () => {
         setUser(user);
         setToken(user.token);
       }
+      setLoading(false);
     } else {
+      setLoading(false);
       setErrors(formErrors);
     }
   };

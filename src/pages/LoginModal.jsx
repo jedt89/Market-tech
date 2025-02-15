@@ -9,7 +9,7 @@ import '../index.css';
 
 const LoginModal = () => {
   const { handleLogin } = useService();
-  const { setUser, setToken } = useContext(MainContext);
+  const { setUser, setToken, setLoading } = useContext(MainContext);
   const { showLogin, handleCloseLogin, handleShowRegister } =
     useContext(ModalContext);
   const email = useInput('');
@@ -38,13 +38,16 @@ const LoginModal = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     if (validateForm()) {
       try {
         const user = await handleLogin(email.value, password.value);
         setUser(user);
         setToken(user.token);
         handleCloseLogin();
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         setError('Error al iniciar sesión. Por favor, verifica los datos.');
       }
     }

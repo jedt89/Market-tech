@@ -12,7 +12,8 @@ import {
   deleteCartItem,
   createTransaction,
   getTransactions,
-  cleanCart
+  cleanCart,
+  uploadFile
 } from '../services/fetchProducts';
 
 const useService = () => {
@@ -207,9 +208,12 @@ const useService = () => {
     try {
       const response = await createTransaction(token);
       if (response)
-        toast.success('Transacción registrada con éxito', {
-          position: 'top-right'
-        });
+        toast.success(
+          'Transacción generada exitosamente. ¡Gracias por preferirnos!',
+          {
+            position: 'top-right'
+          }
+        );
       return response;
     } catch (error) {
       toast.error('Error al realizar la transacción', {
@@ -233,6 +237,20 @@ const useService = () => {
     }
   };
 
+  const handleUploadFile = async (token, formData) => {
+    try {
+      const response = await uploadFile(token, formData);
+      if (response)
+        toast.success('Archivo subido con éxito', {
+          position: 'top-right'
+        });
+      return response;
+    } catch (error) {
+      toast.error('Error al subir el archivo', { position: 'top-right' });
+      throw error;
+    }
+  };
+
   return {
     handleLogin,
     handleGetUserProfile,
@@ -247,7 +265,8 @@ const useService = () => {
     handleCreateTransaction,
     handleGetTransactions,
     handleRegister,
-    handleCleanCart
+    handleCleanCart,
+    handleUploadFile
   };
 };
 

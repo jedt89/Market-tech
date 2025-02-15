@@ -5,22 +5,31 @@ import { MainContext } from '../context/MainContext';
 import { VscCircleLargeFilled } from 'react-icons/vsc';
 import { MdAccessTime } from 'react-icons/md';
 import { ModalContext } from '../context/ModalContext';
-import { profileImg } from "../assets/index.js";
+import { profileImg } from '../assets/index.js';
 import ManagementSections from '../components/ManagementSections';
 import useService from '../hooks/useService';
 import '../index.css';
 
 const ProfileModal = () => {
   const { handleGetTransactions } = useService();
-  const { token, user, allProducts, transactions, setTransactions } =
-    useContext(MainContext);
+  const {
+    token,
+    user,
+    allProducts,
+    transactions,
+    setTransactions,
+    setLoading
+  } = useContext(MainContext);
   const { showProfile, handleCloseProfile } = useContext(ModalContext);
 
   const fetchTransactions = async () => {
+    setLoading(false);
     try {
       const transactions = await handleGetTransactions(token);
       setTransactions(transactions);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error('Error fetching transactions:', error);
     }
   };
@@ -57,11 +66,7 @@ const ProfileModal = () => {
       <Modal.Body className='text-white width-100-percent'>
         <div className='flex-column border-radius-8 text-center gap-1rem width-100-percent profile-info'>
           <div className='display-flex align-items-center gap-2rem text-center justify-center'>
-            <img
-              className='profile-image'
-              src={profileImg}
-              alt='Profile'
-            />
+            <img className='profile-image' src={profileImg} alt='Profile' />
             <div>
               <p className='text-warning profile-name'>{user.username}</p>
               <div className='profile-description'>

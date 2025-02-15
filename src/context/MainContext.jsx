@@ -36,21 +36,24 @@ const MainContextProvider = ({ children }) => {
 
   const setUserSession = async () => {
     let userSession = localStorage.getItem('marketTechSession');
-    if (userSession && userSession !== 'null') {
+    if (userSession === 'null') {
+      userSession = null;
+    }
+
+    if (userSession) {
       userSession = JSON.parse(userSession);
       const { data, token } = userSession;
       await setUser(data);
       await setToken(token);
       console.debug('Session active: ', data, token);
+    } else {
+      console.debug('No Session active');
     }
-    console.debug('No Session active');
   };
 
   useEffect(() => {
-    if (!user) {
-      setUserSession();
-    }
-  }, [user]);
+    setUserSession();
+  }, []);
 
   return (
     <MainContext.Provider

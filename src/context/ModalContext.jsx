@@ -11,6 +11,7 @@ const ModalContextProvider = ({ children }) => {
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showTransaction, setShowTransaction] = useState(false);
   const navigate = useNavigate();
 
   const handleShowLogin = () => {
@@ -67,6 +68,16 @@ const ModalContextProvider = ({ children }) => {
     navigate('/');
   };
 
+  const handleShowTransaction = () => {
+    setShowTransaction(true);
+    navigate('/');
+  };
+
+  const handleCloseTransaction = (path) => {
+    setShowTransaction(false);
+    navigate(path);
+  };
+
   return (
     <ModalContext.Provider
       value={{
@@ -85,7 +96,9 @@ const ModalContextProvider = ({ children }) => {
         handleCloseDetail,
         showProfile,
         handleShowProfile,
-        handleCloseProfile
+        handleCloseProfile,
+        handleShowTransaction,
+        handleCloseTransaction
       }}
     >
       {children}

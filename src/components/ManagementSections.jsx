@@ -5,18 +5,18 @@ import { CiCircleInfo } from 'react-icons/ci';
 import { MainContext } from '../context/MainContext';
 import { CiSettings } from 'react-icons/ci';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { IoMdCloudUpload } from 'react-icons/io';
 import useInput from '../hooks/useInput';
 import useService from '../hooks/useService';
 import categories from '../models/categories.json';
 import '../index.css';
 
 const ManagementSections = ({ products, transactions }) => {
-  const { handleAddProduct, handleGetProducts, handleDeleteProduct } =
+  const { handleAddProduct, handleDeleteProduct, handleUploadFile } =
     useService();
-  const { token, user } = useContext(MainContext);
+  const { token, user, setLoading, allProducts } = useContext(MainContext);
   const [showTab, setShowTab] = useState(0);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
-  const [productList, setProductList] = useState(products);
   const productName = useInput('');
   const productId = useInput('');
   const imageUrl = useInput('');
@@ -43,10 +43,12 @@ const ManagementSections = ({ products, transactions }) => {
     stock.setValue('');
   };
 
-  const addproductManaged = async (product, token) => {
+  const addProductManaged = async (product, token) => {
+    setLoading(true);
     await handleAddProduct(product, token);
+    await refreshProducts();
     await clearForm();
-    refreshProducts();
+    setLoading(false);
   };
 
   const deleteProductManaged = async (product_id, token) => {
@@ -54,15 +56,12 @@ const ManagementSections = ({ products, transactions }) => {
     refreshProducts();
   };
 
-  const refreshProducts = async () => {
-    let products = await handleGetProducts(user);
-    if (user && user.id) {
-      products = products.filter((product) => {
-        return product.user_id === user.id;
-      });
-    }
-
-    setProductList(products);
+  const uploadFile = async (token) => {
+    const form = document.getElementById('uploadForm');
+    const formData = new FormData(form);
+    const response = await handleUploadFile(token, formData);
+    console.log(response.url);
+    imageUrl.setValue('../src/assets/img/nvidia-4060.png');
   };
 
   useEffect(() => {
@@ -139,20 +138,6 @@ const ManagementSections = ({ products, transactions }) => {
               </select>
             </div>
             <div className='form-group'>
-              <label htmlFor='imageUrl' className='form-label'>
-                Url de imagen
-              </label>
-              <input
-                type='text'
-                className='form-control'
-                value={imageUrl.value}
-                placeholder='Introduce la url de la imagen'
-                onChange={(event) => {
-                  imageUrl.onChange(event);
-                }}
-              />
-            </div>
-            <div className='form-group'>
               <label htmlFor='price' className='form-label'>
                 Precio
               </label>
@@ -180,6 +165,28 @@ const ManagementSections = ({ products, transactions }) => {
                 }}
               />
             </div>
+            <div className='form-group'>
+              <label htmlFor='imageUrl' className='form-label'>
+                Subir imagen
+              </label>
+
+              <form id='uploadForm' enctype='multipart/form-data'>
+                <input
+                  type='file'
+                  name='file'
+                  id='file'
+                  className='border-radius-8 width-100-percent mb-2'
+                />
+                <Button
+                  variant='success'
+                  className='display-flex align-items-center gap-1rem'
+                  onClick={() => uploadFile(token)}
+                >
+                  <IoMdCloudUpload />
+                  Subir
+                </Button>
+              </form>
+            </div>
             <div className='display-flex justify-end form-button-container'>
               <Button
                 className='save-button'
@@ -193,7 +200,7 @@ const ManagementSections = ({ products, transactions }) => {
                     price: price.value,
                     stock: stock.value
                   };
-                  addproductManaged(product, token);
+                  addProductManaged(product, token);
                 }}
               >
                 <TfiSave className='save-icon' />
@@ -218,9 +225,9 @@ const ManagementSections = ({ products, transactions }) => {
             </div>
           </div>
           <div className='border-radius-8 all-text-white table-body'>
-            {productList &&
-              productList.length > 0 &&
-              productList.map(
+            {allProducts &&
+              allProducts.length > 0 &&
+              allProducts.map(
                 ({
                   id,
                   title,
@@ -228,27 +235,34 @@ const ManagementSections = ({ products, transactions }) => {
                   category,
                   price,
                   stock,
-                  product_id
-                }) => (
-                  <div
-                    className='width-100-percent table-products table-row'
-                    key={id}
-                  >
-                    <div>{id}</div>
-                    <div>{title}</div>
-                    <div>{description}</div>
-                    <div>{category}</div>
-                    <div>{price}</div>
-                    <div>{stock}</div>
-                    <div className='display-flex justify-center align-items-center gap-1rem'>
-                      <FaRegTrashAlt
-                        className='cursor-pointer'
-                        style={{ color: 'red' }}
-                        onClick={() => deleteProductManaged(product_id, token)}
-                      />
-                    </div>
-                  </div>
-                )
+                  product_id,
+                  user_id
+                }) => {
+                  if (user && user_id === user.id) {
+                    return (
+                      <div
+                        className='width-100-percent table-products table-row'
+                        key={id}
+                      >
+                        <div>{id}</div>
+                        <div>{title}</div>
+                        <div>{description}</div>
+                        <div>{category}</div>
+                        <div>{price}</div>
+                        <div>{stock}</div>
+                        <div className='display-flex justify-center align-items-center gap-1rem'>
+                          <FaRegTrashAlt
+                            className='cursor-pointer'
+                            style={{ color: 'red' }}
+                            onClick={() =>
+                              deleteProductManaged(product_id, token)
+                            }
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+                }
               )}
           </div>
         </div>

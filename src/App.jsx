@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { MainContext } from './context/MainContext.jsx';
+import { SyncLoader } from 'react-spinners';
 import HeaderSlider from './components/HeaderSlider.jsx';
 import NavigationBar from './components/NavigationBar.jsx';
 import Footer from './components/Footer.jsx';
@@ -22,24 +23,22 @@ function App() {
     productsByCategory,
     currentProduct,
     user,
-    setUserSession,
-    setAllProducts
+    setAllProducts,
+    loading,
+    setLoading
   } = useContext(MainContext);
   const { handleGetProducts } = useService();
 
   const fetchAllProducts = async () => {
-    try {
-      const products = await handleGetProducts(user);
-      if (products && products.length > 0) {
-        setAllProducts(products);
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
+    setLoading(true);
+    const products = await handleGetProducts();
+    if (products && products.length > 0) {
+      setAllProducts(products);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    setUserSession();
     fetchAllProducts();
   }, []);
 
@@ -65,11 +64,16 @@ function App() {
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
-      {/* {loading && (
+      {loading && (
         <div className='loader'>
-          <CircleLoader  color='#ffc107' loading={loading} size={100} speedMultiplier={1}/>
+          <SyncLoader
+            color='#ffc107'
+            loading={loading}
+            size={10}
+            speedMultiplier={0.7}
+          />
         </div>
-      )} */}
+      )}
     </div>
   );
 }

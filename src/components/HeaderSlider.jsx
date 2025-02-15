@@ -14,7 +14,6 @@ import '../index.css';
 
 function HeaderSlider({ title }) {
   const settings = {
-    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,

@@ -46,7 +46,7 @@ export const getAllProducts = async () => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
-        product.image_url = defaultProductImg // La imagen será por default hasta tener la solucion de host de imagen
+        product.image_url = defaultProductImg; // La imagen será por default hasta tener la solucion de host de imagen
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.subTotal = 0;
@@ -110,7 +110,7 @@ export const getCartItems = async (token, user_id) => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
-        product.image_url = defaultProductImg // La imagen será por default hasta tener la solucion de host de imagen
+        product.image_url = defaultProductImg; // La imagen será por default hasta tener la solucion de host de imagen
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.quantity = product.quantity;
@@ -172,7 +172,7 @@ export const createTransaction = async (token) => {
   try {
     const response = await api.post(
       '/user/cart/checkout',
-      {},
+      { token: token },
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -190,7 +190,7 @@ export const createTransaction = async (token) => {
 // Obtener todas las transacciones
 export const getTransactions = async (token) => {
   try {
-    const response = await api.get('/user/cart/transactions', {
+    const response = await api.get('/transactions/' + '3', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -211,6 +211,25 @@ export const cleanCart = async (token) => {
       }
     });
     if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+export const uploadFile = async (token, formData) => {
+  try {
+    const response = await api.post(
+      '/user/files/upload',
+      { token: token, form_data: formData },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    if (response.status === 201) {
       return response.data;
     }
   } catch (error) {

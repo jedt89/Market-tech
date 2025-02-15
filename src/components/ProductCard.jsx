@@ -44,6 +44,7 @@ function ProductCard({
   };
 
   const fetchCart = async () => {
+    setLoading(true);
     try {
       if (user) {
         const cartItems = await handleGetCartItems(token, user.id);
@@ -52,9 +53,11 @@ function ProductCard({
           totalCart: getTotalPrice(cartItems)
         };
         setCurrentCart(cart);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error fetching cart:', error);
+      setLoading(false);
     }
   };
 
