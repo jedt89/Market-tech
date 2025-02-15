@@ -61,7 +61,7 @@ const CartModal = () => {
     }
 
     if (action == 'delete') {
-      await handleDeleteCartItem(id);
+      await handleDeleteCartItem(id, token);
     }
 
     const cart = await fetchCart();

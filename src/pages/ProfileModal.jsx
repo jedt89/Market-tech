@@ -25,7 +25,7 @@ const ProfileModal = () => {
   const fetchTransactions = async () => {
     setLoading(false);
     try {
-      const transactions = await handleGetTransactions(token);
+      const transactions = await handleGetTransactions(token, user.id);
       setTransactions(transactions);
       setLoading(false);
     } catch (error) {

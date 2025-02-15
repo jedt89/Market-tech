@@ -12,8 +12,12 @@ import categories from '../models/categories.json';
 import '../index.css';
 
 const ManagementSections = ({ products, transactions }) => {
-  const { handleAddProduct, handleDeleteProduct, handleUploadFile } =
-    useService();
+  const {
+    handleAddProduct,
+    handleDeleteProduct,
+    handleUploadFile,
+    handleGetTransactionDetail
+  } = useService();
   const { token, user, setLoading, allProducts } = useContext(MainContext);
   const [showTab, setShowTab] = useState(0);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
@@ -315,7 +319,11 @@ const ManagementSections = ({ products, transactions }) => {
                       <p>Precio: ${price}</p>
                       <p>Cantidad: {stock}</p>
                     </div>
-                    <Button variant='outline-info' className='d-flex gap-1rem'>
+                    <Button
+                      variant='outline-info'
+                      className='d-flex gap-1rem'
+                      onClick={() => handleGetTransactionDetail(token, id)}
+                    >
                       <CiCircleInfo className='text-info' />
                       <span>Ver detalle</span>
                     </Button>

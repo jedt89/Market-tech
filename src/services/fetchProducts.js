@@ -152,7 +152,7 @@ export const updateCartItem = async (id, action, token) => {
 // Eliminar un producto del carrito
 export const deleteCartItem = async (cartItemId, token) => {
   try {
-    const response = await api.delete(`/user/cart/${cartItemId}`, {
+    const response = await api.delete(`/user/cart/product/${cartItemId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -172,7 +172,7 @@ export const createTransaction = async (token) => {
   try {
     const response = await api.post(
       '/user/cart/checkout',
-      { token: token },
+      {},
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -188,9 +188,24 @@ export const createTransaction = async (token) => {
 };
 
 // Obtener todas las transacciones
-export const getTransactions = async (token) => {
+export const getTransactions = async (token, userId) => {
   try {
-    const response = await api.get('/transactions/' + '3', {
+    const response = await api.get(`/transactions/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+export const getTransactionDetail = async (token, transactionId) => {
+  try {
+    const response = await api.get(`/user/transactions/detail/${transactionId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

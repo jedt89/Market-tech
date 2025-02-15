@@ -13,7 +13,8 @@ import {
   createTransaction,
   getTransactions,
   cleanCart,
-  uploadFile
+  uploadFile,
+  getTransactionDetail
 } from '../services/fetchProducts';
 
 const useService = () => {
@@ -223,14 +224,28 @@ const useService = () => {
     }
   };
 
-  const handleGetTransactions = async (token, params = {}) => {
+  const handleGetTransactions = async (token, userId) => {
     try {
-      const transactions = await getTransactions(token, params);
+      const transactions = await getTransactions(token, userId);
       if (transactions)
         toast.success('Transacciones obtenidas con éxito', {
           position: 'top-right'
         });
       return transactions;
+    } catch (error) {
+      toast.error('Error al obtener transacciones', { position: 'top-right' });
+      throw error;
+    }
+  };
+
+  const handleGetTransactionDetail = async (token, transactionId) => {
+    try {
+      const transaction = await getTransactionDetail(token, transactionId);
+      if (transaction)
+        toast.success('Transaccion obtenida con éxito', {
+          position: 'top-right'
+        });
+      return transaction;
     } catch (error) {
       toast.error('Error al obtener transacciones', { position: 'top-right' });
       throw error;
@@ -266,7 +281,8 @@ const useService = () => {
     handleGetTransactions,
     handleRegister,
     handleCleanCart,
-    handleUploadFile
+    handleUploadFile,
+    handleGetTransactionDetail
   };
 };
 
