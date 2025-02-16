@@ -4,7 +4,6 @@ import { handleApiError } from '../helpers/handleApiErrors';
 import categories from '../models/categories.json';
 
 // Gestión de Productos (Vender)
-
 // Subir un nuevo producto
 export const addProduct = async (productData, token) => {
   try {
@@ -46,7 +45,7 @@ export const getAllProducts = async () => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
-        product.image_url = defaultProductImg; // La imagen será por default hasta tener la solucion de host de imagen
+        product.image_url = defaultProductImg;
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.subTotal = 0;
@@ -80,7 +79,6 @@ export const deleteProduct = async (productId, token) => {
 };
 
 // Carrito de Compras (Comprar productos)
-
 // Agregar un producto al carrito
 export const addToCart = async (cartData, token) => {
   try {
@@ -110,7 +108,7 @@ export const getCartItems = async (token, user_id) => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
-        product.image_url = defaultProductImg; // La imagen será por default hasta tener la solucion de host de imagen
+        product.image_url = defaultProductImg;
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.quantity = product.quantity;
@@ -166,7 +164,6 @@ export const deleteCartItem = async (cartItemId, token) => {
 };
 
 // Transacciones (Comprar productos)
-
 // Realizar una compra
 export const createTransaction = async (token) => {
   try {
@@ -203,9 +200,10 @@ export const getTransactions = async (token, userId) => {
   }
 };
 
+// Obtener detalle de transacción
 export const getTransactionDetail = async (token, transactionId) => {
   try {
-    const response = await api.get(`/user/transactions/detail/${transactionId}`, {
+    const response = await api.get(`/transactions/detail/${transactionId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -218,6 +216,7 @@ export const getTransactionDetail = async (token, transactionId) => {
   }
 };
 
+// Limpiar carrito
 export const cleanCart = async (token) => {
   try {
     const response = await api.delete('/user/cart', {
@@ -233,6 +232,7 @@ export const cleanCart = async (token) => {
   }
 };
 
+// Subir archivo
 export const uploadFile = async (token, formData) => {
   try {
     const response = await api.post(

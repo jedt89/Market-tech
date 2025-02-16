@@ -6,19 +6,28 @@ import { MainContext } from '../context/MainContext';
 import { CiSettings } from 'react-icons/ci';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoMdCloudUpload } from 'react-icons/io';
+import { ModalContext } from '../context/ModalContext';
 import useInput from '../hooks/useInput';
 import useService from '../hooks/useService';
 import categories from '../models/categories.json';
 import '../index.css';
 
-const ManagementSections = ({ products, transactions }) => {
+const ManagementSections = () => {
   const {
     handleAddProduct,
     handleDeleteProduct,
     handleUploadFile,
     handleGetTransactionDetail
   } = useService();
-  const { token, user, setLoading, allProducts } = useContext(MainContext);
+  const {
+    token,
+    user,
+    setLoading,
+    allProducts,
+    setCurrentTransaction,
+    transactions
+  } = useContext(MainContext);
+  const { handleShowTransaction } = useContext(ModalContext);
   const [showTab, setShowTab] = useState(0);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
   const productName = useInput('');
@@ -30,11 +39,16 @@ const ManagementSections = ({ products, transactions }) => {
   const stock = useInput('');
 
   const filterTransactions = (buy) => {
-    // const transactionsToShow = transactions.filter((transaction) =>
-    //   buy ? transaction.id < 5 : transaction.id > 5
-    // );
-    const transactionsToShow = transactions;
+    const transactionsToShow = transactions.filter((transaction) =>
+      buy ? transaction.buyer_id !== user.id : transaction.buyer_id === user.id
+    );
     setTransactionsToShow(transactionsToShow);
+  };
+
+  const getTransaction = async (token, transactionId) => {
+    const transaction = await handleGetTransactionDetail(token, transactionId);
+    setCurrentTransaction(transaction);
+    return transaction;
   };
 
   const clearForm = () => {
@@ -290,6 +304,11 @@ const ManagementSections = ({ products, transactions }) => {
             </Button>
           </div>
           <div className='border-radius-8 all-text-white width-100-percent'>
+            {transactionsToShow && transactionsToShow.length == 0 && (
+              <div className='display-flex justify-center'>
+                No hay transacciones para mostrar
+              </div>
+            )}
             {transactionsToShow &&
               transactionsToShow.length > 0 &&
               transactionsToShow.map(
@@ -322,7 +341,12 @@ const ManagementSections = ({ products, transactions }) => {
                     <Button
                       variant='outline-info'
                       className='d-flex gap-1rem'
-                      onClick={() => handleGetTransactionDetail(token, id)}
+                      onClick={() => {
+                        getTransaction(token, id);
+                        setTimeout(() => {
+                          handleShowTransaction(id);
+                        }, 1000);
+                      }}
                     >
                       <CiCircleInfo className='text-info' />
                       <span>Ver detalle</span>

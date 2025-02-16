@@ -4,7 +4,6 @@ import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
-import { FaDoorClosed } from 'react-icons/fa';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
 

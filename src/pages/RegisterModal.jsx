@@ -2,15 +2,16 @@ import React, { useState, useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext.jsx';
+import { MainContext } from '../context/MainContext.jsx';
 import useInput from '../hooks/useInput.jsx';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
-import { MainContext } from '../context/MainContext.jsx';
 
 const RegisterModal = () => {
   const { handleRegister, handleLogin } = useService();
   const { showRegister, handleCloseRegister } = useContext(ModalContext);
-  const { setToken, token, setUser, setLoading, handleLogout } = useContext(MainContext);
+  const { setToken, token, setUser, setLoading, handleLogout } =
+    useContext(MainContext);
   const email = useInput('');
   const password = useInput('');
   const confirmPassword = useInput('');

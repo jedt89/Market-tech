@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const ModalContext = React.createContext();
 
 const ModalContextProvider = ({ children }) => {
-  const { setCurrentProduct, setTextSearched, allProducts } = useContext(MainContext);
+  const { setCurrentProduct, setTextSearched, allProducts } =
+    useContext(MainContext);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(false);
@@ -42,7 +43,7 @@ const ModalContextProvider = ({ children }) => {
   const handleCloseAllProducts = () => {
     setShowAllProducts(false);
     navigate('/');
-    setTextSearched('')
+    setTextSearched('');
   };
 
   const handleShowDetail = (id, path) => {
@@ -68,14 +69,14 @@ const ModalContextProvider = ({ children }) => {
     navigate('/');
   };
 
-  const handleShowTransaction = () => {
+  const handleShowTransaction = (id) => {
     setShowTransaction(true);
-    navigate('/');
+    navigate(`/transaction/${id}`);
   };
 
-  const handleCloseTransaction = (path) => {
+  const handleCloseTransaction = (id) => {
     setShowTransaction(false);
-    navigate(path);
+    navigate(`/users/${id}`);
   };
 
   return (
@@ -98,7 +99,9 @@ const ModalContextProvider = ({ children }) => {
         handleShowProfile,
         handleCloseProfile,
         handleShowTransaction,
-        handleCloseTransaction
+        handleCloseTransaction,
+        showTransaction,
+        setShowTransaction
       }}
     >
       {children}

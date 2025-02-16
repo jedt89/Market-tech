@@ -29,7 +29,10 @@ const OurProducts = () => {
           {allProducts &&
             allProducts.length > 0 &&
             allProducts.map((product) => {
-              if ((!user || (user && product.user_id !== user.id)) && (categorySelected == product.category_id)) {
+              if (
+                (!user || (user && product.user_id !== user.id)) &&
+                categorySelected == product.category_id
+              ) {
                 return (
                   <div key={product.id}>
                     <ProductCard key={product.id} {...product} />

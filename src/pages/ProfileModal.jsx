@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { MainContext } from '../context/MainContext';
-import { VscCircleLargeFilled } from 'react-icons/vsc';
-import { MdAccessTime } from 'react-icons/md';
 import { ModalContext } from '../context/ModalContext';
 import { profileImg } from '../assets/index.js';
 import ManagementSections from '../components/ManagementSections';
@@ -12,14 +10,7 @@ import '../index.css';
 
 const ProfileModal = () => {
   const { handleGetTransactions } = useService();
-  const {
-    token,
-    user,
-    allProducts,
-    transactions,
-    setTransactions,
-    setLoading
-  } = useContext(MainContext);
+  const { token, user, setTransactions, setLoading } = useContext(MainContext);
   const { showProfile, handleCloseProfile } = useContext(ModalContext);
 
   const fetchTransactions = async () => {
@@ -31,12 +22,6 @@ const ProfileModal = () => {
     } catch (error) {
       setLoading(false);
       console.error('Error fetching transactions:', error);
-    }
-  };
-
-  const getFilteredProducts = () => {
-    if (user && user.id) {
-      return allProducts.filter((product) => product.user_id === user.id);
     }
   };
 
@@ -70,10 +55,7 @@ const ProfileModal = () => {
             <p className='text-warning profile-name'>{user.username}</p>
           </div>
         </div>
-        <ManagementSections
-          products={getFilteredProducts}
-          transactions={transactions}
-        />
+        <ManagementSections />
       </Modal.Body>
       <Modal.Footer>
         <Button

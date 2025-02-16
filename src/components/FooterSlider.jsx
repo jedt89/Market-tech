@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import { CartContext } from '../context/CartContext';
 import { MainContext } from '../context/MainContext';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import useService from '../hooks/useService';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function FooterSlider({ title }) {
   const { handleShowDetail } = useContext(ModalContext);

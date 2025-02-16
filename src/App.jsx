@@ -15,17 +15,18 @@ import AllProducts from './pages/AllProductsModal.jsx';
 import ProductDetailModal from './pages/ProductDetailModal.jsx';
 import ProfileModal from './pages/ProfileModal.jsx';
 import useService from './hooks/useService.jsx';
+import TransactionModal from './pages/TransactionModal.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 function App() {
   const {
-    productsByCategory,
     currentProduct,
     user,
     setAllProducts,
     loading,
-    setLoading
+    setLoading,
+    currentTransaction
   } = useContext(MainContext);
   const { handleGetProducts } = useService();
 
@@ -47,7 +48,7 @@ function App() {
       <NavigationBar />
       <HeaderSlider id='header-slider' />
       <div className='divider'></div>
-      <OurProducts {...productsByCategory} />
+      <OurProducts />
       <div className='divider'></div>
       <FooterSlider title={'También podría interesarte'} />
       <Routes>
@@ -61,6 +62,13 @@ function App() {
           element={<ProductDetailModal />}
         />
         <Route path={user && `/users/${user.id}`} element={<ProfileModal />} />
+        <Route
+          path={
+            currentTransaction &&
+            `/transaction/${currentTransaction.transaction_id}`
+          }
+          element={<TransactionModal />}
+        />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />

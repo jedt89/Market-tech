@@ -5,7 +5,6 @@ const MainContext = React.createContext();
 
 const MainContextProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [productsByCategory, setProductsByCategory] = useState([]);
   const [categorySelected, setCategorySelected] = useState(1);
   const [textSearched, setTextSearched] = useState('');
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -14,19 +13,10 @@ const MainContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [allProducts, setAllProducts] = useState(false);
   const [transactions, setTransactions] = useState([]);
-
-  let currentSession = null;
+  const [currentTransaction, setCurrentTransaction] = useState(null);
 
   const handleReturnToHome = () => {
     navigate('/');
-  };
-
-  const showProductsByCategory = (products, id) => {
-    const productsByCategory = products.filter(
-      (product) => product.category_id === id
-    );
-    // setProductsByCategory(productsByCategory);
-    return productsByCategory;
   };
 
   const handleLogout = () => {
@@ -62,9 +52,6 @@ const MainContextProvider = ({ children }) => {
       value={{
         allProducts,
         setAllProducts,
-        productsByCategory,
-        setProductsByCategory,
-        showProductsByCategory,
         currentProduct,
         setCurrentProduct,
         handleReturnToHome,
@@ -76,13 +63,14 @@ const MainContextProvider = ({ children }) => {
         setTextSearched,
         handleLogout,
         setUserSession,
-        currentSession,
         loading,
         setLoading,
         transactions,
         setTransactions,
         categorySelected,
-        setCategorySelected
+        setCategorySelected,
+        currentTransaction,
+        setCurrentTransaction
       }}
     >
       {children}

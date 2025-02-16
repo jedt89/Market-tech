@@ -1,15 +1,18 @@
 import '../index.css';
-import { brandImg, whatsappIcon, facebookIcon, instagramIcon, tiktokIcon } from "../assets/index.js";
+import {
+  brandImg,
+  whatsappIcon,
+  facebookIcon,
+  instagramIcon,
+  tiktokIcon
+} from '../assets/index.js';
 
 const Footer = () => {
   return (
     <div className='footer'>
       <div>
         <div>
-          <img
-            src={brandImg}
-            className='width-100-percent'
-          />
+          <img src={brandImg} className='width-100-percent' />
         </div>
         <p className='footer-style'>
           Expertos en hardware - productos de calidad - Bajos precios

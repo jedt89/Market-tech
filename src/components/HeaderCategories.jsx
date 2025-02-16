@@ -5,8 +5,8 @@ import { categoryIcons } from '../assets';
 import categories from '../models/categories.json';
 import '../index.css';
 
-const HeaderCategories = ({ products }) => {
-  const { showProductsByCategory, setCategorySelected } = useContext(MainContext);
+const HeaderCategories = () => {
+  const { setCategorySelected } = useContext(MainContext);
   const { handleShowAllProducts } = useContext(ModalContext);
 
   return (

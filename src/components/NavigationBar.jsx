@@ -23,13 +23,8 @@ const NavigationBar = () => {
   const { handleShowLogin, handleShowRegister, handleShowProfile } =
     useContext(ModalContext);
 
-  const {
-    currentCart,
-    handleShowCart,
-    clearCart,
-    setCurrentCart,
-    getTotalPrice
-  } = useContext(CartContext);
+  const { currentCart, handleShowCart, setCurrentCart, getTotalPrice } =
+    useContext(CartContext);
   const { handleGetCartItems } = useService();
 
   const fetchCart = async () => {

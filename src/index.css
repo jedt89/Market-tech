@@ -187,8 +187,8 @@ input:visited,
 input:focus {
   outline: 2px solid #ffc107;
 }
-
 .form-control {
+
   background-clip: inherit !important;
   box-shadow: none;
   border: none;
