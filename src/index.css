@@ -188,7 +188,6 @@ input:focus {
   outline: 2px solid #ffc107;
 }
 .form-control {
-
   background-clip: inherit !important;
   box-shadow: none;
   border: none;
@@ -557,9 +556,16 @@ input:focus {
 }
 
 .btn-outline-warning:hover {
-  color: white !important;
   background-color: #ffc107;
   border-color: #ffc107;
+}
+
+.btn:hover,
+.btn:visited,
+.btn:focus {
+  * {
+    color: white !important;
+  }
 }
 
 .btn-xs {

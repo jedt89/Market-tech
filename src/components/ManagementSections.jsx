@@ -39,7 +39,7 @@ const ManagementSections = () => {
   const stock = useInput('');
 
   const filterTransactions = (buy) => {
-    const transactionsToShow = transactions.filter((transaction) =>
+    const transactionsToShow = transactions && transactions.filter((transaction) =>
       buy ? transaction.buyer_id !== user.id : transaction.buyer_id === user.id
     );
     setTransactionsToShow(transactionsToShow);
