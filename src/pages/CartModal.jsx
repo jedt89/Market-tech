@@ -8,6 +8,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { TfiShoppingCart } from 'react-icons/tfi';
 import useService from '../hooks/useService';
 import '../index.css';
+import { ModalContext } from '../context/ModalContext';
 
 const CartModal = () => {
   const {
@@ -26,13 +27,15 @@ const CartModal = () => {
     getTotalPrice
   } = useContext(CartContext);
   const { token, user, setLoading } = useContext(MainContext);
+  const { handleShowTransaction } = useContext(ModalContext);
 
-  const buyCart = async (token) => {
-    await handleCreateTransaction(token);
+  const buyCart = async (token, currentCart) => {
+    await handleCreateTransaction(token, currentCart);
     const cart = await fetchCart();
     setCurrentCart(cart);
     setLoading(false);
     handleCloseCart();
+    handleShowTransaction(null, true)
   };
 
   const fetchCart = async () => {
@@ -199,7 +202,7 @@ const CartModal = () => {
         </Button>
         <Button
           variant='outline-warning'
-          onClick={() => buyCart(token)}
+          onClick={() => buyCart(token, currentCart)}
           className='modal-btn-submit'
           disabled={currentCart.products.length == 0}
         >

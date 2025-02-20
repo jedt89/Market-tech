@@ -13,6 +13,7 @@ const ModalContextProvider = ({ children }) => {
   const [showDetail, setShowDetail] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showTransaction, setShowTransaction] = useState(false);
+  const [buy, setBuy] = useState(false);
   const navigate = useNavigate();
 
   const handleShowLogin = () => {
@@ -69,14 +70,20 @@ const ModalContextProvider = ({ children }) => {
     navigate('/');
   };
 
-  const handleShowTransaction = (id) => {
+  const handleShowTransaction = (id, buy) => {
     setShowTransaction(true);
-    navigate(`/transaction/${id}`);
+    setBuy(buy);
+    if (!buy) navigate(`/transaction/${id}`);
   };
 
-  const handleCloseTransaction = (id) => {
+  const handleCloseTransaction = (id, buy) => {
     setShowTransaction(false);
-    navigate(`/users/${id}`);
+    setBuy(false);
+    if (buy) {
+      navigate('/');
+    } else {
+      navigate(`/users/${id}`);
+    }
   };
 
   return (
@@ -101,7 +108,9 @@ const ModalContextProvider = ({ children }) => {
         handleShowTransaction,
         handleCloseTransaction,
         showTransaction,
-        setShowTransaction
+        setShowTransaction,
+        buy,
+        setBuy
       }}
     >
       {children}

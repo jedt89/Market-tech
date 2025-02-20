@@ -532,6 +532,7 @@ input:focus {
   align-items: center;
   padding: 1rem;
   width: 100%;
+  max-width: 500px;
   margin-bottom: 1rem;
 }
 
@@ -732,6 +733,11 @@ input:focus {
   background-color: #38364b;
   border-radius: 8px 8px 0 0;
   margin-bottom: 1rem;
+}
+
+.checkout-icon-success {
+  font-size: 6rem;
+  color: yellowgreen;
 }
 
 @media (max-width: 1200px) {

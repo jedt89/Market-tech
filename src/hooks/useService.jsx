@@ -124,13 +124,6 @@ const useService = () => {
 
   const handleAddToCart = async (product, token) => {
     try {
-      product = {
-        product_id: product.id || product.product_id,
-        title: product.title,
-        image_url: product.image_url,
-        price: product.price
-      };
-
       const response = await addToCart(product, token);
       if (response)
         toast.success('Producto agregado al carrito', {
@@ -205,17 +198,10 @@ const useService = () => {
     }
   };
 
-  const handleCreateTransaction = async (token) => {
+  const handleCreateTransaction = async (token, currentCart) => {
     try {
-      const response = await createTransaction(token);
-      if (response)
-        toast.success(
-          'Transacción generada exitosamente. ¡Gracias por preferirnos!',
-          {
-            position: 'top-right'
-          }
-        );
-      return response;
+      const response = await createTransaction(token, currentCart);
+      if (response) return response;
     } catch (error) {
       toast.error('Error al realizar la transacción', {
         position: 'top-right'
@@ -227,11 +213,7 @@ const useService = () => {
   const handleGetTransactions = async (token, userId) => {
     try {
       const transactions = await getTransactions(token, userId);
-      if (transactions)
-        toast.success('Transacciones obtenidas con éxito', {
-          position: 'top-right'
-        });
-      return transactions;
+      if (transactions) return transactions;
     } catch (error) {
       toast.error('Error al obtener transacciones', { position: 'top-right' });
       throw error;
@@ -241,11 +223,7 @@ const useService = () => {
   const handleGetTransactionDetail = async (token, transactionId) => {
     try {
       const transaction = await getTransactionDetail(token, transactionId);
-      if (transaction)
-        toast.success('Transaccion obtenida con éxito', {
-          position: 'top-right'
-        });
-      return transaction;
+      if (transaction) return transaction;
     } catch (error) {
       toast.error('Error al obtener transacciones', { position: 'top-right' });
       throw error;

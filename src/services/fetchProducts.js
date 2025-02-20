@@ -165,11 +165,12 @@ export const deleteCartItem = async (cartItemId, token) => {
 
 // Transacciones (Comprar productos)
 // Realizar una compra
-export const createTransaction = async (token) => {
+export const createTransaction = async (token, currentCart) => {
+  currentCart.total_price = currentCart.totalCart
   try {
     const response = await api.post(
       '/user/cart/checkout',
-      {},
+      {cart: currentCart},
       {
         headers: {
           Authorization: `Bearer ${token}`

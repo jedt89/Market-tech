@@ -14,7 +14,12 @@ function ProductCard({
   id,
   product_id,
   quantity,
-  subTotal
+  subTotal,
+  category,
+  category_id,
+  publication_time,
+  stock,
+  user_id
 }) {
   const { handleAddToCart, handleGetCartItems } = useService();
   const { handleShowDetail, handleShowLogin } = useContext(ModalContext);
@@ -36,7 +41,12 @@ function ProductCard({
       id,
       product_id,
       quantity,
-      subTotal
+      subTotal,
+      category,
+      category_id,
+      publication_time,
+      stock,
+      user_id
     };
     await handleAddToCart(product, token, user.id);
     await fetchCart();

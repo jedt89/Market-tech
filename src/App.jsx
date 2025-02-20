@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { MainContext } from './context/MainContext.jsx';
 import { SyncLoader } from 'react-spinners';
+import { ModalContext } from './context/ModalContext.jsx';
 import HeaderSlider from './components/HeaderSlider.jsx';
 import NavigationBar from './components/NavigationBar.jsx';
 import Footer from './components/Footer.jsx';
@@ -28,6 +29,7 @@ function App() {
     setLoading,
     currentTransaction
   } = useContext(MainContext);
+  const {showTransaction} = useContext(ModalContext)
   const { handleGetProducts } = useService();
 
   const fetchAllProducts = async () => {
@@ -51,6 +53,7 @@ function App() {
       <OurProducts />
       <div className='divider'></div>
       <FooterSlider title={'También podría interesarte'} />
+      {showTransaction && <TransactionModal />}
       <Routes>
         <Route path='/' element={<></>} />
         <Route path='/all' element={<AllProducts />} />

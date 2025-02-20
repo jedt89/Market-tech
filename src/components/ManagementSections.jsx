@@ -25,7 +25,8 @@ const ManagementSections = () => {
     setLoading,
     allProducts,
     setCurrentTransaction,
-    transactions
+    transactions,
+    currenTransaction
   } = useContext(MainContext);
   const { handleShowTransaction } = useContext(ModalContext);
   const [showTab, setShowTab] = useState(0);
@@ -39,15 +40,24 @@ const ManagementSections = () => {
   const stock = useInput('');
 
   const filterTransactions = (buy) => {
-    const transactionsToShow = transactions && transactions.filter((transaction) =>
-      buy ? transaction.buyer_id !== user.id : transaction.buyer_id === user.id
-    );
+    const transactionsToShow =
+      transactions &&
+      transactions.filter((transaction) =>
+        buy
+          ? transaction.buyer_id === user.id
+          : transaction.buyer_id !== user.id
+      );
     setTransactionsToShow(transactionsToShow);
   };
 
   const getTransaction = async (token, transactionId) => {
+    setLoading(true);
     const transaction = await handleGetTransactionDetail(token, transactionId);
     setCurrentTransaction(transaction);
+    setTimeout(() => {
+      console.log(currenTransaction);
+      setLoading(false);
+    }, 3000);
     return transaction;
   };
 
@@ -303,7 +313,7 @@ const ManagementSections = () => {
               Ventas
             </Button>
           </div>
-          <div className='border-radius-8 all-text-white width-100-percent'>
+          <div className='border-radius-8 all-text-white width-100-percent flex-column align-items-center'>
             {transactionsToShow && transactionsToShow.length == 0 && (
               <div className='display-flex justify-center'>
                 No hay transacciones para mostrar
@@ -313,38 +323,52 @@ const ManagementSections = () => {
               transactionsToShow.length > 0 &&
               transactionsToShow.map(
                 ({
-                  id,
+                  transaction_id,
                   title,
-                  description,
+                  buyer_name,
                   category,
                   image_url,
-                  price,
+                  total_price,
                   stock
                 }) => (
                   <div
                     className='display-flex gap-1rem align-items-center border-radius-8 transaction-item border-yellow'
-                    key={id}
+                    key={transaction_id}
                   >
-                    <img
+                    {/* <img
                       src={image_url}
                       className='transaction-image'
                       alt={title}
-                    />
+                    /> */}
                     <div>
-                      <p>ID: {id}</p>
-                      <p>Nombre: {title}</p>
-                      <p>Descripción: {description}</p>
-                      <p>Categoría: {category}</p>
-                      <p>Precio: ${price}</p>
-                      <p>Cantidad: {stock}</p>
+                      <p>
+                        <b className='text-warning'>ID de transacción:</b>{' '}
+                        {transaction_id}
+                      </p>
+                      <p>
+                        <b className='text-warning'>Nombre de producto:</b>{' '}
+                        {title}
+                      </p>
+                      <p>
+                        <b className='text-warning'>Vendido por:</b>{' '}
+                        {buyer_name}
+                      </p>
+                      <p>
+                        <b className='text-warning'>Cantidad:</b> {stock}
+                      </p>
+                      <p>
+                        <b className='text-warning'>Total compra:</b> $
+                        {total_price.toLocaleString('es-CL')}
+                      </p>
+                      
                     </div>
                     <Button
                       variant='outline-info'
                       className='d-flex gap-1rem'
                       onClick={() => {
-                        getTransaction(token, id);
+                        getTransaction(token, transaction_id);
                         setTimeout(() => {
-                          handleShowTransaction(id);
+                          handleShowTransaction(transaction_id, false);
                         }, 1000);
                       }}
                     >
