@@ -111,7 +111,10 @@ function ProductDetailModal() {
           disabled={loading}
           onClick={addProductToCurrentCart}
         >
-          <BsCartPlus style={{ width: '50px', fontSize: '25px' }} />
+          <BsCartPlus
+            style={{ width: '50px', fontSize: '25px' }}
+          />
+          <small>Agregar</small>
         </Button>
       </Modal.Footer>
     </Modal>

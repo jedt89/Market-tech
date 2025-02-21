@@ -4,7 +4,7 @@ import { CartContext } from '../context/CartContext';
 import { ModalContext } from '../context/ModalContext';
 import { MainContext } from '../context/MainContext';
 import { BiDetail } from 'react-icons/bi';
-import { BsCartPlus } from "react-icons/bs";
+import { BsCartPlus } from 'react-icons/bs';
 import { PiShoppingCart } from 'react-icons/pi';
 import useService from '../hooks/useService';
 import '../index.css';
@@ -76,7 +76,11 @@ function ProductCard({
 
   return (
     <Card className='card-custom'>
-      <Card.Img variant='top' src={image_url} style={{width: '80%', alignSelf: 'center'}}/>
+      <Card.Img
+        variant='top'
+        src={image_url}
+        style={{ width: '80%', alignSelf: 'center' }}
+      />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text className='card-text-custom'>{description}</Card.Text>
@@ -88,19 +92,35 @@ function ProductCard({
         <Button
           variant='outline-info'
           className='btn-xs'
+          style={{ width: '110px' }}
           onClick={() => handleShowDetail(id, window.location.href)}
         >
-          <BiDetail style={{width: '50px', fontSize: '25px'}} />
+          <BiDetail
+            style={{
+              width: 'fit-content',
+              fontSize: '25px',
+              paddingRight: '5px'
+            }}
+          />
+          <small>Detalle</small>
         </Button>
         <Button
           variant='outline-warning'
           className='btn-xs'
           disabled={loading}
+          style={{ width: '110px' }}
           onClick={() => {
             addProductToCurrentCart();
           }}
         >
-          <BsCartPlus style={{width: '50px', fontSize: '25px'}}/>
+          <BsCartPlus
+            style={{
+              width: 'fit-content',
+              fontSize: '25px',
+              paddingRight: '5px'
+            }}
+          />
+          <small>Agregar</small>
         </Button>
       </Card.Footer>
     </Card>

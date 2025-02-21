@@ -24,25 +24,25 @@ const Footer = () => {
           <div>
             <img
               src={whatsappIcon}
-              className='navbar-brand-img category-img social border-radius-8'
+              className='category-img social border-radius-8'
             />
           </div>
           <div>
             <img
               src={facebookIcon}
-              className='navbar-brand-img category-img social border-radius-8'
+              className='category-img social border-radius-8'
             />
           </div>
           <div>
             <img
               src={instagramIcon}
-              className='navbar-brand-img category-img social border-radius-8'
+              className='category-img social border-radius-8'
             />
           </div>
           <div>
             <img
               src={tiktokIcon}
-              className='navbar-brand-img category-img social border-radius-8'
+              className='category-img social border-radius-8'
             />
           </div>
         </div>

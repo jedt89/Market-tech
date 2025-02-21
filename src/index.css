@@ -383,6 +383,10 @@ input:focus {
   justify-content: space-around;
 }
 
+.card-footer {
+  border: none;
+}
+
 .divider {
   height: 1px;
   border-bottom: 1px solid #ffc107;
@@ -895,5 +899,4 @@ input:focus {
       max-width: 90%;
     }
   }
-
 }
