@@ -4,7 +4,8 @@ import {
   whatsappIcon,
   facebookIcon,
   instagramIcon,
-  tiktokIcon
+  tiktokIcon,
+  brandImgLogo
 } from '../assets/index.js';
 
 const Footer = () => {
@@ -12,7 +13,14 @@ const Footer = () => {
     <div className='footer'>
       <div>
         <div>
-          <img src={brandImg} className='width-100-percent' />
+          <img
+            src={brandImgLogo}
+            style={{width: '50px'}}
+            alt='Brand'
+          />
+          <small className='head-title' style={{ paddingLeft: '10px' }}>
+            Market-Tech
+          </small>
         </div>
         <p className='footer-style'>
           Expertos en hardware - productos de calidad - Bajos precios

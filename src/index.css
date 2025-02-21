@@ -83,6 +83,10 @@ p {
   flex-direction: row;
 }
 
+.display-none {
+  display: none !important;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -185,6 +189,12 @@ p {
 .category-img:hover {
   /* filter: drop-shadow(0px 0px 1px #ffc107); */
   cursor: pointer;
+}
+
+.head-title {
+  font-family: 'Lexend Giga', serif;
+  color: white;
+  font-style: normal;
 }
 
 input:hover,
@@ -411,13 +421,13 @@ input:focus {
   border-radius: 8px;
   border: 1px solid rgba(255, 193, 7, 0.3);
   padding: 5px;
-  width: 100px;
+  width: 110px !important;
   cursor: pointer;
 }
 
 .header-categories-item:hover {
-    box-shadow: 0px 0px 5px rgba(255, 193, 7, 0.5);
-    scale: 1.1;
+  box-shadow: 0px 0px 5px rgba(255, 193, 7, 0.5);
+  scale: 1.1;
 }
 
 .header-categories-img {
@@ -495,7 +505,7 @@ input:focus {
   max-width: 300px;
   width: 100%;
   box-shadow: 0px 0px 2px #ffc107;
-  height: 550px;
+  height: 550px !important;
   padding-bottom: 1rem;
 }
 
@@ -823,6 +833,24 @@ input:focus {
   display: inline !important;
 }
 
+.toggle-searchBar {
+  display: none;
+  cursor: pointer;
+}
+
+@media (max-width: 2000px) {
+  .navbar-nav {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .toggle-searchBar {
+    display: none !important;
+  }
+}
+
+
 @media (max-width: 1200px) {
   .navbar-nav {
     display: flex;
@@ -859,6 +887,10 @@ input:focus {
   }
   .card-custom {
     max-width: 290px;
+  }
+
+  .toggle-searchBar {
+    display: block !important;
   }
 }
 
@@ -899,7 +931,7 @@ input:focus {
     width: 100%;
   }
   .card-custom {
-    max-width: none;
+    max-width: 320px;
   }
 
   .image-brand-title {

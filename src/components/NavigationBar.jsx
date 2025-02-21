@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { PiUserBold } from 'react-icons/pi';
@@ -9,6 +9,7 @@ import { MainContext } from '../context/MainContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
 import { brandImgLogo } from '../assets/index.js';
+import { IoSearch } from 'react-icons/io5';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -19,13 +20,17 @@ import useService from '../hooks/useService.jsx';
 import '../index.css';
 
 const NavigationBar = () => {
+  const [toggleSearchBar, setToggleSearchBar] = useState(false);
   const { user, token, handleLogout, setLoading } = useContext(MainContext);
   const { handleShowLogin, handleShowRegister, handleShowProfile } =
     useContext(ModalContext);
-
   const { currentCart, handleShowCart, setCurrentCart, getTotalPrice } =
     useContext(CartContext);
   const { handleGetCartItems } = useService();
+
+  const handleToggleSearch = () => {
+    setToggleSearchBar((prev) => !prev);
+  };
 
   const fetchCart = async () => {
     setLoading(true);
@@ -54,22 +59,35 @@ const NavigationBar = () => {
       <Container className='navbar-container-padding gap-1rem'>
         <div className='nav-brand-user'>
           <Navbar.Brand>
-            <Link to='/'>
+            <Link to='/' style={{ textDecoration: 'none' }}>
               <img
                 src={brandImgLogo}
                 className='navbar-brand-img category-img'
                 alt='Brand'
               />
+              <small className='head-title' style={{ paddingLeft: '10px' }}>
+                Market-Tech
+              </small>
             </Link>
           </Navbar.Brand>
           {token && (
             <div className='display-flex align-items-center justify-center gap-05rem'>
+              <IoSearch
+                className='menu-icon toggle-searchBar'
+                onClick={handleToggleSearch}
+              />
               <PiUserBold className='menu-icon' />
               <div className='text-warning'>{user.username}</div>
             </div>
           )}
         </div>
-        <HeaderSearchBar />
+
+        {toggleSearchBar && (
+          <HeaderSearchBar
+            className={`${toggleSearchBar ? 'display-flex' : 'display-none'}`}
+          />
+        )}
+
         <Nav>
           <div className='display-flex align-items-center'>
             {token && (
