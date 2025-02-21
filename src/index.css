@@ -183,8 +183,7 @@ p {
 }
 
 .category-img:hover {
-  filter: drop-shadow(0px 0px 8px #ffc107);
-  scale: 1.1;
+  /* filter: drop-shadow(0px 0px 1px #ffc107); */
   cursor: pointer;
 }
 
@@ -384,7 +383,7 @@ input:focus {
 }
 
 .card-footer {
-  border: none;
+  border: none !important;
 }
 
 .divider {
@@ -409,6 +408,16 @@ input:focus {
 
 .header-categories-item {
   margin: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  padding: 5px;
+  width: 100px;
+  cursor: pointer;
+}
+
+.header-categories-item:hover {
+    box-shadow: 0px 0px 5px rgba(255, 193, 7, 0.5);
+    scale: 1.1;
 }
 
 .header-categories-img {
