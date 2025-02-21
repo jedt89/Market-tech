@@ -69,8 +69,8 @@ const TransactionModal = () => {
               {transactionData.transaction_id}
             </p>
             <p>
-              <strong className='text-warning mr-2'>Precio:</strong>{' '}
-              {transactionData.subtotal}
+              <strong className='text-warning mr-2'>Total compra:</strong>{' '}
+              {Math.trunc(transactionData.subtotal).toLocaleString('es-CL')}
             </p>
           </div>
         )}

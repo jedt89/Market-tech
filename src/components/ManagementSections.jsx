@@ -350,17 +350,12 @@ const ManagementSections = () => {
                         {title}
                       </p>
                       <p>
-                        <b className='text-warning'>Vendido por:</b>{' '}
-                        {buyer_name}
-                      </p>
-                      <p>
                         <b className='text-warning'>Cantidad:</b> {stock}
                       </p>
                       <p>
                         <b className='text-warning'>Total compra:</b> $
-                        {total_price.toLocaleString('es-CL')}
+                        {Math.trunc(total_price).toLocaleString('es-CL')}
                       </p>
-                      
                     </div>
                     <Button
                       variant='outline-info'

@@ -9,6 +9,8 @@ import { TfiShoppingCart } from 'react-icons/tfi';
 import useService from '../hooks/useService';
 import '../index.css';
 import { ModalContext } from '../context/ModalContext';
+import { PiTrashThin } from 'react-icons/pi';
+import { BsCart4, BsCartX } from 'react-icons/bs';
 
 const CartModal = () => {
   const {
@@ -35,7 +37,7 @@ const CartModal = () => {
     setCurrentCart(cart);
     setLoading(false);
     handleCloseCart();
-    handleShowTransaction(null, true)
+    handleShowTransaction(null, true);
   };
 
   const fetchCart = async () => {
@@ -97,10 +99,7 @@ const CartModal = () => {
       <Modal.Body className='modal-body'>
         {!currentCart.products || currentCart.products.length === 0 ? (
           <div className='flex-column justify-center align-items-center gap-1rem'>
-            <TfiShoppingCart
-              className='text-info'
-              style={{ fontSize: '4rem' }}
-            />
+            <BsCartX className='text-info' style={{ fontSize: '4rem' }} />
             <p className='text-center text-white'>
               No tienes productos en tu carrito.
             </p>
@@ -113,21 +112,8 @@ const CartModal = () => {
                   key={index}
                   className='text-white border-yellow border-radius-8 cart-item background-transparent width-100-percent padding0'
                 >
-                  <div
-                    className='display-flex align-items-start justify-end text-danger top-cart-item-card'
-                    style={{ padding: '2px 2px 0px' }}
-                  >
-                    <IoIosClose
-                      className='cursor-pointer'
-                      onClick={() => actionForCartItem('delete', item)}
-                      style={{ fontSize: '30px' }}
-                    />
-                  </div>
-                  <div
-                    className='d-flex justify-content-between align-items-center card-body-cart'
-                    style={{ padding: '0 3rem 1rem 1rem' }}
-                  >
-                    <div className='d-flex align-items-center gap-1rem'>
+                  <div className='d-flex justify-content-between align-items-center card-body-cart p-2'>
+                    <div className='d-flex align-items-center gap-1rem width-100-percent'>
                       <Image
                         src={item.image_url}
                         alt={item.title}
@@ -135,31 +121,41 @@ const CartModal = () => {
                         width='60'
                         className='mr-3'
                       />
-                      <div>
-                        <div>{item.title}</div>
-                      </div>
-                    </div>
-                    <div className='d-flex align-items-center gap-1rem'>
-                      <div className='flex-column align-items-center justify-center'>
-                        <div className='d-flex align-items-center gap-1rem cart-quantity'>
-                          <CiSquareMinus
-                            className='text-warning cart-icon'
-                            onClick={() => {
-                              actionForCartItem('decrement', item);
-                            }}
-                          />
-                          <span>{item.quantity}</span>
-                          <CiSquarePlus
-                            className='text-warning cart-icon'
-                            onClick={() => {
-                              actionForCartItem('increment', item);
-                            }}
-                          />
-                        </div>
-                        <div className='text-center cart-subtotal'>
-                          <small>
-                            ${item.subTotal.toLocaleString('es-CL')}
-                          </small>
+                      <div className='width-100-percent'>
+                        <small>{item.title}</small>
+                        <div className='display-flex align-items-center justify-between width-100-percent'>
+                          <div className='text-center cart-subtotal'>
+                            <small>
+                              <small className='italic text-warning'>
+                                Subtotal:{' '}
+                              </small>
+                              ${item.subTotal.toLocaleString('es-CL')}
+                            </small>
+                          </div>
+                          <div className='d-flex align-items-center gap-05rem cart-quantity'>
+                            {item.quantity > 1 ? (
+                              <CiSquareMinus
+                                className='text-warning cart-icon'
+                                onClick={() => {
+                                  actionForCartItem('decrement', item);
+                                }}
+                              />
+                            ) : (
+                              <PiTrashThin
+                                className='text-danger cart-icon'
+                                onClick={() =>
+                                  actionForCartItem('delete', item)
+                                }
+                              />
+                            )}
+                            <span>{item.quantity}</span>
+                            <CiSquarePlus
+                              className='text-warning cart-icon'
+                              onClick={() => {
+                                actionForCartItem('increment', item);
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -175,16 +171,17 @@ const CartModal = () => {
             } align-items-center width-100-percent`}
           >
             {currentCart.products.length > 0 && (
-              <Button
-                variant='danger'
-                className='d-flex btn btn-xs gap-05rem'
+              <div
+                // variant='danger'
+                // className='d-flex btn btn-xs gap-05rem'
+                className='text-danger display-flex align-items-center gap-05rem cursor-pointer'
                 onClick={() => {
                   clearCart();
                 }}
               >
                 <FaRegTrashAlt />
                 Limpiar carrito
-              </Button>
+              </div>
             )}
             <span className='h5 display'>
               ${currentCart.totalCart.toLocaleString('es-CL')}

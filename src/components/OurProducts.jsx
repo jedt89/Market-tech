@@ -21,7 +21,7 @@ const OurProducts = () => {
         />
       )}
       <div className='d-flex justify-center align-items-center '>
-        <div className='d-flex flex-wrap justify-center flex-wrap align-items-center product-list-container gap-2rem'>
+        <div className='d-flex flex-wrap justify-center flex-wrap align-items-center product-list-container gap-2rem p-3'>
           {!allProducts ||
             (allProducts && allProducts.length == 0 && (
               <h3 className='text-info'>No hay productos para mostrar</h3>

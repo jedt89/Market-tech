@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 import { MainContext } from '../context/MainContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
-import { brandImg } from '../assets/index.js';
+import { brandImgLogo } from '../assets/index.js';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -52,23 +52,25 @@ const NavigationBar = () => {
   return (
     <Navbar expand='lg' className='navbar-container'>
       <Container className='navbar-container-padding gap-1rem'>
-        <Navbar.Brand>
-          <Link to='/'>
-            <img
-              src={brandImg}
-              className='navbar-brand-img category-img'
-              alt='Brand'
-            />
-          </Link>
-        </Navbar.Brand>
-        <HeaderSearchBar />
-        <Nav>
+        <div className='nav-brand-user'>
+          <Navbar.Brand>
+            <Link to='/'>
+              <img
+                src={brandImgLogo}
+                className='navbar-brand-img category-img'
+                alt='Brand'
+              />
+            </Link>
+          </Navbar.Brand>
           {token && (
-            <div className='display-flex align-items-center justify-center gap-1rem'>
-              <div className='text-warning'>{user.username}</div>
+            <div className='display-flex align-items-center justify-center gap-05rem'>
               <PiUserBold className='menu-icon' />
+              <div className='text-warning'>{user.username}</div>
             </div>
           )}
+        </div>
+        <HeaderSearchBar />
+        <Nav>
           <div className='display-flex align-items-center'>
             {token && (
               <Button
@@ -87,7 +89,7 @@ const NavigationBar = () => {
               >
                 <small className='text-warning'>Menu</small>
               </Dropdown.Toggle>
-              <Dropdown.Menu title='Menu'>
+              <Dropdown.Menu title='Menu' align={'end'}>
                 <Dropdown.Item onClick={handleShowLogin} disabled={token}>
                   <AiOutlineLogin className='menu-icon menu-icon-margin' />
                   <small className='text-black'>Ingresar</small>

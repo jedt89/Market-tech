@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Intel",
+    "id": 1,
+    "icon": "../src/assets/icons/popular-brands/intel-logo.png"
+  },
+  {
+    "name": "NVIDIA",
+    "id": 2,
+    "icon": "../src/assets/icons/popular-brands/nvidia-logo.png"
+  },
+  {
+    "name": "AMD",
+    "id": 3,
+    "icon": "../src/assets/icons/popular-brands/amd-logo.png"
+  },
+  {
+    "name": "Corsair",
+    "id": 4,
+    "icon": "../src/assets/icons/popular-brands/corsair-logo.png"
+  },
+  {
+    "name": "Seagate",
+    "id": 5,
+    "icon": "../src/assets/icons/popular-brands/seagate-logo.png"
+  },
+  {
+    "name": "Western Digital",
+    "id": 6,
+    "icon": "../src/assets/icons/popular-brands/western-digital-logo.png"
+  },
+  {
+    "name": "Logitech",
+    "id": 7,
+    "icon": "../src/assets/icons/popular-brands/logitech-logo.png"
+  },
+  {
+    "name": "Asus",
+    "id": 8,
+    "icon": "../src/assets/icons/popular-brands/asus-logo.png"
+  },
+  {
+    "name": "MSI",
+    "id": 9,
+    "icon": "../src/assets/icons/popular-brands/msi-logo.png"
+  },
+  {
+    "name": "Gigabyte",
+    "id": 10,
+    "icon": "../src/assets/icons/popular-brands/gigabyte-logo.png"
+  },
+  {
+    "name": "Razer",
+    "id": 11,
+    "icon": "../src/assets/icons/popular-brands/razer-logo.png"
+  },
+  {
+    "name": "Kingston",
+    "id": 12,
+    "icon": "../src/assets/icons/popular-brands/kingston-logo.png"
+  },
+  {
+    "name": "Samsung",
+    "id": 13,
+    "icon": "../src/assets/icons/popular-brands/samsung-logo.png"
+  },
+  {
+    "name": "Apple",
+    "id": 14,
+    "icon": "../src/assets/icons/popular-brands/apple-logo.png"
+  },
+  {
+    "name": "Dell",
+    "id": 15,
+    "icon": "../src/assets/icons/popular-brands/dell-logo.png"
+  }
+]

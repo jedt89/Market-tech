@@ -6,6 +6,7 @@ import { ModalContext } from '../context/ModalContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
+import { BsCartPlus } from 'react-icons/bs';
 
 function ProductDetailModal() {
   const { currentProduct, token, loading, setLoading, user } =
@@ -13,8 +14,21 @@ function ProductDetailModal() {
   const { showDetail, handleCloseDetail } = useContext(ModalContext);
   const { addProductToCart } = useContext(CartContext);
   const { handleAddToCart } = useService();
-  const { image_url, price, title, description, id, quantity, subTotal } =
-    currentProduct;
+  const {
+    image_url,
+    price,
+    title,
+    description,
+    id,
+    product_id,
+    quantity,
+    subTotal,
+    category,
+    category_id,
+    publication_time,
+    stock,
+    user_id
+  } = currentProduct;
 
   const addProductToCurrentCart = async () => {
     setLoading(true);
@@ -24,8 +38,14 @@ function ProductDetailModal() {
       title,
       description,
       id,
+      product_id,
       quantity,
-      subTotal
+      subTotal,
+      category,
+      category_id,
+      publication_time,
+      stock,
+      user_id
     });
     await handleAddToCart(
       {
@@ -34,8 +54,14 @@ function ProductDetailModal() {
         title,
         description,
         id,
+        product_id,
         quantity,
-        subTotal
+        subTotal,
+        category,
+        category_id,
+        publication_time,
+        stock,
+        user_id
       },
       token,
       user.id
@@ -85,7 +111,7 @@ function ProductDetailModal() {
           disabled={loading}
           onClick={addProductToCurrentCart}
         >
-          Agregar al carrito
+          <BsCartPlus style={{ width: '50px', fontSize: '25px' }} />
         </Button>
       </Modal.Footer>
     </Modal>

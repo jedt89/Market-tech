@@ -3,6 +3,9 @@ import { Button, Card } from 'react-bootstrap';
 import { CartContext } from '../context/CartContext';
 import { ModalContext } from '../context/ModalContext';
 import { MainContext } from '../context/MainContext';
+import { BiDetail } from 'react-icons/bi';
+import { BsCartPlus } from "react-icons/bs";
+import { PiShoppingCart } from 'react-icons/pi';
 import useService from '../hooks/useService';
 import '../index.css';
 
@@ -73,7 +76,7 @@ function ProductCard({
 
   return (
     <Card className='card-custom'>
-      <Card.Img variant='top' src={image_url} />
+      <Card.Img variant='top' src={image_url} style={{width: '80%', alignSelf: 'center'}}/>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text className='card-text-custom'>{description}</Card.Text>
@@ -81,13 +84,13 @@ function ProductCard({
           ${price.toLocaleString('es-CL')}
         </Card.Title>
       </Card.Body>
-      <Card.Body className='card-body-footer'>
+      <Card.Footer className='card-body-footer'>
         <Button
           variant='outline-info'
           className='btn-xs'
           onClick={() => handleShowDetail(id, window.location.href)}
         >
-          Detalle
+          <BiDetail style={{width: '50px', fontSize: '25px'}} />
         </Button>
         <Button
           variant='outline-warning'
@@ -97,9 +100,9 @@ function ProductCard({
             addProductToCurrentCart();
           }}
         >
-          Agregar al carrito
+          <BsCartPlus style={{width: '50px', fontSize: '25px'}}/>
         </Button>
-      </Card.Body>
+      </Card.Footer>
     </Card>
   );
 }
