@@ -79,7 +79,7 @@ function ProductCard({
       <Card.Img
         variant='top'
         src={image_url}
-        style={{ width: '80%', alignSelf: 'center' }}
+        style={{ width: '70%', alignSelf: 'center' }}
       />
       <Card.Body>
         <Card.Title>{title}</Card.Title>

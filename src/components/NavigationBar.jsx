@@ -65,7 +65,7 @@ const NavigationBar = () => {
                 className='navbar-brand-img category-img'
                 alt='Brand'
               />
-              <small className='head-title' style={{ paddingLeft: '10px' }}>
+              <small className='head-title' style={{ paddingLeft: '10px', fontSize: '10px' }}>
                 Market-Tech
               </small>
             </Link>
@@ -73,7 +73,7 @@ const NavigationBar = () => {
           {token && (
             <div className='display-flex align-items-center justify-center gap-05rem'>
               <IoSearch
-                className='menu-icon toggle-searchBar'
+                className='menu-icon toggle-searchBar-left'
                 onClick={handleToggleSearch}
               />
               <PiUserBold className='menu-icon' />
@@ -90,9 +90,13 @@ const NavigationBar = () => {
 
         <Nav>
           <div className='display-flex align-items-center'>
+            <IoSearch
+              className='menu-icon toggle-searchBar-right'
+              onClick={handleToggleSearch}
+            />
             {token && (
               <Button
-                className='navbar-button navbar-button-margin d-flex align-items-center gap-1rem'
+                className='navbar-button navbar-button-margin d-flex align-items-center gap-05rem'
                 variant='outline-warning'
                 onClick={handleShowCart}
               >
