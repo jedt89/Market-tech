@@ -9,7 +9,7 @@ const OurProducts = () => {
 
   return (
     <div className='our-products-container'>
-      <h1 className='text-white'>Nuestros productos</h1>
+      <h1 className='text-white head-title'>Nuestros productos</h1>
       {allProducts && allProducts.length > 0 && (
         <HeaderCategories
           products={allProducts.filter((product) => {

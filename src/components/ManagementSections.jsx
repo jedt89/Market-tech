@@ -214,7 +214,7 @@ const ManagementSections = () => {
                 </Button>
               </form>
             </div>
-            <div className='display-flex justify-end form-button-container'>
+            <div className='display-flex justify-center form-button-container'>
               <Button
                 className='save-button'
                 variant='success'
@@ -256,7 +256,7 @@ const ManagementSections = () => {
               }) => {
                 if (user && user_id === user.id) {
                   return (
-                    <div className='product-row mb-3' key={id}>
+                    <div className='product-row justify-self-center mb-3' key={id}>
                       <div className='product-row-title'>
                         <div>
                           <p>Id de producto:</p> {id}
@@ -335,7 +335,7 @@ const ManagementSections = () => {
                     total_price,
                     stock
                   }) => (
-                    <div key={transaction_id} className='product-row mb-3'>
+                    <div key={transaction_id} className='product-row justify-self-center mb-3'>
                       <div className='product-row-title'>
                         <div>
                           <p>ID de transacción:</p> {transaction_id}

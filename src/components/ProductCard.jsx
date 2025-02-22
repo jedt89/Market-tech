@@ -84,7 +84,7 @@ function ProductCard({
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text className='card-text-custom'>{description}</Card.Text>
-        <Card.Title className='text-success'>
+        <Card.Title className='text-success2'>
           ${price.toLocaleString('es-CL')}
         </Card.Title>
       </Card.Body>
