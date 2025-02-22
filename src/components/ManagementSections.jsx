@@ -239,7 +239,7 @@ const ManagementSections = () => {
       )}
 
       {showTab == 1 && (
-        <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center overflow-auto'>
+        <div className='border-radius-8 width-100-percent overflow-auto'>
           {allProducts &&
             allProducts.length > 0 &&
             allProducts.map(
@@ -256,7 +256,7 @@ const ManagementSections = () => {
               }) => {
                 if (user && user_id === user.id) {
                   return (
-                    <div className='product-row' key={id}>
+                    <div className='product-row mb-3' key={id}>
                       <div className='product-row-title'>
                         <div>
                           <p>Id de producto:</p> {id}
@@ -315,14 +315,14 @@ const ManagementSections = () => {
               Ventas
             </Button>
           </div>
-          <div className='border-radius-8 all-text-white width-100-percent flex-column align-items-center'>
+          <div className='border-radius-8 all-text-white width-100-percent'>
             {transactionsToShow && transactionsToShow.length == 0 && (
               <div className='display-flex justify-center'>
                 No hay transacciones para mostrar
               </div>
             )}
 
-            <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center overflow-auto padding0'>
+            <div className='border-radius-8 width-100-percent overflow-auto padding0'>
               {transactionsToShow &&
                 transactionsToShow.length > 0 &&
                 transactionsToShow.map(
@@ -335,7 +335,7 @@ const ManagementSections = () => {
                     total_price,
                     stock
                   }) => (
-                    <div key={transaction_id} className='product-row'>
+                    <div key={transaction_id} className='product-row mb-3'>
                       <div className='product-row-title'>
                         <div>
                           <p>ID de transacción:</p> {transaction_id}

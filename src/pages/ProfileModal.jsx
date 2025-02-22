@@ -50,7 +50,7 @@ const ProfileModal = () => {
       </Modal.Header>
       <Modal.Body className='text-white width-100-percent'>
         <div className='flex-column border-radius-8 text-center gap-1rem width-100-percent profile-info'>
-          <div className='flex-column align-items-center gap-2rem text-center justify-center'>
+          <div className='display-flex align-items-center gap-2rem text-center justify-center'>
             <img className='profile-image' src={profileImg} alt='Profile' />
             <p className='text-warning profile-name'>{user.username}</p>
           </div>

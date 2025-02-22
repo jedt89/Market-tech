@@ -35,7 +35,7 @@ const OurProducts = () => {
               ) {
                 console.log('product', product)
                 return (
-                  <div key={product.id}>
+                  <div key={product.id} className='product-card-container'>
                     <ProductCard key={product.id} {...product} />
                   </div>
                 );

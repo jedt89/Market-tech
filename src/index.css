@@ -67,6 +67,12 @@ form {
   gap: 1rem;
 }
 
+input:hover,
+input:visited,
+input:focus {
+  box-shadow: 0px 0px 2px #ffc107;
+}
+
 /* Utility Classes */
 .width-100-percent {
   width: 100% !important;
@@ -178,10 +184,8 @@ form {
   font-style: normal;
 }
 
-input:hover,
-input:visited,
-input:focus {
-  box-shadow: 0px 0px 2px #ffc107;
+.navbar-button-margin {
+  margin-right: 1rem;
 }
 
 .navbar-button,
@@ -223,7 +227,7 @@ input:focus {
 }
 
 .modal-footer {
-  border-top: 1px solid rgba(255, 193, 5, 0.5) !important
+  border-top: 1px solid rgba(255, 193, 5, 0.5) !important;
 }
 
 .form-group {
@@ -501,10 +505,6 @@ input:focus {
   padding: 1rem;
 }
 
-.navbar-button-margin {
-  margin-right: 1rem;
-}
-
 .menu-icon-margin {
   margin-right: 1rem;
 }
@@ -704,6 +704,13 @@ input:focus {
   cursor: pointer;
   font-size: 30px;
 }
+.product-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+}
 
 .product-price {
   font-size: 2rem;
@@ -817,10 +824,6 @@ input:focus {
   max-width: 100%;
 }
 
-/* .nav-container {
-  flex-wrap: wrap !important;
-} */
-
 .navbar-container {
   flex-wrap: wrap !important;
 }
@@ -858,11 +861,6 @@ input:focus {
     margin: 1rem;
   }
 
-  /* .table-row {
-    display: flex;
-    flex-direction: column;
-  } */
-
   .toggle-searchBar-left {
     display: none;
     cursor: pointer;
@@ -883,7 +881,7 @@ input:focus {
 
 @media (min-width: 610px) and (max-width: 768px) {
   .card-custom {
-    max-width: 270px;
+    max-width: 250px;
     btn-outline-warning {
       width: 100px !important;
     }
@@ -912,6 +910,10 @@ input:focus {
   .nav-brand-user {
     justify-content: space-between;
     width: 100%;
+  }
+
+  .product-card-container {
+    max-width: 250px;
   }
 }
 
@@ -947,6 +949,10 @@ input:focus {
   .nav-brand-user {
     justify-content: space-between;
     width: 100%;
+  }
+
+  .product-card-container {
+    max-width: 360px;
   }
 }
 
@@ -1012,5 +1018,9 @@ input:focus {
   .nav-brand-user {
     justify-content: space-between;
     width: 100%;
+  }
+
+  .product-card-container {
+    max-width: 360px;
   }
 }
