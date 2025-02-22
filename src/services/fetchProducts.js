@@ -128,10 +128,10 @@ export const getCartItems = async (token, user_id) => {
 };
 
 // Actualizar la cantidad de un producto en el carrito
-export const updateCartItem = async (id, action, token) => {
+export const updateCartItem = async (productId, action, token) => {
   try {
     const response = await api.post(
-      `/user/cart/${id}`,
+      `/user/cart/update/${productId}`,
       { action },
       {
         headers: {

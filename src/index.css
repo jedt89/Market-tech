@@ -120,9 +120,6 @@ input:focus {
   justify-content: space-between;
 }
 
-.justify-self-center {
-  justify-self: center !important;
-}
 
 .align-items-center {
   align-items: center;
@@ -723,7 +720,7 @@ input:focus {
 }
 
 .product-row {
-  width: 100%;
+  width: 100% !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -849,7 +846,6 @@ input:focus {
   margin-right: 1rem;
 }
 
-
 @media (min-width: 1201px) and (max-width: 2500px) {
   .navbar-container-padding {
     display: flex;
@@ -868,7 +864,6 @@ input:focus {
     cursor: pointer;
   }
 }
-
 
 /* Rango: de 769px a 992px */
 @media (min-width: 769px) and (max-width: 1200px) {
