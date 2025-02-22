@@ -34,7 +34,7 @@ const ProfileModal = () => {
       show={showProfile}
       onHide={handleCloseProfile}
       centered
-      fullscreen
+      size='lg'
       backdrop='static'
     >
       <Modal.Header className='text-warning display-flex justify-between align-items-center'>

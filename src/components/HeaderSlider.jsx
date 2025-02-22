@@ -47,7 +47,7 @@ function HeaderSlider({ title }) {
             <SwiperSlide>
               <img
                 srcSet={`${header01Mobile} 600w, ${header01} 1024w`}
-                sizes='(max-width: 600px) 100vw, 50vw'
+                sizes='(max-width: 900px) 100vw, 50vw'
                 src={header01}
                 alt='Header 01'
                 className='swiper-slide-img'
@@ -56,7 +56,7 @@ function HeaderSlider({ title }) {
             <SwiperSlide>
               <img
                 srcSet={`${header02Mobile} 600w, ${header02} 1024w`}
-                sizes='(max-width: 600px) 100vw, 50vw'
+                sizes='(max-width: 900px) 100vw, 50vw'
                 src={header02}
                 alt='Header 02'
                 className='swiper-slide-img'
@@ -65,7 +65,7 @@ function HeaderSlider({ title }) {
             <SwiperSlide>
               <img
                 srcSet={`${header03Mobile} 600w, ${header03} 1024w`}
-                sizes='(max-width: 600px) 100vw, 50vw'
+                sizes='(max-width: 900px) 100vw, 50vw'
                 src={header03}
                 alt='Header 03'
                 className='swiper-slide-img'
@@ -74,7 +74,7 @@ function HeaderSlider({ title }) {
             <SwiperSlide>
               <img
                 srcSet={`${header04Mobile} 600w, ${header04} 1024w`}
-                sizes='(max-width: 600px) 100vw, 50vw'
+                sizes='(max-width: 900px) 100vw, 50vw'
                 src={header04}
                 alt='Header 04'
                 className='swiper-slide-img'
@@ -83,7 +83,7 @@ function HeaderSlider({ title }) {
             <SwiperSlide>
               <img
                 srcSet={`${header05Mobile} 600w, ${header05} 1024w`}
-                sizes='(max-width: 600px) 100vw, 50vw'
+                sizes='(max-width: 900px) 100vw, 50vw'
                 src={header05}
                 alt='Header 05'
                 className='swiper-slide-img'
@@ -92,7 +92,7 @@ function HeaderSlider({ title }) {
             <SwiperSlide>
               <img
                 srcSet={`${header06Mobile} 600w, ${header06} 1024w`}
-                sizes='(max-width: 600px) 100vw, 50vw'
+                sizes='(max-width: 900px) 100vw, 50vw'
                 src={header06}
                 alt='Header 06'
                 className='swiper-slide-img'

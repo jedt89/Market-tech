@@ -116,7 +116,7 @@ const ManagementSections = () => {
 
       {showTab == 0 && (
         <div className='width-100-percent flex-column align-items-center'>
-          <div className='border-radius-8 form-container'>
+          <div className='form-container'>
             <div className='form-group'>
               <label htmlFor='productName' className='form-label'>
                 Nombre de producto
@@ -239,59 +239,61 @@ const ManagementSections = () => {
       )}
 
       {showTab == 1 && (
-        <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center'>
-          <div className='width-100-percent table-products border-radius-8 all-text-white table-header'>
-            <div>Id</div>
-            <div>Nombre</div>
-            <div>Descripción</div>
-            <div>Id de categoría</div>
-            <div>Precio</div>
-            <div>Stock</div>
-            <div>
-              <CiSettings style={{ color: 'limegreen', fontSize: '24px' }} />
-            </div>
-          </div>
-          <div className='border-radius-8 all-text-white table-body'>
-            {allProducts &&
-              allProducts.length > 0 &&
-              allProducts.map(
-                ({
-                  id,
-                  title,
-                  description,
-                  category,
-                  price,
-                  stock,
-                  product_id,
-                  user_id
-                }) => {
-                  if (user && user_id === user.id) {
-                    return (
-                      <div
-                        className='width-100-percent table-products table-row'
-                        key={id}
-                      >
-                        <div>{id}</div>
-                        <div>{title}</div>
-                        <div>{description}</div>
-                        <div>{category}</div>
-                        <div>{price}</div>
-                        <div>{stock}</div>
-                        <div className='display-flex justify-center align-items-center gap-1rem'>
-                          <FaRegTrashAlt
-                            className='cursor-pointer'
-                            style={{ color: 'red' }}
-                            onClick={() =>
-                              deleteProductManaged(product_id, token)
-                            }
-                          />
+        <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center overflow-auto'>
+          {allProducts &&
+            allProducts.length > 0 &&
+            allProducts.map(
+              ({
+                id,
+                title,
+                description,
+                category_id,
+                price,
+                stock,
+                product_id,
+                user_id,
+                category
+              }) => {
+                if (user && user_id === user.id) {
+                  return (
+                    <div className='product-row' key={id}>
+                      <div className='product-row-title'>
+                        <div>
+                          <p>Id de producto:</p> {id}
+                        </div>
+                        <div>
+                          <p>Nombre de producto:</p> {title}
+                        </div>
+                        <div>
+                          <p>Descripción:</p> {description}
+                        </div>
+                        <div>
+                          <p>Categoría:</p> {category}
+                        </div>
+                        <div>
+                          <p>Id de Categoría:</p> {category_id}
+                        </div>
+                        <div>
+                          <p>Precio:</p> {price}
                         </div>
                       </div>
-                    );
-                  }
+
+                      <div className='flex-column justify-center align-items-center gap-1rem'>
+                        <div>
+                          <b className='text-success'>Stock:</b> {stock}
+                        </div>
+                        <FaRegTrashAlt
+                          className='cursor-pointer text-danger'
+                          onClick={() =>
+                            deleteProductManaged(product_id, token)
+                          }
+                        />
+                      </div>
+                    </div>
+                  );
                 }
-              )}
-          </div>
+              }
+            )}
         </div>
       )}
 
@@ -319,60 +321,53 @@ const ManagementSections = () => {
                 No hay transacciones para mostrar
               </div>
             )}
-            {transactionsToShow &&
-              transactionsToShow.length > 0 &&
-              transactionsToShow.map(
-                ({
-                  transaction_id,
-                  title,
-                  buyer_name,
-                  category,
-                  image_url,
-                  total_price,
-                  stock
-                }) => (
-                  <div
-                    className='display-flex gap-1rem align-items-center border-radius-8 transaction-item border-yellow'
-                    key={transaction_id}
-                  >
-                    {/* <img
-                      src={image_url}
-                      className='transaction-image'
-                      alt={title}
-                    /> */}
-                    <div>
-                      <p>
-                        <b className='text-warning'>ID de transacción:</b>{' '}
-                        {transaction_id}
-                      </p>
-                      <p>
-                        <b className='text-warning'>Nombre de producto:</b>{' '}
-                        {title}
-                      </p>
-                      <p>
-                        <b className='text-warning'>Cantidad:</b> {stock}
-                      </p>
-                      <p>
-                        <b className='text-warning'>Total compra:</b> $
-                        {Math.trunc(total_price).toLocaleString('es-CL')}
-                      </p>
+
+            <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center overflow-auto padding0'>
+              {transactionsToShow &&
+                transactionsToShow.length > 0 &&
+                transactionsToShow.map(
+                  ({
+                    transaction_id,
+                    title,
+                    buyer_name,
+                    category,
+                    image_url,
+                    total_price,
+                    stock
+                  }) => (
+                    <div key={transaction_id} className='product-row'>
+                      <div className='product-row-title'>
+                        <div>
+                          <p>ID de transacción:</p> {transaction_id}
+                        </div>
+                        <div>
+                          <p>Nombre de producto:</p> {title}
+                        </div>
+                        <div>
+                          <p>Cantidad:</p> {stock}
+                        </div>
+                        <div>
+                          <p>Total compra:</p> $
+                          {Math.trunc(total_price).toLocaleString('es-CL')}
+                        </div>
+                      </div>
+                      <Button
+                        variant='outline-info'
+                        className='d-flex gap-05rem'
+                        onClick={() => {
+                          getTransaction(token, transaction_id);
+                          setTimeout(() => {
+                            handleShowTransaction(transaction_id, false);
+                          }, 1000);
+                        }}
+                      >
+                        <CiCircleInfo className='text-info' />
+                        <small>Ver detalle</small>
+                      </Button>
                     </div>
-                    <Button
-                      variant='outline-info'
-                      className='d-flex gap-1rem'
-                      onClick={() => {
-                        getTransaction(token, transaction_id);
-                        setTimeout(() => {
-                          handleShowTransaction(transaction_id, false);
-                        }, 1000);
-                      }}
-                    >
-                      <CiCircleInfo className='text-info' />
-                      <span>Ver detalle</span>
-                    </Button>
-                  </div>
-                )
-              )}
+                  )
+                )}
+            </div>
           </div>
         </div>
       )}

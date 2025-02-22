@@ -20,7 +20,7 @@ import useService from '../hooks/useService.jsx';
 import '../index.css';
 
 const NavigationBar = () => {
-  const [toggleSearchBar, setToggleSearchBar] = useState(false);
+  const [toggleSearchBar, setToggleSearchBar] = useState(true);
   const { user, token, handleLogout, setLoading } = useContext(MainContext);
   const { handleShowLogin, handleShowRegister, handleShowProfile } =
     useContext(ModalContext);
@@ -55,7 +55,7 @@ const NavigationBar = () => {
   }, [token]);
 
   return (
-    <Navbar expand='lg' className='navbar-container'>
+    <Navbar className='navbar-container'>
       <Container className='navbar-container-padding gap-1rem'>
         <div className='nav-brand-user'>
           <Navbar.Brand>

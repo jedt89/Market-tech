@@ -35,13 +35,15 @@ const AllProductsModal = () => {
       size='xl'
       backdrop='static'
     >
-      <Modal.Header className='text-warning display-flex justify-between align-items-center'>
-        <Modal.Title className='modal-title'>Todos los productos</Modal.Title>
-        <HeaderSearchBar />
-        <IoIosClose
-          className='text-white close-icon'
-          onClick={handleCloseAllProducts}
-        />
+      <Modal.Header className='text-warning flex-column'>
+        <div className='display-flex justify-between align-items-center width-100-percent pb-3'>
+          <Modal.Title className='modal-title'>Todos los productos</Modal.Title>
+          <IoIosClose
+            className='text-white close-icon'
+            onClick={handleCloseAllProducts}
+          />
+        </div>
+        <HeaderSearchBar className='width-100-percent' />
       </Modal.Header>
       <Modal.Body className='modal-body'>
         {!productsFiltered ||

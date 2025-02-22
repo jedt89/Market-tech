@@ -88,7 +88,7 @@ function ProductDetailModal() {
       <Modal.Body className='modal-body text-white text-center'>
         <img
           src={currentProduct.image_url}
-          className='width-100-percent'
+          style={{width: '200px'}}
           alt={currentProduct.title}
         />
         <p>{currentProduct.description}</p>
