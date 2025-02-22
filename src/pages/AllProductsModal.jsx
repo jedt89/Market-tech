@@ -63,7 +63,7 @@ const AllProductsModal = () => {
           productsFiltered.map((product) => {
             if (!user || (user && product.user_id !== user.id)) {
               return (
-                <div key={product.id}>
+                <div key={product.id} className='product-card-container'>
                   <ProductCard {...product} />
                 </div>
               );
