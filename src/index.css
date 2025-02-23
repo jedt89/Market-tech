@@ -252,6 +252,7 @@ input:focus {
   gap: 1rem;
   min-height: 200px;
   max-height: 70vh;
+  overflow: auto;
 }
 
 .modal-footer {
