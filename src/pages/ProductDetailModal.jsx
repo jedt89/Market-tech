@@ -92,7 +92,7 @@ function ProductDetailModal() {
           alt={currentProduct.title}
         />
         <p>{currentProduct.description}</p>
-        <p className='text-success product-price'>
+        <p className='text-success2 product-price'>
           $
           {currentProduct.price && currentProduct.price.toLocaleString('es-CL')}
         </p>

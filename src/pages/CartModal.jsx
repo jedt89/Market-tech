@@ -87,7 +87,7 @@ const CartModal = () => {
       onHide={handleCloseCart}
       centered
       backdrop='static'
-      size='lg'
+      size='md'
     >
       <Modal.Header className='text-white d-flex justify-content-between align-items-center'>
         <Modal.Title className='modal-title'>Carrito de Compras</Modal.Title>
@@ -172,8 +172,6 @@ const CartModal = () => {
           >
             {currentCart.products.length > 0 && (
               <div
-                // variant='danger'
-                // className='d-flex btn btn-xs gap-05rem'
                 className='text-danger display-flex align-items-center gap-05rem cursor-pointer'
                 onClick={() => {
                   clearCart();
@@ -183,7 +181,7 @@ const CartModal = () => {
                 Limpiar carrito
               </div>
             )}
-            <span className='h5 display'>
+            <span className='h5 product-price'>
               ${currentCart.totalCart.toLocaleString('es-CL')}
             </span>
           </div>

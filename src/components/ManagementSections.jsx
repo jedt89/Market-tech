@@ -110,7 +110,7 @@ const ManagementSections = () => {
           <Nav.Link eventKey='1'>Mis productos</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey='2'>Historial de transacciones</Nav.Link>
+          <Nav.Link eventKey='2'>Transacciones</Nav.Link>
         </Nav.Item>
       </Nav>
 
@@ -239,7 +239,7 @@ const ManagementSections = () => {
       )}
 
       {showTab == 1 && (
-        <div className='border-radius-8 width-100-percent overflow-auto'>
+        <div className='border-radius-8 width-100-percent overflow-auto max-height-30vh'>
           {allProducts &&
             allProducts.length > 0 &&
             allProducts.map(
@@ -280,7 +280,7 @@ const ManagementSections = () => {
 
                       <div className='flex-column justify-center align-items-center gap-1rem'>
                         <div>
-                          <b className='text-success'>Stock:</b> {stock}
+                          <b className='text-success2'>Stock:</b> {stock}
                         </div>
                         <FaRegTrashAlt
                           className='cursor-pointer text-danger'
@@ -322,7 +322,7 @@ const ManagementSections = () => {
               </div>
             )}
 
-            <div className='border-radius-8 width-100-percent overflow-auto padding0'>
+            <div className='border-radius-8 width-100-percent overflow-auto padding0 max-height-30vh'>
               {transactionsToShow &&
                 transactionsToShow.length > 0 &&
                 transactionsToShow.map(

@@ -13,18 +13,12 @@ const Footer = () => {
     <div className='footer'>
       <div>
         <div>
-          <img
-            src={brandImgLogo}
-            style={{width: '50px'}}
-            alt='Brand'
-          />
+          <img src={brandImgLogo} style={{ width: '50px' }} alt='Brand' />
           <small className='head-title' style={{ paddingLeft: '10px' }}>
             Market-Tech
           </small>
         </div>
-        <p className='footer-style'>
-          Expertos en hardware - productos de calidad - Bajos precios
-        </p>
+        <p className='footer-style head-title'>Expertos en hardware</p>
       </div>
       <div>
         <p>Búscanos en nuestras redes sociales</p>
