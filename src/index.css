@@ -73,6 +73,7 @@ input:focus {
   box-shadow: 0px 0px 2px #ffc107;
 }
 
+
 /* Utility Classes */
 .width-100-percent {
   width: 100% !important;
@@ -255,13 +256,18 @@ input:focus {
 }
 
 .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 0.3) !important;
   font-weight: 100;
   font-size: 12px;
 }
 
 .social {
   width: 50px !important;
+}
+
+.btn {
+  opacity: 0.7 !important;
+
 }
 
 .modal-btn-submit {
@@ -613,7 +619,6 @@ input:focus {
 
 .btn-xs {
   font-size: 0.75rem;
-  opacity: 0.9;
 }
 
 .text-white {
