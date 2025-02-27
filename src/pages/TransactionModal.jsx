@@ -7,7 +7,7 @@ import { IoIosClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
 
 const TransactionModal = () => {
-  const { currentTransaction, user } = useContext(MainContext);
+  const { currentTransaction, user, allProducts } = useContext(MainContext);
   const { showTransaction, handleCloseTransaction, buy } =
     useContext(ModalContext);
   let transactionData = {};
@@ -20,8 +20,18 @@ const TransactionModal = () => {
     return `${day}-${month}-${year}`;
   };
 
+  const getProductName = (id, products) => {
+    const product_name = products.find((product) => product.id === id);
+    return product_name.title || 'Sin nombre';
+  };
+
   if (currentTransaction) {
-    transactionData = currentTransaction[0] || null;
+    transactionData.transaction_id = currentTransaction[0].transaction_id;
+    transactionData.id = currentTransaction[0].id;
+    transactionData.products = currentTransaction;
+    transactionData.total = currentTransaction.reduce((sum, transaction) => {
+      return sum + Math.trunc(transaction.subtotal);
+    }, 0);
   }
 
   return (
@@ -34,44 +44,83 @@ const TransactionModal = () => {
     >
       <Modal.Header className='text-white d-flex justify-content-between align-items-center'>
         <Modal.Title className='modal-title'>
-          {buy ? '¡Compra exitosa!' : 'Detalle de transacción'}
+          {buy ? '¡Compra exitosa!' : 'Detalle de transacción - productos'}
         </Modal.Title>
         <IoIosClose
           className='text-white close-icon'
           onClick={() => handleCloseTransaction(user.id, buy)}
         />
       </Modal.Header>
-      <Modal.Body className='modal-body text-white flex-column align-itemns-start'>
-        {!buy && (
-          <div>
-            <p>
-              <strong className='text-warning mr-2'>Transacción número:</strong>{' '}
-              {transactionData.transaction_id}
-            </p>
-            <p>
-              <strong className='text-warning mr-2'>
-                Nombre del comprador:
-              </strong>{' '}
-              {transactionData.buyer_name}
-            </p>
-            <p>
-              <strong className='text-warning mr-2'>
-                Nombre del vendedor:
-              </strong>{' '}
-              {transactionData.seller_name}
-            </p>
-            <p>
-              <strong className='text-warning mr-2'>Fecha:</strong>{' '}
-              {getDate(transactionData.date)}
-            </p>
-            <p>
-              <strong className='text-warning mr-2'>ID de transacción:</strong>{' '}
-              {transactionData.transaction_id}
-            </p>
-            <p>
-              <strong className='text-warning mr-2'>Total compra:</strong>{' '}
-              {Math.trunc(transactionData.subtotal).toLocaleString('es-CL')}
-            </p>
+      <Modal.Body className='modal-body text-white flex-column'>
+        {!buy && currentTransaction && (
+          <div className='flex-column gap-1rem' style={{maxHeight: '500px'}}>
+            {currentTransaction &&
+              transactionData.products.length &&
+              transactionData.products.map(
+                ({
+                  product_id,
+                  date,
+                  buyer_name,
+                  seller_name,
+                  unit_price,
+                  quantity,
+                  subtotal,
+                  transaction_id
+                }) => {
+                  return (
+                    <div key={product_id} className='form-control'>
+                      <div>
+                        <p className='text-warning mr-2'>
+                          Nombre del producto:
+                        </p>{' '}
+                        {getProductName(product_id, allProducts)}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>Fecha:</p>{' '}
+                        {getDate(date)}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>
+                          Nombre del comprador:
+                        </p>{' '}
+                        {buyer_name}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>
+                          Nombre del vendedor:
+                        </p>{' '}
+                        {seller_name}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>
+                          ID de producto:
+                        </p>{' '}
+                        {product_id}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>
+                          ID de transacción:
+                        </p>{' '}
+                        {transaction_id}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>
+                          Precio unitario:
+                        </p>{' '}
+                        ${Math.trunc(unit_price).toLocaleString('es-CL')}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>Cantidad:</p>{' '}
+                        {quantity}
+                      </div>
+                      <div>
+                        <p className='text-warning mr-2'>Subtotal:</p> $
+                        {Math.trunc(subtotal).toLocaleString('es-CL')}
+                      </div>
+                    </div>
+                  );
+                }
+              )}
           </div>
         )}
         {buy && (
@@ -84,7 +133,14 @@ const TransactionModal = () => {
           </div>
         )}
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className='display-flex align-items-center justify-between width-100-percent'>
+        <div className='text-white'>
+          <p>
+            Precio total: $
+            {Math.trunc(transactionData.total).toLocaleString('es-CL')}
+          </p>
+        </div>
+
         <Button
           variant='outline-warning'
           onClick={() => handleCloseTransaction(user.id, buy)}

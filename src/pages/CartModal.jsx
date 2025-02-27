@@ -164,7 +164,7 @@ const CartModal = () => {
               ))}
           </ListGroup>
         )}
-        <div className='width-100-percent d-flex justify-end text-warning'>
+        <div className='width-100-percent d-flex justify-end text-warning' style={{paddingTop: '2rem'}}>
           <div
             className={`display-flex justify-${
               currentCart.products.length > 0 ? 'between' : 'end'

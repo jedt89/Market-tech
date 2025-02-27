@@ -144,7 +144,7 @@ input:focus {
 }
 
 .justify-between {
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 
 .align-items-center {
@@ -274,6 +274,14 @@ input:focus {
   border: none !important;
   color: white !important;
   background-color: #4a4762 !important;
+  font-size: small !important;
+
+  div {
+    display: flex;
+    p {
+      width: 150px;
+    }
+  }
 }
 
 .form-control:focus {
@@ -421,7 +429,7 @@ input:focus {
   border-radius: 8px;
   border: 1px solid rgba(255, 193, 7, 0.3);
   padding: 5px;
-  width: 110px !important;
+  width: 130px !important;
   cursor: pointer;
 }
 

@@ -33,7 +33,6 @@ const OurProducts = () => {
                 (!user || (user && product.user_id !== user.id)) &&
                 categorySelected == product.category_id
               ) {
-                console.log('product', product)
                 return (
                   <div key={product.id} className='product-card-container'>
                     <ProductCard key={product.id} {...product} />

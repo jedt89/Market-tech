@@ -53,11 +53,6 @@ const ManagementSections = () => {
   const getTransaction = async (token, transactionId) => {
     setLoading(true);
     const transaction = await handleGetTransactionDetail(token, transactionId);
-    setCurrentTransaction(transaction);
-    setTimeout(() => {
-      console.log(currenTransaction);
-      setLoading(false);
-    }, 3000);
     return transaction;
   };
 
@@ -354,10 +349,12 @@ const ManagementSections = () => {
                       <Button
                         variant='outline-info'
                         className='d-flex gap-05rem'
-                        onClick={() => {
-                          getTransaction(token, transaction_id);
+                        onClick={async () => {
+                          const transaction = await getTransaction(token, transaction_id);
+                          setCurrentTransaction(transaction);
                           setTimeout(() => {
                             handleShowTransaction(transaction_id, false);
+                            setLoading(false);
                           }, 1000);
                         }}
                       >

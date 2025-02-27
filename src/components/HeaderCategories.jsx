@@ -28,7 +28,7 @@ const HeaderCategories = () => {
               setCategorySelected(category.id);
             }}
           />
-          <small className='header-categories-img'>{category.name}</small>
+          <small className='header-categories-img head-title' style={{fontSize: '11px', fontWeight: '200'}}>{category.name}</small>
         </div>
       ))}
     </div>
