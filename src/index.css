@@ -651,6 +651,10 @@ input:focus {
   color: white !important;
 }
 
+.btn:disabled {
+  filter: grayscale();
+}
+
 .btn-xs {
   font-size: 0.75rem;
 }

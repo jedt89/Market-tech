@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
 import { CiCircleInfo } from 'react-icons/ci';
@@ -31,6 +31,7 @@ const ManagementSections = () => {
   const { handleShowTransaction } = useContext(ModalContext);
   const [showTab, setShowTab] = useState(0);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
+  const inputLoadFile = useRef(null);
   const productName = useInput('');
   const productId = useInput('');
   const imageUrl = useInput('');
@@ -80,10 +81,12 @@ const ManagementSections = () => {
   };
 
   const uploadFile = async (token) => {
-    const form = document.getElementById('uploadForm');
-    const formData = new FormData(form);
+    const input = inputLoadFile.current
+    const file = input.files[0]
+    const formData = new FormData();
+    formData.append('file', file)
     const response = await handleUploadFile(token, formData);
-    imageUrl.setValue('../src/assets/img/nvidia-4060.png');
+    imageUrl.setValue(response.url || '../src/assets/img/nvidia-4060.png');
   };
 
   useEffect(() => {
@@ -196,6 +199,7 @@ const ManagementSections = () => {
                 <input
                   type='file'
                   name='file'
+                  ref={inputLoadFile}
                   id='file'
                   className='border-radius-8 width-100-percent mb-2'
                 />
@@ -350,7 +354,10 @@ const ManagementSections = () => {
                         variant='outline-info'
                         className='d-flex gap-05rem'
                         onClick={async () => {
-                          const transaction = await getTransaction(token, transaction_id);
+                          const transaction = await getTransaction(
+                            token,
+                            transaction_id
+                          );
                           setCurrentTransaction(transaction);
                           setTimeout(() => {
                             handleShowTransaction(transaction_id, false);

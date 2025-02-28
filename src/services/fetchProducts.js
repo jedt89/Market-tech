@@ -166,11 +166,11 @@ export const deleteCartItem = async (cartItemId, token) => {
 // Transacciones (Comprar productos)
 // Realizar una compra
 export const createTransaction = async (token, currentCart) => {
-  currentCart.total_price = currentCart.totalCart
+  currentCart.total_price = currentCart.totalCart;
   try {
     const response = await api.post(
       '/user/cart/checkout',
-      {cart: currentCart},
+      { cart: currentCart },
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -235,16 +235,15 @@ export const cleanCart = async (token) => {
 
 // Subir archivo
 export const uploadFile = async (token, formData) => {
+  console.log(formData);
   try {
-    const response = await api.post(
-      '/user/files/upload',
-      { token: token, form_data: formData },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    const response = await api.post('/user/files/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    });
     if (response.status === 201) {
       return response.data;
     }
