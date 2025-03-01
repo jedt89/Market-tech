@@ -33,7 +33,6 @@ const useMain = () => {
     return `${day}-${month}-${year}`;
   };
 
-
   return {
     shuffleProducts,
     getProductName,

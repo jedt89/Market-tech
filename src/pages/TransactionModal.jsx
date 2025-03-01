@@ -5,7 +5,7 @@ import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
-import useMain from '../hooks/useMain.jsx';
+import useMain from '../hooks/useMain';
 
 const TransactionModal = () => {
   const { getProductName, getDate } = useMain();
@@ -21,7 +21,7 @@ const TransactionModal = () => {
     transactionData.total = currentTransaction.reduce((sum, transaction) => {
       return sum + Math.trunc(transaction.subtotal);
     }, 0);
-    console.log('transactionData', transactionData)
+    console.log('transactionData', transactionData);
   }
 
   return (
@@ -43,7 +43,7 @@ const TransactionModal = () => {
       </Modal.Header>
       <Modal.Body className='modal-body text-white flex-column'>
         {!buy && currentTransaction && (
-          <div className='flex-column gap-1rem' style={{maxHeight: '500px'}}>
+          <div className='flex-column gap-1rem' style={{ maxHeight: '500px' }}>
             {currentTransaction &&
               transactionData.products.length &&
               transactionData.products.map(
@@ -82,22 +82,16 @@ const TransactionModal = () => {
                         {seller_name}
                       </div>
                       <div>
-                        <p className='text-warning mr-2'>
-                          ID de producto:
-                        </p>{' '}
+                        <p className='text-warning mr-2'>ID de producto:</p>{' '}
                         {product_id}
                       </div>
                       <div>
-                        <p className='text-warning mr-2'>
-                          ID de transacción:
-                        </p>{' '}
+                        <p className='text-warning mr-2'>ID de transacción:</p>{' '}
                         {transaction_id}
                       </div>
                       <div>
-                        <p className='text-warning mr-2'>
-                          Precio unitario:
-                        </p>{' '}
-                        ${Math.trunc(unit_price).toLocaleString('es-CL')}
+                        <p className='text-warning mr-2'>Precio unitario:</p> $
+                        {Math.trunc(unit_price).toLocaleString('es-CL')}
                       </div>
                       <div>
                         <p className='text-warning mr-2'>Cantidad:</p>{' '}
