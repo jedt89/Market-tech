@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import useMain from '../hooks/useMain';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
 import { CiCircleInfo } from 'react-icons/ci';
@@ -8,12 +7,13 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext';
 import useInput from '../hooks/useInput';
+import useMain from '../hooks/useMain';
 import useService from '../hooks/useService';
 import categories from '../models/categories.json';
 import '../index.css';
 
 const ManagementSections = () => {
-  const {getDate} = useMain()
+  const { getDate } = useMain()
   const {
     handleAddProduct,
     handleDeleteProduct,
