@@ -28,11 +28,19 @@ const CartModal = () => {
     setCurrentCart,
     getTotalPrice
   } = useContext(CartContext);
-  const { token, user, setLoading } = useContext(MainContext);
+  const { token, user, setLoading, setCurrentTransaction } =
+    useContext(MainContext);
   const { handleShowTransaction } = useContext(ModalContext);
 
   const buyCart = async (token, currentCart) => {
     await handleCreateTransaction(token, currentCart);
+    setCurrentTransaction((prev) => {
+      return {
+        ...prev,
+        total: currentCart.total_price
+      };
+    });
+
     const cart = await fetchCart();
     setCurrentCart(cart);
     setLoading(false);
@@ -164,7 +172,10 @@ const CartModal = () => {
               ))}
           </ListGroup>
         )}
-        <div className='width-100-percent d-flex justify-end text-warning' style={{paddingTop: '2rem'}}>
+        <div
+          className='width-100-percent d-flex justify-end text-warning'
+          style={{ paddingTop: '2rem' }}
+        >
           <div
             className={`display-flex justify-${
               currentCart.products.length > 0 ? 'between' : 'end'

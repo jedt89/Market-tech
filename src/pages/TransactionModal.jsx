@@ -5,33 +5,23 @@ import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
+import useMain from '../hooks/useMain';
 
 const TransactionModal = () => {
+  const { getProductName, getDate } = useMain();
   const { currentTransaction, user, allProducts } = useContext(MainContext);
   const { showTransaction, handleCloseTransaction, buy } =
     useContext(ModalContext);
   let transactionData = {};
 
-  const getDate = (date) => {
-    const newDate = new Date(date);
-    const day = newDate.getDate().toString().padStart(2, '0');
-    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = newDate.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
-
-  const getProductName = (id, products) => {
-    const product_name = products.find((product) => product.id === id);
-    return product_name.title || 'Sin nombre';
-  };
-
-  if (currentTransaction) {
+  if (currentTransaction && !buy) {
     transactionData.transaction_id = currentTransaction[0].transaction_id;
     transactionData.id = currentTransaction[0].id;
     transactionData.products = currentTransaction;
     transactionData.total = currentTransaction.reduce((sum, transaction) => {
       return sum + Math.trunc(transaction.subtotal);
     }, 0);
+    console.log('transactionData', transactionData)
   }
 
   return (
@@ -137,7 +127,7 @@ const TransactionModal = () => {
         <div className='text-white'>
           <p>
             Precio total: $
-            {Math.trunc(transactionData.total).toLocaleString('es-CL')}
+            {Math.trunc(currentTransaction.total).toLocaleString('es-CL')}
           </p>
         </div>
 

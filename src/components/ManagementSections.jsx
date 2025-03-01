@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import useMain from '../hooks/useMain';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
 import { CiCircleInfo } from 'react-icons/ci';
@@ -13,6 +14,7 @@ import categories from '../models/categories.json';
 import '../index.css';
 
 const ManagementSections = () => {
+  const {getDate} = useMain()
   const {
     handleAddProduct,
     handleDeleteProduct,
@@ -28,8 +30,10 @@ const ManagementSections = () => {
     transactions,
     currenTransaction
   } = useContext(MainContext);
+
   const { handleShowTransaction } = useContext(ModalContext);
   const [showTab, setShowTab] = useState(0);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
   const inputLoadFile = useRef(null);
   const productName = useInput('');
@@ -41,13 +45,9 @@ const ManagementSections = () => {
   const stock = useInput('');
 
   const filterTransactions = (buy) => {
-    const transactionsToShow =
-      transactions &&
-      transactions.filter((transaction) =>
-        buy
-          ? transaction.buyer_id === user.id
-          : transaction.buyer_id !== user.id
-      );
+    const transactionsToShow = buy
+      ? transactions.purchases
+      : transactions.sales;
     setTransactionsToShow(transactionsToShow);
   };
 
@@ -81,17 +81,36 @@ const ManagementSections = () => {
   };
 
   const uploadFile = async (token) => {
-    const input = inputLoadFile.current
-    const file = input.files[0]
+    const input = inputLoadFile.current;
+    const file = input.files[0];
     const formData = new FormData();
-    formData.append('file', file)
-    const response = await handleUploadFile(token, formData);
-    imageUrl.setValue(response.url || '../src/assets/img/nvidia-4060.png');
+    formData.append('file', file);
+    // const response = await handleUploadFile(token, formData);
+    // imageUrl.setValue(response.url || '../src/assets/img/nvidia-4060.png');
+    imageUrl.setValue('../src/assets/img/nvidia-4060.png');
+  };
+
+  const checkFormValid = () => {
+    const isValid = !!(
+      productName.value &&
+      productDescription.value &&
+      categoryId.value &&
+      price.value > 0 &&
+      stock.value > 0 &&
+      imageUrl.value
+    );
+
+    console.log(isValid);
+    setIsFormValid(isValid);
   };
 
   useEffect(() => {
     filterTransactions(true);
   }, [transactions]);
+
+  useEffect(() => {
+    checkFormValid();
+  }, [productName, productDescription, categoryId, price, stock, imageUrl]);
 
   return (
     <div className='width-100-percent'>
@@ -167,7 +186,7 @@ const ManagementSections = () => {
                 Precio
               </label>
               <input
-                type='text'
+                type='number'
                 className='form-control'
                 value={price.value}
                 placeholder='Introduce el precio'
@@ -181,7 +200,7 @@ const ManagementSections = () => {
                 Stock
               </label>
               <input
-                type='text'
+                type='number'
                 className='form-control'
                 value={stock.value}
                 placeholder='Introduce el stock'
@@ -206,7 +225,9 @@ const ManagementSections = () => {
                 <Button
                   variant='success'
                   className='display-flex align-items-center gap-1rem'
-                  onClick={() => uploadFile(token)}
+                  onClick={() => {
+                    uploadFile(token);
+                  }}
                 >
                   <IoMdCloudUpload />
                   Subir
@@ -217,6 +238,7 @@ const ManagementSections = () => {
               <Button
                 className='save-button'
                 variant='success'
+                disabled={!isFormValid}
                 onClick={() => {
                   const product = {
                     productName: productName.value,
@@ -329,10 +351,11 @@ const ManagementSections = () => {
                     transaction_id,
                     title,
                     buyer_name,
-                    category,
+                    date,
                     image_url,
                     total_price,
-                    stock
+                    stock,
+                    state
                   }) => (
                     <div key={transaction_id} className='product-row  mb-3'>
                       <div className='product-row-title'>
@@ -340,10 +363,10 @@ const ManagementSections = () => {
                           <p>ID de transacción:</p> {transaction_id}
                         </div>
                         <div>
-                          <p>Nombre de producto:</p> {title}
+                          <p>Fecha de transacción:</p> {getDate(date)}
                         </div>
                         <div>
-                          <p>Cantidad:</p> {stock}
+                          <p>Estado:</p> {state}
                         </div>
                         <div>
                           <p>Total compra:</p> $

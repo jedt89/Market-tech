@@ -12,7 +12,7 @@ const MainContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [allProducts, setAllProducts] = useState(false);
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState({});
   const [currentTransaction, setCurrentTransaction] = useState(null);
 
   const handleReturnToHome = () => {
