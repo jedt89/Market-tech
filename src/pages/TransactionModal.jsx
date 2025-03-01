@@ -5,7 +5,7 @@ import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
-import useMain from '../hooks/useMain';
+import useMain from '../hooks/useMain.jsx';
 
 const TransactionModal = () => {
   const { getProductName, getDate } = useMain();
