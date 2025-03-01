@@ -7,8 +7,6 @@
 
 Marcos Gonzalvez
 
-Johnny Lobos
-
 Jonathan Díaz
 
 
