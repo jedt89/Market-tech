@@ -4,7 +4,6 @@ import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
 import { CiCircleInfo } from 'react-icons/ci';
 import { MainContext } from '../context/MainContext';
-import { CiSettings } from 'react-icons/ci';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext';
