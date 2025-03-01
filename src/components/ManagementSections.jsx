@@ -7,7 +7,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext';
 import useInput from '../hooks/useInput';
-import useMain from '../hooks/useMain';
+import useMain from '../hooks/useMain.jsx';
 import useService from '../hooks/useService';
 import categories from '../models/categories.json';
 import '../index.css';
