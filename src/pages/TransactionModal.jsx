@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import useMain from '../hooks/useMain.jsx';
 import { ModalContext } from '../context/ModalContext';
 import { MainContext } from '../context/MainContext';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
+import useMain from '../hooks/useMain';
 
 const TransactionModal = () => {
   const { getProductName, getDate } = useMain();
