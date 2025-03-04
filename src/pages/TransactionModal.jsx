@@ -55,51 +55,69 @@ const TransactionModal = () => {
                   unit_price,
                   quantity,
                   subtotal,
-                  transaction_id
+                  transaction_id,
+                  image_url
                 }) => {
                   return (
                     <div key={product_id} className='form-control'>
-                      <div>
-                        <p className='text-warning mr-2'>
-                          Nombre del producto:
-                        </p>{' '}
-                        {getProductName(product_id, allProducts)}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>Fecha:</p>{' '}
-                        {getDate(date)}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>
-                          Nombre del comprador:
-                        </p>{' '}
-                        {buyer_name}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>
-                          Nombre del vendedor:
-                        </p>{' '}
-                        {seller_name}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>ID de producto:</p>{' '}
-                        {product_id}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>ID de transacción:</p>{' '}
-                        {transaction_id}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>Precio unitario:</p> $
-                        {Math.trunc(unit_price).toLocaleString('es-CL')}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>Cantidad:</p>{' '}
-                        {quantity}
-                      </div>
-                      <div>
-                        <p className='text-warning mr-2'>Subtotal:</p> $
-                        {Math.trunc(subtotal).toLocaleString('es-CL')}
+                      <div className='display-flex align-items-center'>
+                        <div className='flex-column'>
+                          <div>
+                            <p className='text-warning mr-2'>
+                              Nombre del producto:
+                            </p>{' '}
+                            {getProductName(product_id, allProducts)}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>Fecha:</p>{' '}
+                            {getDate(date)}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>
+                              Nombre del comprador:
+                            </p>{' '}
+                            {buyer_name}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>
+                              Nombre del vendedor:
+                            </p>{' '}
+                            {seller_name}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>ID de producto:</p>{' '}
+                            {product_id}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>
+                              ID de transacción:
+                            </p>{' '}
+                            {transaction_id}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>
+                              Precio unitario:
+                            </p>{' '}
+                            ${Math.trunc(unit_price).toLocaleString('es-CL')}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>Cantidad:</p>{' '}
+                            {quantity}
+                          </div>
+                          <div>
+                            <p className='text-warning mr-2'>Subtotal:</p> $
+                            {Math.trunc(subtotal).toLocaleString('es-CL')}
+                          </div>
+                        </div>
+                        {image_url && (
+                          <div>
+                            <img
+                              src={image_url}
+                              alt=''
+                              style={{ width: '50px' }}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   );

@@ -88,7 +88,7 @@ const CartModal = () => {
     setCurrentCart(cart);
     setLoading(false);
   };
-
+console.log('currentCart', currentCart)
   return (
     <Modal
       show={showCart}

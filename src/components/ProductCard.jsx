@@ -76,11 +76,20 @@ function ProductCard({
 
   return (
     <Card className='card-custom'>
-      <Card.Img
-        variant='top'
-        src={image_url}
-        style={{ width: '200px', alignSelf: 'center' }}
-      />
+      <div
+        className='display-flex justify-center align-items-center'
+        style={{
+          height: '100%',
+          maxHeight: '50%',
+          maxWidth: '100%',
+          width: '100%',
+          alignSelf: 'center',
+          background: 'white',
+          padding: '5px'
+        }}
+      >
+        <Card.Img variant='top' src={image_url} style={{maxHeight: '100%'}}/>
+      </div>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text className='card-text-custom'>{description}</Card.Text>

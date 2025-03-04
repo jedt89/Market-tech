@@ -13,7 +13,7 @@ import '../index.css';
 import useMain from '../hooks/useMain';
 
 const ManagementSections = () => {
-  const { getDate } = useMain()
+  const { getDate } = useMain();
   const {
     handleAddProduct,
     handleDeleteProduct,
@@ -47,6 +47,7 @@ const ManagementSections = () => {
     const transactionsToShow = buy
       ? transactions.purchases
       : transactions.sales;
+    console.log('transactionsToShow', transactionsToShow);
     setTransactionsToShow(transactionsToShow);
   };
 
@@ -83,10 +84,10 @@ const ManagementSections = () => {
     const input = inputLoadFile.current;
     const file = input.files[0];
     const formData = new FormData();
-    formData.append('file', file);
-    // const response = await handleUploadFile(token, formData);
-    // imageUrl.setValue(response.url || '../src/assets/img/nvidia-4060.png');
-    imageUrl.setValue('../src/assets/img/nvidia-4060.png');
+    console.log('file', file);
+    formData.append('image', file);
+    const response = await handleUploadFile(token, formData);
+    imageUrl.setValue(response.url || '../src/assets/img/nvidia-4060.png');
   };
 
   const checkFormValid = () => {
@@ -101,6 +102,14 @@ const ManagementSections = () => {
 
     console.log(isValid);
     setIsFormValid(isValid);
+  };
+
+  const getTotalPrice = (products) => {
+    const total = products.reduce(
+      (total, product) => total + product.subtotal,
+      0
+    );
+    return total;
   };
 
   useEffect(() => {
@@ -258,6 +267,8 @@ const ManagementSections = () => {
         </div>
       )}
 
+      {/* Products tab */}
+
       {showTab == 1 && (
         <div className='border-radius-8 width-100-percent overflow-auto max-height-30vh'>
           {allProducts &&
@@ -317,6 +328,8 @@ const ManagementSections = () => {
         </div>
       )}
 
+      {/* Transactions tab */}
+
       {showTab == 2 && (
         <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center'>
           <div className='display-flex align-items-center justify-center gap-2rem'>
@@ -354,6 +367,7 @@ const ManagementSections = () => {
                     image_url,
                     total_price,
                     stock,
+                    product_name,
                     state
                   }) => (
                     <div key={transaction_id} className='product-row  mb-3'>
@@ -364,12 +378,27 @@ const ManagementSections = () => {
                         <div>
                           <p>Fecha de transacción:</p> {getDate(date)}
                         </div>
-                        <div>
-                          <p>Estado:</p> {state}
-                        </div>
+                        {state && (
+                          <div>
+                            <p>Estado:</p> {state}
+                          </div>
+                        )}
+                        {!total_price && (
+                          <div>
+                            <p>Comprador:</p> {buyer_name}
+                          </div>
+                        )}
+                        {product_name && (
+                          <div>
+                            <p>Nombre de producto:</p> {product_name}
+                          </div>
+                        )}
+
                         <div>
                           <p>Total compra:</p> $
-                          {Math.trunc(total_price).toLocaleString('es-CL')}
+                          {Math.trunc(
+                            total_price || getTotalPrice(transactionsToShow)
+                          ).toLocaleString('es-CL')}
                         </div>
                       </div>
                       <Button

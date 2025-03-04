@@ -376,6 +376,12 @@ input:focus {
   height: 120px;
 }
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 .card-title-custom {
   font-size: 1rem;
   text-align: center;
@@ -389,6 +395,11 @@ input:focus {
   display: flex;
   justify-content: center;
   margin-bottom: 0px;
+}
+
+.card-img-top {
+  max-width: 100% !important;
+  width: auto !important;
 }
 
 .card-body-footer {

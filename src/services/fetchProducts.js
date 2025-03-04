@@ -45,7 +45,6 @@ export const getAllProducts = async () => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
-        product.image_url = defaultProductImg;
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.subTotal = 0;
@@ -108,7 +107,7 @@ export const getCartItems = async (token, user_id) => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
-        product.image_url = defaultProductImg;
+        product.image_url = product.image_url || defaultProductImg;
         product.category = category.name;
         product.category_id = product.category_id || 1;
         product.quantity = product.quantity;
@@ -244,7 +243,7 @@ export const uploadFile = async (token, formData) => {
       },
       body: formData
     });
-    if (response.status === 201) {
+    if (response.status === 200) {
       return response.data;
     }
   } catch (error) {
