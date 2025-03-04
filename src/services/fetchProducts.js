@@ -45,9 +45,10 @@ export const getAllProducts = async () => {
         const category = categories.find(
           (category) => category.id === product.category_id || 1
         );
+        product.image_url = product.image_url || defaultProductImg;
         product.category = category.name;
         product.category_id = product.category_id || 1;
-        product.subTotal = 0;
+        product.subtotal = 0;
         product.quantity = 0;
         product.price = Math.trunc(product.price);
         product.product_id = product.product_id
@@ -112,7 +113,7 @@ export const getCartItems = async (token, user_id) => {
         product.category_id = product.category_id || 1;
         product.quantity = product.quantity;
         product.price = Math.trunc(product.price);
-        product.subTotal = Math.trunc(product.price) * product.quantity;
+        product.subtotal = Math.trunc(product.price) * product.quantity;
         product.product_id = product.product_id
           ? product.product_id
           : product.id;

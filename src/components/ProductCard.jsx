@@ -17,7 +17,7 @@ function ProductCard({
   id,
   product_id,
   quantity,
-  subTotal,
+  subtotal,
   category,
   category_id,
   publication_time,
@@ -44,7 +44,7 @@ function ProductCard({
       id,
       product_id,
       quantity,
-      subTotal,
+      subtotal,
       category,
       category_id,
       publication_time,
@@ -85,7 +85,8 @@ function ProductCard({
           width: '100%',
           alignSelf: 'center',
           background: 'white',
-          padding: '5px'
+          padding: '5px',
+          borderRadius: '4px 4px 0 0'
         }}
       >
         <Card.Img variant='top' src={image_url} style={{maxHeight: '100%'}}/>

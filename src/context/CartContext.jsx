@@ -13,11 +13,13 @@ const CartContextProvider = ({ children }) => {
   });
 
   const getTotalPrice = (products) => {
-    const total = products.reduce(
-      (total, product) => total + product.subTotal,
-      0
-    );
-    return total;
+    if(products) {
+      const total = products.reduce(
+        (total, product) => total + Number(product.subtotal),
+        0
+      );
+      return total;
+    }
   };
 
   const updateTotalCart = () => {
@@ -41,7 +43,7 @@ const CartContextProvider = ({ children }) => {
         updatedCart.products[productIndex] = {
           ...updatedCart.products[productIndex],
           quantity: updatedCart.products[productIndex].quantity + 1,
-          subTotal:
+          subtotal:
             updatedCart.products[productIndex].price *
             (updatedCart.products[productIndex].quantity + 1)
         };
@@ -49,7 +51,7 @@ const CartContextProvider = ({ children }) => {
         updatedCart.products.push({
           ...product,
           quantity: 1,
-          subTotal: product.price
+          subtotal: product.price
         });
       }
       const cart = {
@@ -89,7 +91,7 @@ const CartContextProvider = ({ children }) => {
           updatedCart.products[productIndex] = {
             ...product,
             quantity: product.quantity - 1,
-            subTotal: product.price * (product.quantity - 1)
+            subtotal: product.price * (product.quantity - 1)
           };
         } else {
           updatedCart.products = updatedCart.products.filter(

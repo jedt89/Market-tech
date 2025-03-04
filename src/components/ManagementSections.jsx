@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
-import { CiCircleInfo } from 'react-icons/ci';
+import { CiCircleCheck, CiCircleInfo } from 'react-icons/ci';
 import { MainContext } from '../context/MainContext';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoMdCloudUpload } from 'react-icons/io';
@@ -9,8 +9,9 @@ import { ModalContext } from '../context/ModalContext';
 import useInput from '../hooks/useInput';
 import useService from '../hooks/useService';
 import categories from '../models/categories.json';
-import '../index.css';
 import useMain from '../hooks/useMain';
+import '../index.css';
+import { CartContext } from '../context/CartContext';
 
 const ManagementSections = () => {
   const { getDate } = useMain();
@@ -18,22 +19,26 @@ const ManagementSections = () => {
     handleAddProduct,
     handleDeleteProduct,
     handleUploadFile,
-    handleGetTransactionDetail
+    handleGetTransactionDetail,
+    handleGetProducts
   } = useService();
   const {
     token,
     user,
     setLoading,
     allProducts,
+    setAllProducts,
     setCurrentTransaction,
     transactions,
     currenTransaction
   } = useContext(MainContext);
+  const { getTotalPrice } = useContext(CartContext);
 
   const { handleShowTransaction } = useContext(ModalContext);
   const [showTab, setShowTab] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
+  const [imageUploaded, setImageUploaded] = useState(false);
   const inputLoadFile = useRef(null);
   const productName = useInput('');
   const productId = useInput('');
@@ -70,14 +75,22 @@ const ManagementSections = () => {
   const addProductManaged = async (product, token) => {
     setLoading(true);
     await handleAddProduct(product, token);
-    await refreshProducts();
     await clearForm();
+    await refreshProducts();
     setLoading(false);
+  };
+
+  const refreshProducts = async () => {
+    const products = await handleGetProducts();
+    if (products && products.length > 0) {
+      setAllProducts(products);
+    }
+    return products
   };
 
   const deleteProductManaged = async (product_id, token) => {
     await handleDeleteProduct(product_id, token);
-    refreshProducts();
+    await refreshProducts();
   };
 
   const uploadFile = async (token) => {
@@ -102,14 +115,6 @@ const ManagementSections = () => {
 
     console.log(isValid);
     setIsFormValid(isValid);
-  };
-
-  const getTotalPrice = (products) => {
-    const total = products.reduce(
-      (total, product) => total + product.subtotal,
-      0
-    );
-    return total;
   };
 
   useEffect(() => {
@@ -219,7 +224,7 @@ const ManagementSections = () => {
             </div>
             <div className='form-group'>
               <label htmlFor='imageUrl' className='form-label'>
-                Subir imagen
+                Seleccionar imagen
               </label>
 
               <form id='uploadForm' enctype='multipart/form-data'>
@@ -237,8 +242,8 @@ const ManagementSections = () => {
                     uploadFile(token);
                   }}
                 >
-                  <IoMdCloudUpload />
-                  Subir
+                  <IoMdCloudUpload className='me-3' />
+                  Subir Imagen
                 </Button>
               </form>
             </div>
@@ -283,29 +288,36 @@ const ManagementSections = () => {
                 stock,
                 product_id,
                 user_id,
-                category
+                category,
+                image_url
               }) => {
                 if (user && user_id === user.id) {
                   return (
                     <div className='product-row mb-3' key={id}>
-                      <div className='product-row-title'>
-                        <div>
-                          <p>Id de producto:</p> {id}
-                        </div>
-                        <div>
-                          <p>Nombre de producto:</p> {title}
-                        </div>
-                        <div>
-                          <p>Descripción:</p> {description}
-                        </div>
-                        <div>
-                          <p>Categoría:</p> {category}
-                        </div>
-                        <div>
-                          <p>Id de Categoría:</p> {category_id}
-                        </div>
-                        <div>
-                          <p>Precio:</p> {price}
+                      <div className='display-flex align-items-center gap-1rem'>
+                        <img
+                          src={image_url}
+                          style={{ width: '60px', borderRadius: '6px' }}
+                        />
+                        <div className='product-row-title'>
+                          <div>
+                            <p>Id de producto:</p> {id}
+                          </div>
+                          <div>
+                            <p>Nombre de producto:</p> {title}
+                          </div>
+                          <div>
+                            <p>Descripción:</p> {description}
+                          </div>
+                          <div>
+                            <p>Categoría:</p> {category}
+                          </div>
+                          <div>
+                            <p>Id de Categoría:</p> {category_id}
+                          </div>
+                          <div>
+                            <p>Precio:</p> {price}
+                          </div>
                         </div>
                       </div>
 
@@ -397,7 +409,9 @@ const ManagementSections = () => {
                         <div>
                           <p>Total compra:</p> $
                           {Math.trunc(
-                            total_price || getTotalPrice(transactionsToShow)
+                            total_price
+                              ? total_price
+                              : getTotalPrice(transactionsToShow)
                           ).toLocaleString('es-CL')}
                         </div>
                       </div>

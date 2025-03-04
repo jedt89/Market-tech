@@ -137,7 +137,7 @@ console.log('currentCart', currentCart)
                               <small className='italic text-warning'>
                                 Subtotal:{' '}
                               </small>
-                              ${item.subTotal.toLocaleString('es-CL')}
+                              ${item.subtotal.toLocaleString('es-CL')}
                             </small>
                           </div>
                           <div className='d-flex align-items-center gap-05rem cart-quantity'>

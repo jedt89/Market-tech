@@ -5,11 +5,13 @@ import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { IoBagCheckOutline } from 'react-icons/io5';
+import { CartContext } from '../context/CartContext';
 import useMain from '../hooks/useMain';
 
 const TransactionModal = () => {
   const { getProductName, getDate } = useMain();
   const { currentTransaction, user, allProducts } = useContext(MainContext);
+  const { getTotalPrice } = useContext(CartContext);
   const { showTransaction, handleCloseTransaction, buy } =
     useContext(ModalContext);
   let transactionData = {};
@@ -18,9 +20,6 @@ const TransactionModal = () => {
     transactionData.transaction_id = currentTransaction[0].transaction_id;
     transactionData.id = currentTransaction[0].id;
     transactionData.products = currentTransaction;
-    transactionData.total = currentTransaction.reduce((sum, transaction) => {
-      return sum + Math.trunc(transaction.subtotal);
-    }, 0);
     console.log('transactionData', transactionData);
   }
 
@@ -139,7 +138,7 @@ const TransactionModal = () => {
         <div className='text-white'>
           <p>
             Precio total: $
-            {Math.trunc(currentTransaction.total).toLocaleString('es-CL')}
+            {Math.trunc(buy ? currentTransaction.total : getTotalPrice(currentTransaction)).toLocaleString('es-CL')}
           </p>
         </div>
 
