@@ -1,5 +1,7 @@
 // Main images & icons
 import whatsappIcon from './icons/whatsapp-icon.png';
+import linkedinIcon from './icons/linkedin-icon.png';
+import githubIcon from './icons/github-icon.png';
 import facebookIcon from './icons/facebook-icon.png';
 import instagramIcon from './icons/instagram-icon.png';
 import tiktokIcon from './icons/tiktok-icon.png';
@@ -104,5 +106,7 @@ export {
   profileImg,
   defaultProductImg,
   categoryIcons,
-  brandIcons
+  brandIcons,
+  githubIcon,
+  linkedinIcon
 };

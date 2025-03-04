@@ -5,47 +5,71 @@ import {
   facebookIcon,
   instagramIcon,
   tiktokIcon,
-  brandImgLogo
+  brandImgLogo,
+  githubIcon,
+  linkedinIcon
 } from '../assets/index.js';
+import { RiContactsLine } from 'react-icons/ri';
 
 const Footer = () => {
   return (
     <div className='footer'>
       <div>
+        <p className='footer-style head-title'>Expertos en hardware</p>
         <div>
           <img src={brandImgLogo} style={{ width: '50px' }} alt='Brand' />
           <small className='head-title' style={{ paddingLeft: '10px' }}>
             Market-Tech
           </small>
         </div>
-        <p className='footer-style head-title'>Expertos en hardware</p>
       </div>
       <div>
-        <p>Búscanos en nuestras redes sociales</p>
-        <div className='display-flex gap-2rem p-4 flex-wrap justify-center'>
+        <p className='text-warning' style={{ fontSize: '18px' }}>
+          Búscanos en nuestras redes sociales
+        </p>
+        <div
+          className='display-flex gap-2rem p-4 flex-wrap justify-center'
+          style={{ gap: '3rem' }}
+        >
           <div>
-            <img
-              src={whatsappIcon}
-              className='category-img social border-radius-8'
-            />
+            <div>
+              <p className='mb-3 width-100-percent'>Jonathan Díaz</p>
+              <div className='display-flex align-items-center gap-1rem'>
+                <a href='https://github.com/jedt89' target='_blank'>
+                  <img
+                    src={githubIcon}
+                    className='category-img social border-radius-8'
+                  />
+                </a>
+                <a
+                  href='https://www.linkedin.com/in/jonathan-diaz-tobar-241572186'
+                  target='_blank'
+                >
+                  <img
+                    src={linkedinIcon}
+                    className='category-img social border-radius-8'
+                  />
+                </a>
+              </div>
+            </div>
           </div>
+
           <div>
-            <img
-              src={facebookIcon}
-              className='category-img social border-radius-8'
-            />
-          </div>
-          <div>
-            <img
-              src={instagramIcon}
-              className='category-img social border-radius-8'
-            />
-          </div>
-          <div>
-            <img
-              src={tiktokIcon}
-              className='category-img social border-radius-8'
-            />
+            <p className='mb-3'>Marcos Gonzalvez</p>
+            <div className='display-flex align-items-center gap-1rem'>
+              <a href='https://google.com' target='_blank'>
+                <img
+                  src={githubIcon}
+                  className='category-img social border-radius-8'
+                />
+              </a>
+              <a href='https://google.com' target='_blank'>
+                <img
+                  src={linkedinIcon}
+                  className='category-img social border-radius-8'
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
