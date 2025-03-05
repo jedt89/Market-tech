@@ -5,12 +5,11 @@ import { CartContext } from '../context/CartContext';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
 import { MainContext } from '../context/MainContext';
 import { FaRegTrashAlt } from 'react-icons/fa';
-import { TfiShoppingCart } from 'react-icons/tfi';
-import useService from '../hooks/useService';
-import '../index.css';
 import { ModalContext } from '../context/ModalContext';
 import { PiTrashThin } from 'react-icons/pi';
-import { BsCart4, BsCartX } from 'react-icons/bs';
+import { BsCartX } from 'react-icons/bs';
+import useService from '../hooks/useService';
+import '../index.css';
 
 const CartModal = () => {
   const {
@@ -88,7 +87,7 @@ const CartModal = () => {
     setCurrentCart(cart);
     setLoading(false);
   };
-console.log('currentCart', currentCart)
+
   return (
     <Modal
       show={showCart}

@@ -26,7 +26,7 @@ const useService = () => {
       return response;
     } catch (error) {
       toast.error('Error al registrarse', { position: 'top-right' });
-      throw Error;
+      throw error;
     }
   };
 
@@ -41,22 +41,6 @@ const useService = () => {
       return response.data;
     } catch (error) {
       toast.error('Error al iniciar sesión', { position: 'top-right' });
-      throw error;
-    }
-  };
-
-  const handleGetUserProfile = async (id) => {
-    try {
-      const response = await getUserProfile(id);
-      if (response)
-        toast.success('Perfil de usuario obtenido con éxito', {
-          position: 'top-right'
-        });
-      return response.data;
-    } catch (error) {
-      toast.error('Error al obtener perfil de usuario', {
-        position: 'top-right'
-      });
       throw error;
     }
   };
@@ -186,14 +170,10 @@ const useService = () => {
     try {
       const response = await cleanCart(token);
       if (response)
-        toast.success('Carrito limpiado con éxito', {
-          position: 'top-right'
-        });
+        toast.success('Carrito limpiado con éxito', { position: 'top-right' });
       return response;
     } catch (error) {
-      toast.error('Error al limpiar el carrito', {
-        position: 'top-right'
-      });
+      toast.error('Error al limpiar el carrito', { position: 'top-right' });
       throw error;
     }
   };
@@ -234,9 +214,7 @@ const useService = () => {
     try {
       const response = await uploadFile(token, formData);
       if (response)
-        toast.success('Archivo subido con éxito', {
-          position: 'top-right'
-        });
+        toast.success('Archivo subido con éxito', { position: 'top-right' });
       return response;
     } catch (error) {
       toast.error('Error al subir el archivo', { position: 'top-right' });
@@ -245,8 +223,8 @@ const useService = () => {
   };
 
   return {
+    handleRegister,
     handleLogin,
-    handleGetUserProfile,
     handleGetProducts,
     handleAddProduct,
     handleUpdateProduct,
@@ -255,12 +233,11 @@ const useService = () => {
     handleGetCartItems,
     handleUpdateCartItem,
     handleDeleteCartItem,
+    handleCleanCart,
     handleCreateTransaction,
     handleGetTransactions,
-    handleRegister,
-    handleCleanCart,
-    handleUploadFile,
-    handleGetTransactionDetail
+    handleGetTransactionDetail,
+    handleUploadFile
   };
 };
 

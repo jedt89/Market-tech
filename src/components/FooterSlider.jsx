@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { ModalContext } from '../context/ModalContext';
 import { MainContext } from '../context/MainContext';
 import { brandIcons } from '../assets';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import popularBrands from '../models/popular.json';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 function FooterSlider({ title }) {
@@ -31,8 +30,7 @@ function FooterSlider({ title }) {
               disableOnInteraction: false
             }}
             speed={2000}
-            modules={[Autoplay, Navigation, Pagination]}
-            navigation={false}
+            modules={[Autoplay, Pagination]}
             pagination={{ clickable: true }}
             breakpoints={{
               1200: {
@@ -55,27 +53,25 @@ function FooterSlider({ title }) {
           >
             {popularBrands &&
               popularBrands.length > 0 &&
-              popularBrands.map(({ id }) => {
-                return (
-                  <SwiperSlide key={id}>
-                    <div
-                      className='display-flex justify-center align-items-center cursor-pointer width-100-percent'
-                      onClick={() => {
-                        setTextSearched(brandIcons[id].name);
-                        handleShowAllProducts();
-                      }}
-                    >
-                      <div className='card-custom-footer'>
-                        <img
-                          src={brandIcons[id].icon}
-                          style={{ width: '120px'}}
-                          alt={brandIcons[id].name}
-                        />
-                      </div>
+              popularBrands.map(({ id }) => (
+                <SwiperSlide key={id}>
+                  <div
+                    className='display-flex justify-center align-items-center cursor-pointer width-100-percent'
+                    onClick={() => {
+                      setTextSearched(brandIcons[id].name);
+                      handleShowAllProducts();
+                    }}
+                  >
+                    <div className='card-custom-footer'>
+                      <img
+                        src={brandIcons[id].icon}
+                        style={{ width: '120px' }}
+                        alt={brandIcons[id].name}
+                      />
                     </div>
-                  </SwiperSlide>
-                );
-              })}
+                  </div>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>

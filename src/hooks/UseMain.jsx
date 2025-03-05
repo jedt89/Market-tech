@@ -1,8 +1,7 @@
-
-
 const useMain = () => {
   const shuffleProducts = (products) => {
-    if (!products || (products && products.length == 0)) return;
+    if (!products || products.length === 0) return;
+
     const categoryMap = new Map();
 
     products.forEach((product) => {
@@ -23,8 +22,8 @@ const useMain = () => {
   };
 
   const getProductName = (id, products) => {
-    const product_name = products.find((product) => product.id === id);
-    return product_name.title || 'Sin nombre';
+    const product = products.find((product) => product.id === id);
+    return product ? product.title : 'Sin nombre';
   };
 
   const getDate = (date) => {

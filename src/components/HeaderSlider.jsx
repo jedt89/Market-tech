@@ -1,11 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/autoplay';
-
 import {
-  brandImg,
   header01,
   header01Mobile,
   header02,
@@ -19,6 +15,8 @@ import {
   header06,
   header06Mobile
 } from '../assets/index.js';
+import 'swiper/css';
+import 'swiper/css/autoplay';
 import '../index.css';
 
 function HeaderSlider({ title }) {

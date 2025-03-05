@@ -896,7 +896,6 @@ input:focus {
   }
 }
 
-/* Rango: de 769px a 992px */
 @media (min-width: 769px) and (max-width: 1200px) {
   .navbar-container-padding {
     display: flex;
@@ -959,12 +958,6 @@ input:focus {
     cursor: pointer;
   }
 
-  /* .navbar-nav {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  } */
-
   .nav-brand-user {
     justify-content: space-between;
     width: 100%;
@@ -975,7 +968,6 @@ input:focus {
   }
 }
 
-/* Rango: de 577px a 768px */
 @media (min-width: 577px) and (max-width: 609px) {
   .header-searchbar-input {
     padding-right: 30px;
@@ -1004,12 +996,6 @@ input:focus {
     cursor: pointer;
   }
 
-  /* .navbar-nav {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  } */
-
   .nav-brand-user {
     justify-content: space-between;
     width: 100%;
@@ -1020,7 +1006,6 @@ input:focus {
   }
 }
 
-/* Rango: de 0px a 576px */
 @media (max-width: 576px) {
   h2,
   h1 {

@@ -29,7 +29,7 @@ function App() {
     setLoading,
     currentTransaction
   } = useContext(MainContext);
-  const {showTransaction} = useContext(ModalContext)
+  const { showTransaction } = useContext(ModalContext);
   const { handleGetProducts } = useService();
 
   const fetchAllProducts = async () => {

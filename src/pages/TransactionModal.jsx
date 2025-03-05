@@ -20,7 +20,6 @@ const TransactionModal = () => {
     transactionData.transaction_id = currentTransaction[0].transaction_id;
     transactionData.id = currentTransaction[0].id;
     transactionData.products = currentTransaction;
-    console.log('transactionData', transactionData);
   }
 
   return (
@@ -138,7 +137,9 @@ const TransactionModal = () => {
         <div className='text-white'>
           <p>
             Precio total: $
-            {Math.trunc(buy ? currentTransaction.total : getTotalPrice(currentTransaction)).toLocaleString('es-CL')}
+            {Math.trunc(
+              buy ? currentTransaction.total : getTotalPrice(currentTransaction)
+            ).toLocaleString('es-CL')}
           </p>
         </div>
 

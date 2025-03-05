@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { Button, Card } from 'react-bootstrap';
+import { BiDetail } from 'react-icons/bi';
+import { BsCartPlus } from 'react-icons/bs';
 import { CartContext } from '../context/CartContext';
 import { ModalContext } from '../context/ModalContext';
 import { MainContext } from '../context/MainContext';
-import { BiDetail } from 'react-icons/bi';
-import { BsCartPlus } from 'react-icons/bs';
-import { PiShoppingCart } from 'react-icons/pi';
 import useService from '../hooks/useService';
 import '../index.css';
 
@@ -89,7 +88,7 @@ function ProductCard({
           borderRadius: '4px 4px 0 0'
         }}
       >
-        <Card.Img variant='top' src={image_url} style={{maxHeight: '100%'}}/>
+        <Card.Img variant='top' src={image_url} style={{ maxHeight: '100%' }} />
       </div>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
@@ -119,9 +118,7 @@ function ProductCard({
           className='btn-xs'
           disabled={loading}
           style={{ width: '110px' }}
-          onClick={() => {
-            addProductToCurrentCart();
-          }}
+          onClick={addProductToCurrentCart}
         >
           <BsCartPlus
             style={{

@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Nav } from 'react-bootstrap';
 import { TfiSave } from 'react-icons/tfi';
-import { CiCircleCheck, CiCircleInfo } from 'react-icons/ci';
-import { MainContext } from '../context/MainContext';
+import { CiCircleInfo } from 'react-icons/ci';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoMdCloudUpload } from 'react-icons/io';
+import { MainContext } from '../context/MainContext';
 import { ModalContext } from '../context/ModalContext';
+import { CartContext } from '../context/CartContext';
 import useInput from '../hooks/useInput';
 import useService from '../hooks/useService';
-import categories from '../models/categories.json';
 import useMain from '../hooks/useMain';
+import categories from '../models/categories.json';
 import '../index.css';
-import { CartContext } from '../context/CartContext';
 
 const ManagementSections = () => {
   const { getDate } = useMain();
@@ -29,16 +29,13 @@ const ManagementSections = () => {
     allProducts,
     setAllProducts,
     setCurrentTransaction,
-    transactions,
-    currenTransaction
+    transactions
   } = useContext(MainContext);
   const { getTotalPrice } = useContext(CartContext);
-
   const { handleShowTransaction } = useContext(ModalContext);
   const [showTab, setShowTab] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [transactionsToShow, setTransactionsToShow] = useState([]);
-  const [imageUploaded, setImageUploaded] = useState(false);
   const inputLoadFile = useRef(null);
   const productName = useInput('');
   const productId = useInput('');
@@ -52,7 +49,6 @@ const ManagementSections = () => {
     const transactionsToShow = buy
       ? transactions.purchases
       : transactions.sales;
-    console.log('transactionsToShow', transactionsToShow);
     setTransactionsToShow(transactionsToShow);
   };
 
@@ -85,7 +81,7 @@ const ManagementSections = () => {
     if (products && products.length > 0) {
       setAllProducts(products);
     }
-    return products
+    return products;
   };
 
   const deleteProductManaged = async (product_id, token) => {
@@ -97,7 +93,6 @@ const ManagementSections = () => {
     const input = inputLoadFile.current;
     const file = input.files[0];
     const formData = new FormData();
-    console.log('file', file);
     formData.append('image', file);
     const response = await handleUploadFile(token, formData);
     imageUrl.setValue(response.url || '../src/assets/img/nvidia-4060.png');
@@ -112,8 +107,6 @@ const ManagementSections = () => {
       stock.value > 0 &&
       imageUrl.value
     );
-
-    console.log(isValid);
     setIsFormValid(isValid);
   };
 
@@ -177,7 +170,7 @@ const ManagementSections = () => {
             </div>
             <div className='form-group'>
               <label htmlFor='categoryId' className='form-label'>
-                ID de categoria
+                ID de categoría
               </label>
               <select
                 className='form-control'
@@ -226,8 +219,7 @@ const ManagementSections = () => {
               <label htmlFor='imageUrl' className='form-label'>
                 Seleccionar imagen
               </label>
-
-              <form id='uploadForm' enctype='multipart/form-data'>
+              <form id='uploadForm' encType='multipart/form-data'>
                 <input
                   type='file'
                   name='file'
@@ -235,6 +227,16 @@ const ManagementSections = () => {
                   id='file'
                   className='border-radius-8 width-100-percent mb-2'
                 />
+                {inputLoadFile &&
+                  inputLoadFile.current &&
+                  inputLoadFile.current.files &&
+                  inputLoadFile.current.files[0] && (
+                    <img
+                      src={URL.createObjectURL(inputLoadFile.current.files[0])}
+                      alt='Selected file'
+                      style={{ width: '50px', alignSelf: 'center' }}
+                    />
+                  )}
                 <Button
                   variant='success'
                   className='display-flex align-items-center gap-1rem'
@@ -272,8 +274,6 @@ const ManagementSections = () => {
         </div>
       )}
 
-      {/* Products tab */}
-
       {showTab == 1 && (
         <div className='border-radius-8 width-100-percent overflow-auto max-height-30vh'>
           {allProducts &&
@@ -298,6 +298,7 @@ const ManagementSections = () => {
                         <img
                           src={image_url}
                           style={{ width: '60px', borderRadius: '6px' }}
+                          alt={title}
                         />
                         <div className='product-row-title'>
                           <div>
@@ -340,8 +341,6 @@ const ManagementSections = () => {
         </div>
       )}
 
-      {/* Transactions tab */}
-
       {showTab == 2 && (
         <div className='flex-column border-radius-8 width-100-percent gap-1rem align-items-center'>
           <div className='display-flex align-items-center justify-center gap-2rem'>
@@ -373,16 +372,13 @@ const ManagementSections = () => {
                 transactionsToShow.map(
                   ({
                     transaction_id,
-                    title,
                     buyer_name,
                     date,
-                    image_url,
                     total_price,
-                    stock,
                     product_name,
                     state
                   }) => (
-                    <div key={transaction_id} className='product-row  mb-3'>
+                    <div key={transaction_id} className='product-row mb-3'>
                       <div className='product-row-title'>
                         <div>
                           <p>ID de transacción:</p> {transaction_id}

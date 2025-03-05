@@ -13,23 +13,20 @@ const CartContextProvider = ({ children }) => {
   });
 
   const getTotalPrice = (products) => {
-    if(products) {
-      const total = products.reduce(
+    if (products) {
+      return products.reduce(
         (total, product) => total + Number(product.subtotal),
         0
       );
-      return total;
     }
+    return 0;
   };
 
   const updateTotalCart = () => {
-    setCurrentCart((prev) => {
-      const total = getTotalPrice(prev.products);
-      return {
-        ...prev,
-        totalCart: total
-      };
-    });
+    setCurrentCart((prev) => ({
+      ...prev,
+      totalCart: getTotalPrice(prev.products)
+    }));
   };
 
   const addProductToCart = (product) => {
@@ -54,26 +51,25 @@ const CartContextProvider = ({ children }) => {
           subtotal: product.price
         });
       }
-      const cart = {
+
+      return {
         ...updatedCart,
         totalCart: getTotalPrice(updatedCart.products)
       };
-      return cart;
     });
   };
 
   const removeProductFromCart = (productId) => {
     setCurrentCart((prev) => {
-      const updatedCart = { ...prev };
-      updatedCart.products = updatedCart.products.filter(
-        (item) => item.id !== productId
-      );
+      const updatedCart = {
+        ...prev,
+        products: prev.products.filter((item) => item.id !== productId)
+      };
 
-      const cart = {
+      return {
         ...updatedCart,
         totalCart: getTotalPrice(updatedCart.products)
       };
-      return cart;
     });
   };
 

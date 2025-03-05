@@ -1,22 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Container, Nav, Navbar, Dropdown } from 'react-bootstrap';
 import { AiOutlineLogin } from 'react-icons/ai';
-import { PiUserBold } from 'react-icons/pi';
+import { PiUserBold, PiShoppingCart } from 'react-icons/pi';
 import { RiLogoutCircleLine, RiUserAddLine } from 'react-icons/ri';
-import { PiShoppingCart } from 'react-icons/pi';
-import { Button } from 'react-bootstrap';
+import { IoSearch } from 'react-icons/io5';
 import { MainContext } from '../context/MainContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
 import { ModalContext } from '../context/ModalContext.jsx';
 import { brandImgLogo } from '../assets/index.js';
-import { IoSearch } from 'react-icons/io5';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Dropdown from 'react-bootstrap/Dropdown';
 import HeaderSearchBar from './HeaderSearchBar.jsx';
-import toast from 'react-hot-toast';
 import useService from '../hooks/useService.jsx';
+import toast from 'react-hot-toast';
 import '../index.css';
 
 const NavigationBar = () => {
@@ -65,7 +60,10 @@ const NavigationBar = () => {
                 className='navbar-brand-img category-img'
                 alt='Brand'
               />
-              <small className='head-title' style={{ paddingLeft: '10px', fontSize: '10px' }}>
+              <small
+                className='head-title'
+                style={{ paddingLeft: '10px', fontSize: '10px' }}
+              >
                 Market-Tech
               </small>
             </Link>
@@ -116,7 +114,7 @@ const NavigationBar = () => {
                   <AiOutlineLogin className='menu-icon menu-icon-margin' />
                   <small className='text-black'>Ingresar</small>
                 </Dropdown.Item>
-                <Dropdown.Item onClick={handleShowRegister}>
+                <Dropdown.Item onClick={handleShowRegister} disabled={token}>
                   <RiUserAddLine className='menu-icon menu-icon-margin' />
                   <small className='text-black'>Registrarse</small>
                 </Dropdown.Item>

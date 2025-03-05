@@ -14,24 +14,23 @@ const OurProducts = () => {
         <HeaderCategories
           products={allProducts.filter((product) => {
             if (user && user.id) {
-              return product.user_id != user.id;
+              return product.user_id !== user.id;
             }
             return product;
           })}
         />
       )}
-      <div className='d-flex justify-center align-items-center '>
-        <div className='d-flex flex-wrap justify-center flex-wrap align-items-center product-list-container gap-2rem p-3'>
-          {!allProducts ||
-            (allProducts && allProducts.length == 0 && (
-              <h3 className='text-info'>No hay productos para mostrar</h3>
-            ))}
+      <div className='d-flex justify-center align-items-center'>
+        <div className='d-flex flex-wrap justify-center align-items-center product-list-container gap-2rem p-3'>
+          {(!allProducts || allProducts.length === 0) && (
+            <h3 className='text-info'>No hay productos para mostrar</h3>
+          )}
           {allProducts &&
             allProducts.length > 0 &&
             allProducts.map((product) => {
               if (
                 (!user || (user && product.user_id !== user.id)) &&
-                categorySelected == product.category_id
+                categorySelected === product.category_id
               ) {
                 return (
                   <div key={product.id} className='product-card-container'>

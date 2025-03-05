@@ -4,9 +4,9 @@ import { Modal, Button } from 'react-bootstrap';
 import { IoIosClose } from 'react-icons/io';
 import { ModalContext } from '../context/ModalContext.jsx';
 import { CartContext } from '../context/CartContext.jsx';
+import { BsCartPlus } from 'react-icons/bs';
 import useService from '../hooks/useService.jsx';
 import '../index.css';
-import { BsCartPlus } from 'react-icons/bs';
 
 function ProductDetailModal() {
   const { currentProduct, token, loading, setLoading, user } =
@@ -88,7 +88,7 @@ function ProductDetailModal() {
       <Modal.Body className='modal-body text-white text-center'>
         <img
           src={currentProduct.image_url}
-          style={{width: '200px'}}
+          style={{ width: '200px' }}
           alt={currentProduct.title}
         />
         <p>{currentProduct.description}</p>
@@ -111,9 +111,7 @@ function ProductDetailModal() {
           disabled={loading}
           onClick={addProductToCurrentCart}
         >
-          <BsCartPlus
-            style={{ width: '50px', fontSize: '25px' }}
-          />
+          <BsCartPlus style={{ width: '50px', fontSize: '25px' }} />
           <small>Agregar</small>
         </Button>
       </Modal.Footer>

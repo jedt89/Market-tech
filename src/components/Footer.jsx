@@ -1,15 +1,5 @@
 import '../index.css';
-import {
-  brandImg,
-  whatsappIcon,
-  facebookIcon,
-  instagramIcon,
-  tiktokIcon,
-  brandImgLogo,
-  githubIcon,
-  linkedinIcon
-} from '../assets/index.js';
-import { RiContactsLine } from 'react-icons/ri';
+import { brandImgLogo, githubIcon, linkedinIcon } from '../assets/index.js';
 
 const Footer = () => {
   return (
@@ -35,19 +25,26 @@ const Footer = () => {
             <div>
               <p className='mb-3 width-100-percent'>Jonathan Díaz</p>
               <div className='display-flex align-items-center gap-1rem'>
-                <a href='https://github.com/jedt89' target='_blank'>
+                <a
+                  href='https://github.com/jedt89'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
                   <img
                     src={githubIcon}
                     className='category-img social border-radius-8'
+                    alt='GitHub'
                   />
                 </a>
                 <a
                   href='https://www.linkedin.com/in/jonathan-diaz-tobar-241572186'
                   target='_blank'
+                  rel='noopener noreferrer'
                 >
                   <img
                     src={linkedinIcon}
                     className='category-img social border-radius-8'
+                    alt='LinkedIn'
                   />
                 </a>
               </div>
@@ -57,16 +54,26 @@ const Footer = () => {
           <div>
             <p className='mb-3'>Marcos Gonzalvez</p>
             <div className='display-flex align-items-center gap-1rem'>
-              <a href='https://google.com' target='_blank'>
+              <a
+                href='https://github.com/Makuharg'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 <img
                   src={githubIcon}
                   className='category-img social border-radius-8'
+                  alt='GitHub'
                 />
               </a>
-              <a href='https://google.com' target='_blank'>
+              <a
+                href='https://www.linkedin.com/in/marcosgondesign'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 <img
                   src={linkedinIcon}
                   className='category-img social border-radius-8'
+                  alt='LinkedIn'
                 />
               </a>
             </div>
