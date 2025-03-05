@@ -8,7 +8,7 @@ import tiktokIcon from './icons/tiktok-icon.png';
 import defaultProductImg from './img/nvidia-4060.png';
 import brandImg from './img/brand.png';
 import brandImgLogo from './img/brand-icon-logo.png';
-import profileImg from './img/profile-2.png';
+import profileImg from './img/profile.png';
 import header01 from './img/header-01.png';
 import header01Mobile from './img/header-01-mobile.png';
 import header02 from './img/header-02.png';

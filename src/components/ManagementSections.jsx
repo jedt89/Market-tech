@@ -376,6 +376,7 @@ const ManagementSections = () => {
                     date,
                     total_price,
                     product_name,
+                    subtotal,
                     state
                   }) => (
                     <div key={transaction_id} className='product-row mb-3'>
@@ -403,11 +404,11 @@ const ManagementSections = () => {
                         )}
 
                         <div>
-                          <p>Total compra:</p> $
+                          <p>Total: </p> $
                           {Math.trunc(
                             total_price
                               ? total_price
-                              : getTotalPrice(transactionsToShow)
+                              : subtotal
                           ).toLocaleString('es-CL')}
                         </div>
                       </div>
